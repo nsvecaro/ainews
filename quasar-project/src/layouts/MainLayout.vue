@@ -12,10 +12,10 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          AINews
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <div>AINews 2024</div>
       </q-toolbar>
     </q-header>
 
@@ -57,22 +57,22 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '#/'
+    link: '/'
   },
   {
     title: 'Forum',
     icon: 'forum',
-    link: '#/forum'
+    link: '/forum'
   },
   {
     title: 'Login',
     icon: 'login',
-    link: '#/login'
+    link: '/login'
   },
   {
     title: 'Register',
     icon: 'person_add',
-    link: '#/register'
+    link: '/register'
   }
 ]
 
