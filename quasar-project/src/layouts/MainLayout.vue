@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          AINews
+          <center><text-weight-bold>AINews</text-weight-bold></center>
         </q-toolbar-title>
 
         <div>AINews 2024</div>
