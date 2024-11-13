@@ -49,22 +49,22 @@ const linksList = [
   {
     title: 'Home',
     icon: 'home',
-    link: '/'
+    link: '#/'
   },
   {
     title: 'Forum',
     icon: 'forum',
-    link: '/forum'
+    link: '#/forum'
   },
   {
     title: 'Login',
     icon: 'login',
-    link: '/login'
+    link: '#/login'
   },
   {
     title: 'Register',
     icon: 'person_add',
-    link: '/register'
+    link: '#/register'
   }
 ]
 
