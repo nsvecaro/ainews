@@ -28,7 +28,7 @@
         <q-item-label
           header
         >
-          Essential Links
+          
         </q-item-label>
 
         <EssentialLink
