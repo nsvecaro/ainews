@@ -10,27 +10,19 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-
         <q-toolbar-title>
           <center><text-weight-bold>AINews</text-weight-bold></center>
         </q-toolbar-title>
-
         <div>AINews 2024</div>
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          
-        </q-item-label>
-
+        <q-item-label header></q-item-label>
         <EssentialLink
           v-for="link in linksList"
           :key="link.title"
@@ -78,7 +70,7 @@ const linksList = [
 
 const leftDrawerOpen = ref(false)
 
-function toggleLeftDrawer () {
+function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
 </script>
