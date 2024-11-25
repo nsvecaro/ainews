@@ -16,10 +16,10 @@
          <div class="forum-page">
           <h3>Forum Discussion</h3>
           <ul>
-            <li><img src="/src/assets/openailogo.svg" width=20px>OpenAI</li>
-            <li><img src="/src/assets/geminilogo.png" width="20px">Gemini</li>
-            <li><img src="/src/assets/alphagologo.png" width=20px>AlphaGO</li>
-            <li><img src="/src/assets/ibmlogo.png" width=20px>Watson (IBM)</li>
+            <li><img src="/src/assets/openailogo.svg" width=20px> &nbsp;OpenAI</li>
+            <li><img src="/src/assets/geminilogo.png" width="20px"> &nbsp;Gemini</li>
+            <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
+            <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
           </ul>
          </div>
       </div>
@@ -137,7 +137,7 @@ onUnmounted(() => {
 }
 .forum-page{
   width: auto;
-  height: 200px;
+  height: 240px;
   background-color: #00000000;
   border: 3px solid #FF8C00;
   margin-right: 130px;
@@ -147,6 +147,22 @@ onUnmounted(() => {
  font-size: 40px;
  margin: 20px 15px 20px 15px;
 }
+.forum-page ul{
+  padding: 5px;
+  margin-left: 15px;
+  font-size: 15px;
+}
+.forum-page li{
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+
+}
+.forum-page li img{
+  margin-right: 10px;
+}
+
 
 
 .extra-space {
