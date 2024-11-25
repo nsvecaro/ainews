@@ -15,17 +15,19 @@
 
     <div class="extra-space"></div> <!-- Samo za pregled stranice kako bi mogao biti-->
     <!-- FOOTER -->
-    <div class="copyright">
-      <h3>AI NEWS</h3>
-      <p>All rights reserved by AINews &#169;</p>
-     <!-- <div class="socialmedia">
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="5%">&#160;</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="5%">&#160;</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="5%">&#160;</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="5%">&#160;</a>
-      </div>--> 
+    <div class="footer">
 
-    </div>
+      <div class="footerinfo">
+        <h3>AI NEWS</h3>
+        <p>All rights reserved by AINews &#169;</p>
+      </div>
+        <div class="socialmedia">
+          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
+          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
+          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
+  </div>
+
+</div>
   </q-page>
 </template>
 
@@ -79,31 +81,41 @@ onUnmounted(() => {
   background-color: rgb(255, 255, 255); 
 }
 
-.copyright {
+.footer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  height: 150px;
+  height: 250px;
   background-color: black;
   color: white;
-  display: flex; /* Div -> Flex */
-  flex-direction: column; /* Vertikalni smjer */
-  justify-content: center; /* Centriranje vertikalno */
-  align-items: left; /* Centriranje horizontalno */
-  text-align: left; 
+  padding: 0 20px;
+  box-sizing: border-box;
+
+}
+.footerinfo{
+  flex: 1;
+  text-align: left;
 }
 
-.copyright h3, .copyright p {
-  margin: 2px;
+.footerinfo h3, .footerinfo p{
+  margin: 5px 0;
 }
 
-/* .socialmedia{
+.socialmedia{
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  align-items: left;
 }
-
 .socialmedia a{
-  margin: 10px;
-} */
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+}
+.socialmedia a img{
+  margin-right: 10px;
+} 
 
 </style>
