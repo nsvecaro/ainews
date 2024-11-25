@@ -3,11 +3,11 @@
     <q-header class="header">
       <q-toolbar>
         <q-toolbar-title class="title">
-          <a href="#/" class="home-link">AINews</a>
+          <a href="#/" class="home-link"><img src="/src/assets/ainewslogo.png" width="7%"></a>
         </q-toolbar-title>
         
         <div class="toolbar-links">
-          <a href="#/forum" class="toolbar-link">Forum</a><br>
+          <a href="#/forum" class="toolbar-link">Forum</a>
           <a href="#/login" class="toolbar-link">Login</a>|
           <a href="#/register" class="toolbar-link">Register</a>
         </div>
@@ -31,19 +31,23 @@
 }
 
 .title {
-  margin-left: 170px;
+  margin-left: 300px;
+  margin-top: 10px;
   text-align: left;
   flex: 1; /*Guranje elementa desno*/
   font-size: 20px;
   font-weight: bold;
 }
 
-/* Stil za linkove */
+
+
+/* linkovi */
 .toolbar-links {
   display: flex;
-  gap: 20px; /* Razmak između linkova */
+  gap: 10px; /* Razmak izmedu linkova */
   align-items: center;
-  margin-right: 170px;
+  margin-right: 300px;
+
 }
 
 .toolbar-link {
@@ -61,8 +65,7 @@
   color: #ffffff;
   font-size: 30px;
   font-weight: bold;
-  text-align: left;
-
+  align-items: center;
 }
 
 .home-link:hover {
