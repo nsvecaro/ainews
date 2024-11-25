@@ -96,6 +96,7 @@ onUnmounted(() => {
 .footerinfo{
   flex: 1;
   text-align: left;
+  margin-left: 170px;
 }
 
 .footerinfo h3, .footerinfo p{
@@ -107,12 +108,16 @@ onUnmounted(() => {
   flex-direction: column;
   gap: 5px;
   align-items: left;
+  margin-right: 170px;
 }
 .socialmedia a{
   display: flex;
   align-items: center;
   text-decoration: none;
   color: white;
+}
+.socialmedia a:hover {
+  text-decoration: underline;
 }
 .socialmedia a img{
   margin-right: 10px;
