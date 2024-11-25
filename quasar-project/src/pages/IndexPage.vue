@@ -3,12 +3,31 @@
     <!-- Plavi dio stranice-->
     <div class="front-page">
       <div class="content">
-        <h1>AINews Updates</h1>
+        <div class="slideshow">
+          <div class="new-button">
+            New
+          </div>
+          <p>
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor, sint accusamus libero neque itaque omnis? Possimus, porro iure amet repudiandae ex a vero! Minus facere nesciunt eaque sint repudiandae.
+
+          </p>
+
+         </div>
+         <div class="forum-page">
+          <h3>Forum Discussion</h3>
+          <ul>
+            <li><img src="/src/assets/openailogo.svg" width=20px>OpenAI</li>
+            <li><img src="/src/assets/geminilogo.png" width="20px">Gemini</li>
+            <li><img src="/src/assets/alphagologo.png" width=20px>AlphaGO</li>
+            <li><img src="/src/assets/ibmlogo.png" width=20px>Watson (IBM)</li>
+          </ul>
+         </div>
       </div>
     </div>
 
     <!-- Main content-->
     <div class="main-content">
+      
       <h2>Main Media</h2>
       <p></p>
     </div>
@@ -61,10 +80,19 @@ onUnmounted(() => {
   background-color: rgb(0, 98, 255);
   color: rgb(255, 255, 255);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px;
+  flex-wrap: wrap;
 }
-
+.content{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-left: 170px;
+  margin-right: 170px;
+  height: 600px;
+}
 .main-content {
   width: 100%;
   background-color: rgb(224, 224, 224);
@@ -76,11 +104,59 @@ onUnmounted(() => {
   justify-content: center;
 }
 
+.slideshow{
+  width: 50%;
+  max-width: 600px;
+  background: #ffffff;
+  border-top: 10px solid #FF8C00;
+  padding: 40px;
+  margin: 20px;
+  height: 500px;
+}
+.new-button{
+  display: flex;
+  background-color: #000000;
+  margin-top: 0px;
+  margin-bottom: 50px;
+  font-size: 12px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  color: #ffffff;
+  width: 45px;
+  height: 35px;
+  padding: 5px 10px;;
+
+  box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
+}
+
+.slideshow p{
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555555;
+}
+.forum-page{
+  width: auto;
+  height: 200px;
+  background-color: #00000000;
+  border: 3px solid #FF8C00;
+  margin-right: 130px;
+
+}
+.forum-page h3{
+ font-size: 40px;
+ margin: 20px 15px 20px 15px;
+}
+
+
 .extra-space {
   width: 100%;
   height: 100vh;
   background-color: rgb(224, 224, 224); 
 }
+
+
+
 
 .footer{
   display: flex;
