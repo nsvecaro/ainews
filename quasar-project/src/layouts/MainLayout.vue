@@ -1,35 +1,18 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header class="header">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
-        <q-toolbar-title>
-          <center><text-weight-bold>AINews</text-weight-bold></center>
+        <q-toolbar-title class="title">
+          <a href="#/" class="home-link">AINews</a>
         </q-toolbar-title>
-        <div>AINews 2024</div>
+        
+        <div class="toolbar-links">
+          <a href="#/forum" class="toolbar-link">Forum</a><br>
+          <a href="#/login" class="toolbar-link">Login</a>|
+          <a href="#/register" class="toolbar-link">Register</a>
+        </div>
       </q-toolbar>
     </q-header>
-
-    <q-drawer
-      v-model="leftDrawerOpen"
-      bordered
-    >
-      <q-list>
-        <q-item-label header></q-item-label>
-        <EssentialLink
-          v-for="link in linksList"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -37,40 +20,52 @@
   </q-layout>
 </template>
 
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-defineOptions({
-  name: 'MainLayout'
-})
-
-const linksList = [
-  {
-    title: 'Home',
-    icon: 'home',
-    link: '#/'
-  },
-  {
-    title: 'Forum',
-    icon: 'forum',
-    link: '#/forum'
-  },
-  {
-    title: 'Login',
-    icon: 'login',
-    link: '#/login'
-  },
-  {
-    title: 'Register',
-    icon: 'person_add',
-    link: '#/register'
-  }
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
+<style scoped>
+.header {
+  background-color: rgb(0, 98, 255);
+  box-shadow: none !important;
+  border-bottom: 1px solid rgb(0, 98, 255);
+  height: 100px;
+  align-items: center;
+  display: flex;
 }
-</script>
+
+.title {
+  margin-left: 170px;
+  text-align: left;
+  flex: 1; /*Guranje elementa desno*/
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Stil za linkove */
+.toolbar-links {
+  display: flex;
+  gap: 20px; /* Razmak između linkova */
+  align-items: center;
+  margin-right: 170px;
+}
+
+.toolbar-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.toolbar-link:hover {
+  text-decoration: underline;
+}
+
+.home-link {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: left;
+
+}
+
+.home-link:hover {
+  text-decoration: none;
+}
+</style>

@@ -14,6 +14,7 @@
     </div>
 
     <div class="extra-space"></div> <!-- Samo za pregled stranice kako bi mogao biti-->
+    
     <!-- FOOTER -->
     <div class="footer">
 
@@ -66,7 +67,7 @@ onUnmounted(() => {
 
 .main-content {
   width: 100%;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(224, 224, 224);
   padding: 20px;
   height: 100vh;
   display: flex;
@@ -78,7 +79,7 @@ onUnmounted(() => {
 .extra-space {
   width: 100%;
   height: 100vh;
-  background-color: rgb(255, 255, 255); 
+  background-color: rgb(224, 224, 224); 
 }
 
 .footer{
