@@ -1,2 +1,2 @@
 # ainews
-AINews - Fresh Artificial News
+AINews - Fresh Artificial News Web Page With Forum
