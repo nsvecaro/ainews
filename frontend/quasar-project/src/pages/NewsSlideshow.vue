@@ -53,11 +53,10 @@ function prevSlide() {
   background: #ffffff;
   border-top: 8px solid #FF8C00;
   padding: 40px;
-  height: auto;
-  margin: 5000px 300px 20px 300px;
+  height: 550px;
+  width: auto;
+  margin: 50px 300px 50px 300px;
 }
-
-
 
 .carousel-container {
   display: flex;

@@ -27,10 +27,11 @@
 
     <!-- Main content-->
     <div class="main-content">
-        <NewsSlideshow />
-    </div>
 
-    <div class="extra-space"></div> <!-- Samo za pregled stranice kako bi mogao biti-->
+      <div class="newsbox">
+        <NewsSlideshow />
+      </div>
+    </div>
     
     <!-- FOOTER -->
     <div class="footer">
@@ -73,8 +74,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/*
-.front-page {
+/*.front-page {
   width: 100%;
   height: 100vh;
   background-color: rgb(0, 98, 255);
@@ -113,13 +113,6 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-/*.newsbox{
-  background: #ffffff;
-  border-top: 8px solid #FF8C00;
-  padding: 40px;
-  margin: 50px 300px 50px 300px ;
-  height: 500px;
-}*/
 
 .slideshow{
   width: 45%;
@@ -180,16 +173,6 @@ onUnmounted(() => {
 .forum-page li img{
   margin-right: 10px;
 }
-
-
-
-.extra-space {
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(224, 224, 224); 
-}
-
-
 
 /* FOOTER CSS */
 
