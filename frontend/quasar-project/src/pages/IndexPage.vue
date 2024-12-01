@@ -27,9 +27,7 @@
 
     <!-- Main content-->
     <div class="main-content">
-      
-      <h2>Main Media</h2>
-      <p></p>
+        <NewsSlideshow />
     </div>
 
     <div class="extra-space"></div> <!-- Samo za pregled stranice kako bi mogao biti-->
@@ -52,6 +50,7 @@
 </template>
 
 <script setup>
+import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  /* Importanje stranice NewsSlideshow */
 import { ref, onMounted, onUnmounted } from 'vue';
 
 const scrolled = ref(false);
@@ -74,6 +73,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+/*
 .front-page {
   width: 100%;
   height: 100vh;
@@ -82,15 +82,25 @@ onUnmounted(() => {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  padding: 20px;
   flex-wrap: wrap;
+}
+*/
+
+.front-page{
+  width: 100%;
+  background-color: rgb(0, 98, 255);
+  color: rgb(255, 255, 255); 
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 .content{
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-left: 170px;
-  margin-right: 170px;
   height: 600px;
 }
 .main-content {
@@ -103,16 +113,30 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
+/*.newsbox{
+  background: #ffffff;
+  border-top: 8px solid #FF8C00;
+  padding: 40px;
+  margin: 50px 300px 50px 300px ;
+  height: 500px;
+}*/
 
 .slideshow{
-  width: 50%;
-  max-width: 600px;
+  width: 45%;
   background: #ffffff;
-  border-top: 10px solid #FF8C00;
+  border-top: 8px solid #FF8C00;
   padding: 40px;
-  margin: 20px;
+  margin: -20px 80px 50px 300px;
   height: 500px;
 }
+
+
+.slideshow p{
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555555;
+}
+
 .new-button{
   display: flex;
   background-color: #000000;
@@ -129,18 +153,12 @@ onUnmounted(() => {
 
   box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
 }
-
-.slideshow p{
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555555;
-}
 .forum-page{
   width: auto;
-  height: 240px;
+  height: 60%;
   background-color: #00000000;
   border: 3px solid #FF8C00;
-  margin-right: 130px;
+  margin: -20px 300px 20px 80px
 
 }
 .forum-page h3{
@@ -173,6 +191,7 @@ onUnmounted(() => {
 
 
 
+/* FOOTER CSS */
 
 .footer{
   display: flex;
