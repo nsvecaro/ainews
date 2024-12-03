@@ -4,15 +4,9 @@
     <div class="front-page">
       <div class="content">
         <div class="slideshow">
-          <div class="new-button">
-            New
-          </div>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor, sint accusamus libero neque itaque
-            omnis? Possimus, porro iure amet repudiandae ex a vero! Minus facere nesciunt eaque sint repudiandae.
-
-          </p>
-
+          <div class="new-button">New</div>
+          <p>Alibaba Marco-o1: Advancing LLM reasoning capabilities. HOW IS THIS POSSIBLE?</p>
+         <img src="/src/assets/test.png">
         </div>
         <div class="forum-page">
           <h3>Forum Discussion</h3>
@@ -33,7 +27,25 @@
         <NewsSlideshow />
       </div>
     </div>
+    <div class="theme-bar">
+      <ul class="theme-bar-links">
+        <li><a href="www.openai.com">OpenAi</a></li>
+        <li><a href="www.google.com">Google</a></li>
+        <li><a href="www.blackbox.com">Blackbox</a></li>
+        <li><a href="www.ibm.com">IBM</a></li>
+      </ul>
 
+    </div>
+  <div class="news-list-main">
+    <div class="news-list">
+      <div class="news-grid">
+      <div class="news">News 1</div>
+      <div class="news">News 2</div>
+      <div class="news">News 3</div>
+      <div class="news">News 4</div>
+      </div>
+    </div>
+  </div>
     <!-- FOOTER -->
     <div class="footer">
 
@@ -112,26 +124,31 @@ onUnmounted(() => {
 
 
 .slideshow {
-  width: 45%;
+  width: 35%;
   background: #ffffff;
   border-top: 8px solid #FF8C00;
   padding: 40px;
-  margin: -20px 80px 50px 300px;
-  height: 500px;
+  margin: -50px 80px 50px 300px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.slideshow p {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #555555;
+.slideshow p{
+  margin-top: -25px;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+  color: #000000;
 }
+
 
 .new-button {
   /* 'NEW' u slideshow boxu */
   display: flex;
   background-color: #000000;
   margin-top: 0px;
-  margin-bottom: 50px;
   font-size: 12px;
   flex-direction: row;
   align-items: center;
@@ -140,7 +157,6 @@ onUnmounted(() => {
   width: 45px;
   height: 35px;
   padding: 5px 10px;
-  ;
 
   box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
 }
@@ -150,7 +166,7 @@ onUnmounted(() => {
   height: 60%;
   background-color: #00000000;
   border: 3px solid #FF8C00;
-  margin: -20px 300px 20px 80px
+  margin: -50px 300px 20px 80px;
 }
 
 .forum-page h3 {
@@ -182,11 +198,73 @@ onUnmounted(() => {
   background-color: rgb(224, 224, 224);
   padding: 20px;
   height: 100vh;
+  display: flex;      /* flex div */
+  flex-direction: column; /* svrstavanje u vertikalno */
+  align-items: center; /* align center */
+  justify-content: center; /*  */
+}
+
+.theme-bar{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: rgb(0, 98, 255);
+  padding: 20px;
+  font-size: 22px;
+  color: white;
+}
+
+.theme-bar-links{
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+  align-items: center;
+
+}
+
+.theme-bar-links li{
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.theme-bar-links a {
+  text-decoration: none;
+  color: white;
+}
+
+.theme-bar-links a:hover {
+  text-decoration: underline;
+}
+
+.news-list-main{
+  background-color: rgb(224, 224, 224);
+  width: 100%;
+  padding: 50px 0;
+}
+
+.news-list{
+  max-width: calc(100%-600px);
+  margin: 50px 300px 50px 300px;
+  padding: 20px;
+}
+
+.news-grid{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 30px;
+}
+
+.news{
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  background-color: #ffffff76;
+  height: 200px;
 }
+
+
 
 /* - - - - - */
 /* FOOTER CSS */
