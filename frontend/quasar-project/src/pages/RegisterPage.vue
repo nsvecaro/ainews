@@ -12,7 +12,6 @@
             label="Username"
             type="text"
             dense
-            clearable
             :rules="[val => !!val || 'Username is required']"
             class="q-mb-md"
           />
@@ -24,7 +23,6 @@
             label="Email"
             type="email"
             dense
-            clearable
             :rules="[
               val => !!val || 'Email is required',
               val => /.+@.+\..+/.test(val) || 'Enter a valid email address'
@@ -39,7 +37,6 @@
             label="Password"
             type="password"
             dense
-            clearable
             :rules="[val => !!val || 'Password is required']"
             class="q-mb-md"
           />
@@ -51,7 +48,6 @@
             label="Confirm Password"
             type="password"
             dense
-            clearable
             :rules="[
               val => !!val || 'Please confirm your password',
               val => val === password || 'Passwords must match'
