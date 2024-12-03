@@ -29,14 +29,23 @@
     </div>
     <div class="theme-bar">
       <ul class="theme-bar-links">
-        <li>OpenAi</li>
-        <li>Google</li>
-        <li>Blackbox</li>
-        <li>IBM</li>
+        <li><a href="www.openai.com">OpenAi</a></li>
+        <li><a href="www.google.com">Google</a></li>
+        <li><a href="www.blackbox.com">Blackbox</a></li>
+        <li><a href="www.ibm.com">IBM</a></li>
       </ul>
 
     </div>
-
+  <div class="news-list-main">
+    <div class="news-list">
+      <div class="news-grid">
+      <div class="news">News 1</div>
+      <div class="news">News 2</div>
+      <div class="news">News 3</div>
+      <div class="news">News 4</div>
+      </div>
+    </div>
+  </div>
     <!-- FOOTER -->
     <div class="footer">
 
@@ -189,10 +198,10 @@ onUnmounted(() => {
   background-color: rgb(224, 224, 224);
   padding: 20px;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  display: flex;      /* flex div */
+  flex-direction: column; /* svrstavanje u vertikalno */
+  align-items: center; /* align center */
+  justify-content: center; /*  */
 }
 
 .theme-bar{
@@ -202,7 +211,7 @@ onUnmounted(() => {
   width: 100%;
   background-color: rgb(0, 98, 255);
   padding: 20px;
-  font-size: large;
+  font-size: 22px;
   color: white;
 }
 
@@ -218,6 +227,43 @@ onUnmounted(() => {
   display: inline-block;
   margin-right: 20px;
 }
+
+.theme-bar-links a {
+  text-decoration: none;
+  color: white;
+}
+
+.theme-bar-links a:hover {
+  text-decoration: underline;
+}
+
+.news-list-main{
+  background-color: rgb(224, 224, 224);
+  width: 100%;
+  padding: 50px 0;
+}
+
+.news-list{
+  max-width: calc(100%-600px);
+  margin: 50px 300px 50px 300px;
+  padding: 20px;
+}
+
+.news-grid{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 30px;
+}
+
+.news{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff76;
+  height: 200px;
+}
+
 
 
 /* - - - - - */
