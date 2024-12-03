@@ -10,7 +10,6 @@
           label="Username"
           type="text"
           dense
-          clearable
           :rules="[val => !!val || 'Username is required']"
           class="q-mb-md"
         />
@@ -21,7 +20,6 @@
           label="Password"
           type="password"
           dense
-          clearable
           :rules="[val => !!val || 'Password is required']"
           class="q-mb-md"
         />
