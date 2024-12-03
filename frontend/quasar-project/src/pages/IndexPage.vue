@@ -8,12 +8,13 @@
             New
           </div>
           <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor, sint accusamus libero neque itaque omnis? Possimus, porro iure amet repudiandae ex a vero! Minus facere nesciunt eaque sint repudiandae.
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolores dolor, sint accusamus libero neque itaque
+            omnis? Possimus, porro iure amet repudiandae ex a vero! Minus facere nesciunt eaque sint repudiandae.
 
           </p>
 
-         </div>
-         <div class="forum-page">
+        </div>
+        <div class="forum-page">
           <h3>Forum Discussion</h3>
           <ul>
             <li><img src="/src/assets/openailogo.svg" width=20px> &nbsp;OpenAI</li>
@@ -21,7 +22,7 @@
             <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
             <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
           </ul>
-         </div>
+        </div>
       </div>
     </div>
 
@@ -32,7 +33,7 @@
         <NewsSlideshow />
       </div>
     </div>
-    
+
     <!-- FOOTER -->
     <div class="footer">
 
@@ -40,13 +41,13 @@
         <h3>AI NEWS</h3>
         <p>All rights reserved by AINews &#169;</p>
       </div>
-        <div class="socialmedia">
-          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
-          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
-          <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
-  </div>
+      <div class="socialmedia">
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
+      </div>
 
-</div>
+    </div>
   </q-page>
 </template>
 
@@ -62,7 +63,7 @@ function handleScroll() {
   } else {
     scrolled.value = false;
   }
-} 
+}
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll);
@@ -86,10 +87,13 @@ onUnmounted(() => {
 }
 */
 
-.front-page{
+/* Redosljed css-a po redu */
+
+/* Main blue box */
+.front-page {
   width: 100%;
   background-color: rgb(0, 98, 255);
-  color: rgb(255, 255, 255); 
+  color: rgb(255, 255, 255);
   padding: 20px;
   height: 100vh;
   display: flex;
@@ -97,24 +101,17 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-.content{
+
+.content {
+  /* Box u kojem su slideshow i forum page */
   display: flex;
   justify-content: space-between;
   width: 100%;
   height: 600px;
 }
-.main-content {
-  width: 100%;
-  background-color: rgb(224, 224, 224);
-  padding: 20px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
 
-.slideshow{
+
+.slideshow {
   width: 45%;
   background: #ffffff;
   border-top: 8px solid #FF8C00;
@@ -123,14 +120,14 @@ onUnmounted(() => {
   height: 500px;
 }
 
-
-.slideshow p{
+.slideshow p {
   font-size: 1rem;
   line-height: 1.6;
   color: #555555;
 }
 
-.new-button{
+.new-button {
+  /* 'NEW' u slideshow boxu */
   display: flex;
   background-color: #000000;
   margin-top: 0px;
@@ -142,41 +139,59 @@ onUnmounted(() => {
   color: #ffffff;
   width: 45px;
   height: 35px;
-  padding: 5px 10px;;
+  padding: 5px 10px;
+  ;
 
   box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
 }
-.forum-page{
+
+.forum-page {
   width: auto;
   height: 60%;
   background-color: #00000000;
   border: 3px solid #FF8C00;
   margin: -20px 300px 20px 80px
+}
 
+.forum-page h3 {
+  font-size: 40px;
+  margin: 20px 15px 20px 15px;
 }
-.forum-page h3{
- font-size: 40px;
- margin: 20px 15px 20px 15px;
-}
-.forum-page ul{
+
+.forum-page ul {
   padding: 5px;
   margin-left: 15px;
   font-size: 15px;
 }
-.forum-page li{
+
+.forum-page li {
   list-style-type: none;
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 
 }
-.forum-page li img{
+
+.forum-page li img {
   margin-right: 10px;
 }
 
+/* MainContent koji sadrzi NewsSlideshow.vue */
+.main-content {
+  width: 100%;
+  background-color: rgb(224, 224, 224);
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* - - - - - */
 /* FOOTER CSS */
 
-.footer{
+.footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -188,34 +203,38 @@ onUnmounted(() => {
   box-sizing: border-box;
 
 }
-.footerinfo{
+
+.footerinfo {
   flex: 1;
   text-align: left;
   margin-left: 170px;
 }
 
-.footerinfo h3, .footerinfo p{
+.footerinfo h3,
+.footerinfo p {
   margin: 5px 0;
 }
 
-.socialmedia{
+.socialmedia {
   display: flex;
   flex-direction: column;
   gap: 5px;
   align-items: left;
   margin-right: 170px;
 }
-.socialmedia a{
+
+.socialmedia a {
   display: flex;
   align-items: center;
   text-decoration: none;
   color: white;
 }
+
 .socialmedia a:hover {
   text-decoration: underline;
 }
-.socialmedia a img{
-  margin-right: 10px;
-} 
 
+.socialmedia a img {
+  margin-right: 10px;
+}
 </style>
