@@ -1,102 +1,41 @@
 <template>
   <q-page class="register-page">
     <div class="register-container">
-      <div class="register-header text-h5 text-center q-mb-md">Create an Account</div>
-
+      <div class="register-header text-h5 text-center q-mb-md">Registrirajte se</div>
       <div class="register-box">
         <q-form @submit="onRegister">
-         
-          <q-input
-            filled
-            v-model="username"
-            label="Username"
-            type="text"
-            dense
-            :rules="[val => !!val || 'Username is required']"
-            class="q-mb-md"
-          />
+          <q-input filled v-model="username" label="Korisničko ime" type="text" dense clearable
+            :rules="[val => !!val || 'Korisničko ime je obavezno']" class="q-mb-md" />
 
-          
-          <q-input
-            filled
-            v-model="email"
-            label="Email"
-            type="email"
-            dense
-            :rules="[
-              val => !!val || 'Email is required',
-              val => /.+@.+\..+/.test(val) || 'Enter a valid email address'
-            ]"
-            class="q-mb-md"
-          />
+          <q-input filled v-model="email" label="Email" type="email" dense clearable :rules="[
+            val => !!val || 'Email je obavezan',
+            val => /.+@.+\..+/.test(val) || 'Unesite ispravan email'
+          ]" class="q-mb-md" />
 
-          
-          <q-input
-            filled
-            v-model="password"
-            label="Password"
-            type="password"
-            dense
-            :rules="[val => !!val || 'Password is required']"
-            class="q-mb-md"
-          />
+          <q-input filled v-model="password" label="Lozinka" type="password" dense clearable
+            :rules="[val => !!val || 'Lozinka je obavezna']" class="q-mb-md" />
 
-          <!-- Potvrda lozinke -->
-          <q-input
-            filled
-            v-model="confirmPassword"
-            label="Confirm Password"
-            type="password"
-            dense
-            :rules="[
-              val => !!val || 'Please confirm your password',
-              val => val === password || 'Passwords must match'
-            ]"
-            class="q-mb-md"
-          />
+          <q-input filled v-model="confirmPassword" label="Potvrda lozinke" type="password" dense clearable :rules="[
+            val => !!val || 'Potvrdite lozinku',
+            val => val === password || 'Lozinke se ne podudaraju'
+          ]" class="q-mb-md" />
 
-          <!--gumb za registraciju-->
           <div class="text-center">
-            <q-btn
-              label="Register"
-              color="primary"
-              type="submit"
-              :disable="!isFormValid"
-              class="register-btn"
-            />
+            <q-btn label="Registracija" color="primary" type="submit" :disable="!isFormValid" class="register-btn" />
           </div>
         </q-form>
-      </div>
-    </div>
-
-    <div class="footer">
-      <div class="footerinfo">
-        <h3>AI NEWS</h3>
-        <p>All rights reserved by AINews &#169;</p>
-      </div>
-      <div class="socialmedia">
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram</a
-        >
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook</a
-        >
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X</a
-        >
       </div>
     </div>
   </q-page>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
-const username = ref('');
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
-
+const username = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 
 const isFormValid = computed(() => {
   return (
@@ -109,25 +48,41 @@ const isFormValid = computed(() => {
   );
 });
 
-function onRegister(event) {
-  event.preventDefault(); 
+async function onRegister(event) {
+  event.preventDefault();
 
   if (isFormValid.value) {
-    alert('Register successful!'); 
+    try {
+      const response = await fetch("http://localhost:3000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "Server/js",
+        },
+        body: JSON.stringify({
+          username: username.value,
+          email: email.value,
+          password: password.value,
+          confirmPassword: confirmPassword.value,
+        }),
+      });
 
-    console.log('Registering with:', {
-      username: username.value,
-      email: email.value,
-      password: password.value,
-    });
+      const data = await response.json();
 
-   
-    username.value = '';
-    email.value = '';
-    password.value = '';
-    confirmPassword.value = '';
+      if (response.ok) {
+        alert(data.message);
+        username.value = "";
+        email.value = "";
+        password.value = "";
+        confirmPassword.value = "";
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Greška prilikom registracije:", error);
+      alert("Greška pri povezivanju s API-jem.");
+    }
   } else {
-    alert('Please fill out the form correctly.');
+    alert("Molimo popunite sva polja ispravno.");
   }
 }
 </script>
@@ -156,7 +111,7 @@ function onRegister(event) {
 
 .register-header {
   margin-top: 50px;
-  margin-bottom: 1px; 
+  margin-bottom: 1px;
 }
 
 .register-box {
@@ -204,7 +159,7 @@ function onRegister(event) {
   color: white;
   padding: 0 20px;
   box-sizing: border-box;
-  margin-top: 40px; 
+  margin-top: 40px;
 }
 
 .footerinfo {

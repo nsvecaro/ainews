@@ -31,7 +31,6 @@ connection.connect((err) => {
 app.post("/api/register", async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
 
-  // Validacija podataka
   if (!username || !email || !password || !confirmPassword) {
     return res.status(400).json({ message: "Sva polja su obavezna." });
   }
@@ -41,10 +40,8 @@ app.post("/api/register", async (req, res) => {
   }
 
   try {
-    // Hashiranje lozinke
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Provjera postojanja korisnika
     connection.query(
       "SELECT * FROM RWA_korisnik WHERE Email = ?",
       [email],
@@ -58,11 +55,10 @@ app.post("/api/register", async (req, res) => {
           return res.status(400).json({ message: "Korisnik već postoji." });
         }
 
-        // Umetanje korisnika u bazu
         const query = `
-          INSERT INTO RWA_korisnik (Username, Lozinka, Email)
-          VALUES (?, ?, ?)
-        `;
+          INSERT INTO RWA_korisnik (Username, Lozinka, Email, Datum_registracije, Uloga)
+          VALUES (?, ?, ?, NOW(), 'user')`;
+
         connection.query(query, [username, hashedPassword, email], (err) => {
           if (err) {
             console.error("Greška pri unosu korisnika:", err);
@@ -79,8 +75,6 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
-// Pokretanje servera
 app.listen(port, () => {
   console.log(`Server pokrenut na portu ${port}`);
 });
-
