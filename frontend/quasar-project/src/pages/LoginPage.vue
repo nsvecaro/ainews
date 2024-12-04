@@ -4,34 +4,14 @@
       <div class="text-h5 text-center q-mb-md">Enter credentials</div>
 
       <q-form @submit="onLogin">
-        <q-input
-          filled
-          v-model="username"
-          label="Username"
-          type="text"
-          dense
-          :rules="[val => !!val || 'Username is required']"
-          class="q-mb-md"
-        />
+        <q-input filled v-model="username" label="Username" type="text" dense
+          :rules="[val => !!val || 'Username is required']" class="q-mb-md" />
 
-        <q-input
-          filled
-          v-model="password"
-          label="Password"
-          type="password"
-          dense
-          :rules="[val => !!val || 'Password is required']"
-          class="q-mb-md"
-        />
+        <q-input filled v-model="password" label="Password" type="password" dense
+          :rules="[val => !!val || 'Password is required']" class="q-mb-md" />
 
         <div class="text-center">
-          <q-btn
-            label="Login"
-            color="primary"
-            type="submit"
-            :disable="!username || !password"
-            class="login-btn"
-          />
+          <q-btn label="Login" color="primary" type="submit" :disable="!username || !password" class="login-btn" />
         </div>
       </q-form>
     </div>
@@ -42,15 +22,9 @@
         <p>All rights reserved by AINews &#169;</p>
       </div>
       <div class="socialmedia">
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram</a
-        >
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook</a
-        >
-        <a href="www.instagram.com"
-          ><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X</a
-        >
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram</a>
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook</a>
+        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X</a>
       </div>
     </div>
   </q-page>
@@ -60,7 +34,7 @@
 import { ref } from 'vue';
 
 const username = ref('');
-const password = ref(''); 
+const password = ref('');
 
 function onLogin(event) {
   event.preventDefault(); // Sprječava ponovno učitavanje stranice

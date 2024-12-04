@@ -7,11 +7,9 @@ const bcrypt = require("bcrypt");
 const app = express();
 const port = 3000;
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
-// Konekcija na bazu
 const connection = mysql.createConnection({
   host: "ucka.veleri.hr",
   user: "mtauzer",

@@ -4,18 +4,18 @@
       <div class="register-header text-h5 text-center q-mb-md">Registrirajte se</div>
       <div class="register-box">
         <q-form @submit="onRegister">
-          <q-input filled v-model="username" label="Korisničko ime" type="text" dense clearable
+          <q-input filled v-model="username" label="Korisničko ime" type="text" dense
             :rules="[val => !!val || 'Korisničko ime je obavezno']" class="q-mb-md" />
 
-          <q-input filled v-model="email" label="Email" type="email" dense clearable :rules="[
+          <q-input filled v-model="email" label="Email" type="email" dense :rules="[
             val => !!val || 'Email je obavezan',
             val => /.+@.+\..+/.test(val) || 'Unesite ispravan email'
           ]" class="q-mb-md" />
 
-          <q-input filled v-model="password" label="Lozinka" type="password" dense clearable
+          <q-input filled v-model="password" label="Lozinka" type="password" dense
             :rules="[val => !!val || 'Lozinka je obavezna']" class="q-mb-md" />
 
-          <q-input filled v-model="confirmPassword" label="Potvrda lozinke" type="password" dense clearable :rules="[
+          <q-input filled v-model="confirmPassword" label="Potvrda lozinke" type="password" dense :rules="[
             val => !!val || 'Potvrdite lozinku',
             val => val === password || 'Lozinke se ne podudaraju'
           ]" class="q-mb-md" />
@@ -56,7 +56,7 @@ async function onRegister(event) {
       const response = await fetch("http://localhost:3000/api/register", {
         method: "POST",
         headers: {
-          "Content-Type": "Server/js",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username.value,
