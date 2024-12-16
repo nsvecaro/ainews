@@ -4,27 +4,24 @@ const cors = require("cors");
 const app = express();
 
 var corsOptions = {
-  origin: "http://localhost:9001"
+  origin: "http://localhost:9000"
 };
 
 app.use(cors(corsOptions));
+const path = require('path');
 
-// parse requests of content-type - application/json
+// Omogući serviranje direktorija 'uploads'
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
-});
 
 //route route...:()
 require("./routes/vijesti.routes.js")(app);
 
 // set port, listen for requests
-const PORT = process.env.PORT || 9001;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

@@ -5,8 +5,8 @@
       <div class="content">
         <div class="slideshow">
           <div class="new-button">New</div>
-          <p>Alibaba Marco-o1: Advancing LLM reasoning capabilities. HOW IS THIS POSSIBLE?</p>
-         <img src="/src/assets/test.png">
+          <p>{{ latestNews.naslov }}</p>
+          <img src="https://localhost:9000/uploads/vijesti/alibaba.png" alt="Slika vijesti">
         </div>
         <div class="forum-page">
           <h3>Forum Discussion</h3>
@@ -36,16 +36,16 @@
       </ul>
 
     </div>
-  <div class="news-list-main">
-    <div class="news-list">
-      <div class="news-grid">
-      <div class="news">News 1</div>
-      <div class="news">News 2</div>
-      <div class="news">News 3</div>
-      <div class="news">News 4</div>
+    <div class="news-list-main">
+      <div class="news-list">
+        <div class="news-grid">
+          <div class="news">News 1</div>
+          <div class="news">News 2</div>
+          <div class="news">News 3</div>
+          <div class="news">News 4</div>
+        </div>
       </div>
     </div>
-  </div>
     <!-- FOOTER -->
     <div class="footer">
 
@@ -64,21 +64,30 @@
 </template>
 
 <script setup>
-import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  /* Importanje stranice NewsSlideshow */
 import { ref, onMounted, onUnmounted } from 'vue';
+import axios from 'axios'; // Importaj axios za API poziv
+import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  /* Importanje stranice NewsSlideshow */
 
 const scrolled = ref(false);
+const latestNews = ref({ naslov: '', slika_vijesti: '' }); // Držanje podataka najnovije vijesti
 
-function handleScroll() {
-  if (window.scrollY > 10) {
-    scrolled.value = true;
-  } else {
-    scrolled.value = false;
+
+
+// Dohvati najnoviju vijest
+const fetchLatestNews = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/vijesti');
+    const allNews = response.data;
+    if (allNews.length > 0) {
+      latestNews.value = allNews[0]; // DESC order 
+    }
+  } catch (error) {
+    console.error('Greška pri dohvaćanju najnovije vijesti:', error);
   }
-}
+};
 
 onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
+  fetchLatestNews(); // Poziv za dohvat najnovije vijesti
 });
 
 onUnmounted(() => {
@@ -135,7 +144,7 @@ onUnmounted(() => {
   justify-content: space-between;
 }
 
-.slideshow p{
+.slideshow p {
   margin-top: -25px;
   font-size: 30px;
   font-weight: 800;
@@ -198,13 +207,17 @@ onUnmounted(() => {
   background-color: rgb(224, 224, 224);
   padding: 20px;
   height: 100vh;
-  display: flex;      /* flex div */
-  flex-direction: column; /* svrstavanje u vertikalno */
-  align-items: center; /* align center */
-  justify-content: center; /*  */
+  display: flex;
+  /* flex div */
+  flex-direction: column;
+  /* svrstavanje u vertikalno */
+  align-items: center;
+  /* align center */
+  justify-content: center;
+  /*  */
 }
 
-.theme-bar{
+.theme-bar {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,7 +228,7 @@ onUnmounted(() => {
   color: white;
 }
 
-.theme-bar-links{
+.theme-bar-links {
   list-style: none;
   padding: 0px;
   margin: 0px;
@@ -223,7 +236,7 @@ onUnmounted(() => {
 
 }
 
-.theme-bar-links li{
+.theme-bar-links li {
   display: inline-block;
   margin-right: 20px;
 }
@@ -237,25 +250,25 @@ onUnmounted(() => {
   text-decoration: underline;
 }
 
-.news-list-main{
+.news-list-main {
   background-color: rgb(224, 224, 224);
   width: 100%;
   padding: 50px 0;
 }
 
-.news-list{
+.news-list {
   max-width: calc(100%-600px);
   margin: 50px 300px 50px 300px;
   padding: 20px;
 }
 
-.news-grid{
+.news-grid {
   display: grid;
-  grid-template-columns: repeat(2,1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 }
 
-.news{
+.news {
   display: flex;
   flex-direction: column;
   justify-content: center;

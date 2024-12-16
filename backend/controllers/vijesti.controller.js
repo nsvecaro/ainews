@@ -64,3 +64,16 @@ exports.getAll = (req, res) => {
       }
     });
   };
+
+  //Najnovija vijest
+  exports.getLatest = (req, res) => {
+    Vijesti.getLatest((err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Dogodila se greška pri dohvaćanju najnovije vijesti.",
+        });
+      } else {
+        res.send(data);
+      }
+    });
+  };

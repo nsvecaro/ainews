@@ -9,7 +9,7 @@ const Vijesti = function(vijest){
 
 console.log("Vijesti model ucitan");
 
-//nova vijest
+//Dohvati kreiranje nove vijesti
 Vijesti.create = (newVijest, result) => {
     sql.query("INSERT INTO RWA_vijest SET ?", newVijest, (err, res) => {
       if (err) {
@@ -24,9 +24,9 @@ Vijesti.create = (newVijest, result) => {
   };
 
 
-//sve vijesti
+//Dohvati sve vijesti
 Vijesti.getAll = (result) => {
-    sql.query( "SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, datum_objave FROM RWA_vijest ORDER BY datum_objave DESC", 
+    sql.query( "SELECT * FROM RWA_vijest ORDER BY datum_objave DESC", 
       (err, res) => {
         if (err) {
           console.log("Greska pri dohvacanju vijesti:", err);
@@ -38,7 +38,7 @@ Vijesti.getAll = (result) => {
     );
   };
 
-  //vijesti po id-u
+  //Dohvati vijest po id-u
   Vijesti.findByID = (id, result) => {
     sql.query("SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, datum_objave FROM RWA_vijest WHERE ID_vijesti = ?", 
       [id], 
@@ -58,4 +58,24 @@ Vijesti.getAll = (result) => {
     );
   };
   
+
+//Dohvati najnoviju vijest
+Vijesti.getLatest = (result) => {
+  sql.query(
+    "SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, datum_objave FROM RWA_vijest ORDER BY ID_vijesti DESC LIMIT 1",
+    (err, res) => {
+      if (err) {
+        console.log("Greška pri dohvaćanju najnovije vijesti: ", err);
+        result(err, null);
+        return;
+      }
+      if (res.length) {
+        result(null, res[0]);
+        return;
+      }
+      result({ kind: "not_found" }, null);
+    }
+  );
+};
+
   module.exports = Vijesti;

@@ -10,8 +10,10 @@ module.exports = app => {
     router.get("/", vijesti.getAll);
 
     //ucitaj vijest po ID-u
-    router.get("/:id", vijesti.findByID)
+    router.get("/:id", vijesti.findByID);
     
+    //ucitaj najnoviju vijest
+    router.get("/latest", vijesti.getLatest);
 
 
 
