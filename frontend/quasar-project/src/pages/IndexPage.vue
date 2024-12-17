@@ -6,7 +6,7 @@
         <div class="slideshow">
           <div class="new-button">New</div>
           <p>{{ latestNews.naslov }}</p>
-          <img src="https://localhost:9000/uploads/vijesti/alibaba.png" alt="Slika vijesti">
+          <img :src ="`http://localhost:3000/uploads/vijesti/test.png`" />
         </div>
         <div class="forum-page">
           <h3>Forum Discussion</h3>
