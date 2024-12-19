@@ -11,7 +11,10 @@ console.log("Vijesti model ucitan");
 
 //Dohvati kreiranje nove vijesti
 Vijesti.create = (newVijest, result) => {
-    sql.query("INSERT INTO RWA_vijest SET ?", newVijest, (err, res) => {
+  const query="INSERT INTO RWA_vijest (naslov, sadrzaj, slika_vijesti) VALUES (?, ?, ?)";
+  const values = [newVijest.naslov,newVijest.sadrzaj, newVijest.slika_vijesti];
+
+    sql.query (query, values, (err,res)=> {
       if (err) {
         console.log("Greska pri kreiranju vijesti: ", err);
         result(err, null);
@@ -33,6 +36,7 @@ Vijesti.getAll = (result) => {
           result(null, err);
           return;
         }
+        console.log("Vijesti primljene: ",res);
         result(null, res);
       }
     );

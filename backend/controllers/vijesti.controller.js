@@ -2,6 +2,7 @@ const Vijesti = require("../models/vijesti.model.js");
 
 // Kreiranje nove vijesti
 exports.create = (req, res) => {
+  console.log("Podaci primljeni: ", req.body);
     // Validacija
     if (!req.body.naslov || !req.body.sadrzaj) {
       res.status(400).send({

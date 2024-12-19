@@ -27,14 +27,15 @@
         />
 
         <!-- Sadržaj vijesti -->
-        <q-input
+        <q-editor
           v-model="news.content"
           filled
           type="textarea"
           label="Content"
-          class="customtextarea"
+          class="q-mb-db"
           color="white"
           bg-color="none"
+          toolbar="full"
         />
 
         <!-- Upload slike -->
