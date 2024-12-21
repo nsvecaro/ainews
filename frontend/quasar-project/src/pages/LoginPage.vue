@@ -4,14 +4,34 @@
       <div class="text-h5 text-center q-mb-md">Enter credentials</div>
 
       <q-form @submit="onLogin">
-        <q-input filled v-model="username" label="Username" type="text" dense
-          :rules="[val => !!val || 'Username is required']" class="q-mb-md" />
-
-        <q-input filled v-model="password" label="Password" type="password" dense
-          :rules="[val => !!val || 'Password is required']" class="q-mb-md" />
+        <q-input 
+          filled 
+          v-model="username" 
+          label="Username" 
+          type="text" 
+          dense
+          :rules="[val => !!val || 'Username is required']" 
+          class="q-mb-md" 
+        />
+        
+        <q-input 
+          filled 
+          v-model="lozinka" 
+          label="Password" 
+          type="password" 
+          dense
+          :rules="[val => !!val || 'Password is required']" 
+          class="q-mb-md" 
+        />
 
         <div class="text-center">
-          <q-btn label="Login" color="primary" type="submit" :disable="!username || !password" class="login-btn" />
+          <q-btn 
+            label="Login" 
+            color="primary" 
+            type="submit" 
+            :disable="!username || !lozinka" 
+            class="login-btn" 
+          />
         </div>
       </q-form>
     </div>
@@ -22,9 +42,15 @@
         <p>All rights reserved by AINews &#169;</p>
       </div>
       <div class="socialmedia">
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X</a>
+        <a href="www.instagram.com">
+          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram
+        </a>
+        <a href="www.instagram.com">
+          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook
+        </a>
+        <a href="www.instagram.com">
+          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X
+        </a>
       </div>
     </div>
   </q-page>
@@ -34,23 +60,46 @@
 import { ref } from 'vue';
 
 const username = ref('');
-const password = ref('');
+const lozinka = ref('');
 
-function onLogin(event) {
-  event.preventDefault(); // Sprječava ponovno učitavanje stranice
+async function onLogin(event) {
+  event.preventDefault();
 
-  if (username.value && password.value) {
-    console.log('Logging in with:', {
-      username: username.value,
-      password: password.value,
-    });
+  if (username.value && lozinka.value) {
+    try {
+      console.log("Šaljemo zahtjev za prijavu:", {
+        username: username.value,
+        lozinka: lozinka.value,
+      });
 
-    // Prazni polja nakon što korisnik pritisne login
-    username.value = '';
-    password.value = '';
-    alert('Login successful!');
+      const response = await fetch('http://localhost:3000/api/korisnik/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: username.value,
+          lozinka: lozinka.value,
+        }),
+        credentials: 'include',
+      });
+
+      const data = await response.json();
+      console.log("Odgovor backend-a:", data);
+
+      if (response.ok) {
+        alert(`Prijava uspješna! Dobrodošao, ${data.korisnikIme}`);
+      } else {
+        alert(`Greška prilikom prijave: ${data.message}`);
+      }
+    } catch (error) {
+      console.error("Greška prilikom komunikacije s backend-om:", error);
+      alert('Greška prilikom prijave. Pokušajte ponovno.');
+    }
   }
 }
+
+
 </script>
 
 <style>

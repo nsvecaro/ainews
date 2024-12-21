@@ -1,27 +1,63 @@
 <template>
   <q-page class="register-page">
     <div class="register-container">
-      <div class="register-header text-h5 text-center q-mb-md">Registrirajte se</div>
+      <div class="register-header text-h5 text-center q-mb-md">Enter credentials</div>
       <div class="register-box">
         <q-form @submit="onRegister">
-          <q-input filled v-model="username" label="Korisničko ime" type="text" dense
-            :rules="[val => !!val || 'Korisničko ime je obavezno']" class="q-mb-md" />
-
-          <q-input filled v-model="email" label="Email" type="email" dense :rules="[
-            val => !!val || 'Email je obavezan',
-            val => /.+@.+\..+/.test(val) || 'Unesite ispravan email'
-          ]" class="q-mb-md" />
-
-          <q-input filled v-model="password" label="Lozinka" type="password" dense
-            :rules="[val => !!val || 'Lozinka je obavezna']" class="q-mb-md" />
-
-          <q-input filled v-model="confirmPassword" label="Potvrda lozinke" type="password" dense :rules="[
-            val => !!val || 'Potvrdite lozinku',
-            val => val === password || 'Lozinke se ne podudaraju'
-          ]" class="q-mb-md" />
+          <q-input
+            filled
+            v-model="username"
+            label="Username"
+            type="text"
+            dense
+            :rules="[val => !!val || 'Korisničko ime je obavezno']"
+            class="q-mb-md"
+          />
+          
+          <q-input
+            filled
+            v-model="email"
+            label="Email"
+            type="email"
+            dense
+            :rules="[
+              val => !!val || 'Email je obavezan',
+              val => /.+@.+\..+/.test(val) || 'Unesite ispravan email'
+            ]"
+            class="q-mb-md"
+          />
+          
+          <q-input
+            filled
+            v-model="password"
+            label="Password"
+            type="password"
+            dense
+            :rules="[val => !!val || 'Lozinka je obavezna']"
+            class="q-mb-md"
+          />
+          
+          <q-input
+            filled
+            v-model="confirmPassword"
+            label="Confirm password"
+            type="password"
+            dense
+            :rules="[
+              val => !!val || 'Potvrdite lozinku',
+              val => val === password || 'Lozinke se ne podudaraju'
+            ]"
+            class="q-mb-md"
+          />
 
           <div class="text-center">
-            <q-btn label="Registracija" color="primary" type="submit" :disable="!isFormValid" class="register-btn" />
+            <q-btn
+              label="Register"
+              color="primary"
+              type="submit"
+              :disable="!isFormValid"
+              class="register-btn"
+            />
           </div>
         </q-form>
       </div>
@@ -30,12 +66,12 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed } from 'vue';
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const confirmPassword = ref("");
+const username = ref('');
+const email = ref('');
+const password = ref('');
+const confirmPassword = ref('');
 
 const isFormValid = computed(() => {
   return (
@@ -53,36 +89,37 @@ async function onRegister(event) {
 
   if (isFormValid.value) {
     try {
-      const response = await fetch("http://localhost:3000/api/register", {
-        method: "POST",
+      const response = await fetch('http://localhost:3000/api/korisnik', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           username: username.value,
           email: email.value,
-          password: password.value,
-          confirmPassword: confirmPassword.value,
+          lozinka: password.value, 
+          uloga: 'Guest', 
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        alert(data.message);
-        username.value = "";
-        email.value = "";
-        password.value = "";
-        confirmPassword.value = "";
+        
+        // Resetiranje forme nakon uspješne reg
+        username.value = '';
+        email.value = '';
+        password.value = '';
+        confirmPassword.value = '';
       } else {
         alert(data.message);
       }
     } catch (error) {
-      console.error("Greška prilikom registracije:", error);
-      alert("Greška pri povezivanju s API-jem.");
+      console.error('Greška prilikom registracije:', error);
+      alert('Greška pri povezivanju s API-jem.');
     }
   } else {
-    alert("Molimo popunite sva polja ispravno.");
+    alert('Molimo popunite sva polja ispravno.');
   }
 }
 </script>
