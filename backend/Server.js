@@ -31,7 +31,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rute
 require("./routes/vijesti.routes.js")(app);
-require("./routes/korisnik.routes.js")(app);
+require("./routes/korisnik.routes.js")(app); 
+require("./routes/komentar.routes.js")(app);
+
 
 // Port
 const PORT = process.env.PORT || 3000;
