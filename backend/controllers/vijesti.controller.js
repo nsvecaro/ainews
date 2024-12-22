@@ -15,7 +15,9 @@ exports.create = (req, res) => {
     const novaVijest = {
       naslov: req.body.naslov,
       sadrzaj: req.body.sadrzaj,
-      slika_vijesti: req.body.slika_vijesti || null, // Opcionalno polje
+      slika_vijesti: req.body.slika_vijesti || null,
+      autor: req.body.autor || 'Nepoznato',
+      ID_teme: req.body.ID_teme,
     };
   
     // Spremanje vijesti u bazu

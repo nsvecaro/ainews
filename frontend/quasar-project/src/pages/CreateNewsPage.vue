@@ -27,7 +27,7 @@
           ]" class="custom-editor" color="white" bg-color="none" />
         </div>
 
-      <!-- Slika i kategorija div-->
+        <!-- Slika i kategorija div-->
         <div class="file-select-wrapper q-mb-md">
           <!-- Upload slika -->
           <q-file v-model="news.image" standout label="Click to upload an image" accept="image/*"
@@ -38,7 +38,7 @@
           </q-file>
 
           <!-- Odabir kategorije -->
-          <q-select v-model="news.category" standout :options="['']" label="Select category"
+          <q-select v-model="news.teme" standout :options="categories" label="Select category"
             class="custom-input custom-select-width" color="white" bg-color="none" />
         </div>
 
@@ -65,20 +65,93 @@
 </template>
 
 <script setup>
-// Reactive podaci za unos vijesti
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 
 const news = reactive({
   title: '',
   author: '',
   content: '',
   image: null,
+  teme: '',
 });
 
-// Dummy funkcija za submit forme
-const onSubmit = () => {
-  console.log('Unesena vijest:', news);
-  alert('Vijest je spremljena! (Simulacija)');
+// Varijabla za pohranu kategorija
+const categories = reactive([]);
+
+// Funkcija za dohvaćanje svih kategorija
+const fetchCategories = async () => {
+  try {
+    const response = await fetch('http://localhost:3000/api/teme');  // Putanja do API-a za teme
+    const teme = await response.json();
+
+    if (!response.ok) {
+      throw new Error(teme.message || 'Greška pri dohvaćanju tema');
+    }
+
+    // Mapiranje kategorija za q-select
+    categories.splice(0, categories.length, ...teme.map(tema => ({
+      label: tema.Naslov_teme,
+      value: tema.ID_teme
+    })));
+
+  } catch (error) {
+    console.error('Greška:', error.message);
+    alert(`Greška pri dohvatu kategorija: ${error.message}`);
+  }
+};
+
+onMounted(fetchCategories);
+
+// Funkcija za slanje podataka na backend
+const onSubmit = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('image', news.image);
+
+    // Upload slike
+    const imageResponse = await fetch('http://localhost:3000/api/vijesti/upload-image', {
+      method: 'POST',
+      body: formData
+    });
+
+    const imageData = await imageResponse.json();
+
+    if (!imageResponse.ok) {
+      throw new Error(imageData.message || 'Greška pri uploadu slike');
+    }
+
+    // Spremi vijest u bazu s putanjom do slike
+    const newsResponse = await fetch('http://localhost:3000/api/vijesti', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        naslov: news.title,
+        autor: news.author,
+        sadrzaj: news.content,
+        slika_vijesti: imageData.path,
+        ID_teme: news.teme.value
+      })
+    });
+
+    const newsData = await newsResponse.json();
+
+    if (!newsResponse.ok) {
+      throw new Error(newsData.message || 'Greška pri spremanju vijesti');
+    }
+
+    alert('Vijest je uspješno spremljena!');
+    console.log(newsData);
+
+    // Resetiranje forme
+    news.title = '';
+    news.author = '';
+    news.content = '';
+    news.image = null;
+    news.teme = '';
+  } catch (error) {
+    console.error('Greška:', error.message);
+    alert(`Greška: ${error.message}`);
+  }
 };
 </script>
 

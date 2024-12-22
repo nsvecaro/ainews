@@ -1,21 +1,33 @@
 module.exports = app => {
     const vijesti = require("../controllers/vijesti.controller.js");
+    const { upload, validateAspectRatio } = require("../middlewares/upload");
 
-    var router=require("express").Router();
+    var router = require("express").Router();
 
-    //napravi novu vjest
+    // Kreiraj novu vijest
     router.post("/", vijesti.create);
 
-    //ucitaj sve vjesti
+    // Dohvati sve vijesti
     router.get("/", vijesti.getAll);
 
-    //ucitaj vijest po ID-u
+    // Dohvati vijest po ID-u
     router.get("/:id", vijesti.findByID);
-    
-    //ucitaj najnoviju vijest
+
+    // Dohvati najnoviju vijest
     router.get("/latest", vijesti.getLatest);
 
+    // Upload slike s validacijom omjera
+    router.post('/upload-image', upload.single('image'), validateAspectRatio, (req, res) => {
+        if (!req.file) {
+            return res.status(400).send({ message: 'Niste učitali sliku.' });
+        }
 
+        res.status(200).send({
+            message: 'Slika je uspješno učitana s ispravnim omjerom!',
+            filename: req.file.filename,
+            path: `/uploads/vijesti/${req.file.filename}`
+        });
+    });
 
     app.use('/api/vijesti', router);
-}
+};
