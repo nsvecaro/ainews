@@ -1,14 +1,14 @@
 const sql = require("./db.js");
 
 // Konstruktor za Komentar
-const Komentar = function (komentar) {
+const Komentar = function(komentar) {
   this.sadrzaj = komentar.sadrzaj;
   this.datum_objave = komentar.datum_objave;
   this.ID_korisnika = komentar.ID_korisnika;
   this.ID_vijesti = komentar.ID_vijesti;
 };
 
-
+// Kreiranje komentara
 Komentar.create = (noviKomentar, result) => {
   sql.query("INSERT INTO RWA_komentar SET ?", noviKomentar, (err, res) => {
     if (err) {
@@ -21,20 +21,9 @@ Komentar.create = (noviKomentar, result) => {
   });
 };
 
-// Dohvat svih komentara s korisničkim imenom
+// Dohvat svih komentara
 Komentar.getAll = (result) => {
-  const query = `
-    SELECT 
-      k.ID_komentara, 
-      k.sadrzaj, 
-      k.datum_objave, 
-      kor.username AS korisnik 
-    FROM RWA_komentar k
-    JOIN RWA_korisnik kor ON k.ID_korisnika = kor.ID_korisnika
-    ORDER BY k.datum_objave DESC
-  `;
-
-  sql.query(query, (err, res) => {
+  sql.query("SELECT * FROM RWA_komentar", (err, res) => {
     if (err) {
       console.error("Greška prilikom dohvaćanja komentara: ", err);
       result(err, null);
@@ -47,27 +36,19 @@ Komentar.getAll = (result) => {
 
 // Dohvat komentara po ID-u vijesti
 Komentar.findByVijestId = (ID_vijesti, result) => {
-  const query = `
-    SELECT 
-      k.ID_komentara, 
-      k.sadrzaj, 
-      k.datum_objave, 
-      kor.username AS korisnik 
-    FROM RWA_komentar k
-    JOIN RWA_korisnik kor ON k.ID_korisnika = kor.ID_korisnika
-    WHERE k.ID_vijesti = ?
-    ORDER BY k.datum_objave DESC
-  `;
-
-  sql.query(query, [ID_vijesti], (err, res) => {
-    if (err) {
-      console.error("Greška prilikom dohvaćanja komentara za vijest: ", err);
-      result(err, null);
-      return;
+  sql.query(
+    "SELECT * FROM RWA_komentar WHERE ID_vijesti = ?",
+    [ID_vijesti],
+    (err, res) => {
+      if (err) {
+        console.error("Greška prilikom dohvaćanja komentara: ", err);
+        result(err, null);
+        return;
+      }
+      console.log("Komentari za vijest ID: ", ID_vijesti, res);
+      result(null, res);
     }
-    console.log("Komentari za vijest ID: ", ID_vijesti, res);
-    result(null, res);
-  });
+  );
 };
 
 // Brisanje komentara po ID-u

@@ -13,4 +13,4 @@ module.exports = (app) => {
     // Brisanje komentara po ID-u
     app.delete("/komentari/:ID_komentara", komentar.deleteKomentar);
   };
-  
+
