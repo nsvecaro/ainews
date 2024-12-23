@@ -58,9 +58,11 @@
 
 <script setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const username = ref('');
 const lozinka = ref('');
+const router = useRouter();
 
 async function onLogin(event) {
   event.preventDefault();
@@ -88,7 +90,14 @@ async function onLogin(event) {
       console.log("Odgovor backend-a:", data);
 
       if (response.ok) {
+        // Pohranjivanje podataka u localStorage
+        localStorage.setItem('username', data.korisnikIme);
+        localStorage.setItem('role', data.uloga);
+
         alert(`Prijava uspješna! Dobrodošao, ${data.korisnikIme}`);
+
+        // Preusmjeravanje na glavnu stranicu ili korisnički profil
+        router.push('/');
       } else {
         alert(`Greška prilikom prijave: ${data.message}`);
       }
@@ -98,8 +107,6 @@ async function onLogin(event) {
     }
   }
 }
-
-
 </script>
 
 <style>
