@@ -73,10 +73,11 @@ exports.getAll = (req, res) => {
     Vijesti.getLatest((err, data) => {
       if (err) {
         res.status(500).send({
-          message: err.message || "Dogodila se greška pri dohvaćanju najnovije vijesti.",
+          message: err.message || "Dogodila se greška pri dohvaćanju najnovije vijesti."
         });
       } else {
-        res.send(data);
+        console.log("Najnovija vijest: ", data);  // Ispisujemo podatke koje dobijamo iz baze
+      res.send(data);
       }
     });
   };

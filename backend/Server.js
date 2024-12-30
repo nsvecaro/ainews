@@ -6,24 +6,24 @@ const path = require('path');
 const app = express();
 
 // CORS postavke
-var corsOptions = {
-  origin: "http://localhost:9000", // URL frontenda
-  credentials: true // Omogući dijeljenje kolačića/sesija
-};
+app.use(cors({
+  origin: "http://localhost:9000",  // URL frontenda
+  credentials: true,  // Omogući dijeljenje kolačića/sesija
+}));
 
-app.use(cors(corsOptions));
-
-// Middleware za sesije
+// Middleware
 app.use(
   session({
-    secret: "tvoja_tajna_ključa", // Zamijeni s vlastitim sigurnim ključem
+    secret: "secret_key", 
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false } // Postavi na true samo ako koristiš HTTPS
+    cookie: { 
+      secure: true,
+      sameSite: 'None'
+    } 
   })
 );
 
-// Omogući serviranje direktorija 'uploads'
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 app.use(express.json());

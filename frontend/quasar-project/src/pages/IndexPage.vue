@@ -6,7 +6,7 @@
         <div class="slideshow">
           <div class="new-button">New</div>
           <p>{{ latestNews.naslov }}</p>
-          <img :src ="`http://localhost:3000/uploads/vijesti/test.png`" />
+          <img :src="`/uploads/vijesti/${latestNews.slika_vijesti}`" alt="Slika vijesti">
         </div>
         <div class="forum-page">
           <h3>Forum Discussion</h3>
@@ -65,15 +65,15 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import axios from 'axios'; // Importaj axios za API poziv
-import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  /* Importanje stranice NewsSlideshow */
+import axios from 'axios'; 
+import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  //NewsSlideshow
 
 const scrolled = ref(false);
-const latestNews = ref({ naslov: '', slika_vijesti: '' }); // Držanje podataka najnovije vijesti
+const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
 
 
 
-// Dohvati najnoviju vijest
+// najnovija vijest
 const fetchLatestNews = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/vijesti');
@@ -87,7 +87,7 @@ const fetchLatestNews = async () => {
 };
 
 onMounted(() => {
-  fetchLatestNews(); // Poziv za dohvat najnovije vijesti
+  fetchLatestNews(); // Poziv za get najnovije vijesti
 });
 
 onUnmounted(() => {
