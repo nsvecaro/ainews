@@ -7,7 +7,8 @@ const app = express();
 
 // CORS postavke
 app.use(cors({
-  origin: "http://localhost:9000",  // URL frontenda
+  origin: "http://localhost:9000",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // URL frontenda
   credentials: true,  // Omogući dijeljenje kolačića/sesija
 }));
 
