@@ -42,7 +42,7 @@ Vijesti.getAll = (result) => {
 
 // Dohvati vijest po ID-u
 Vijesti.findByID = (id, result) => {
-    sql.query("SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, autor, kategorija, datum_objave FROM RWA_vijest WHERE ID_vijesti = ?", [id], (err, res) => {
+    sql.query("SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, autor, datum_objave FROM RWA_vijest WHERE ID_vijesti = ?", [id], (err, res) => {
         if (err) {
             console.error("Greška pri dohvaćanju vijesti:", err);
             result(err, null);

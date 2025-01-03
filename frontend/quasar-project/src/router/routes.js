@@ -7,6 +7,8 @@ const routes = [
       { path: 'forum', component: () => import('pages/ForumPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
+      { path: 'vijesti', component: () => import('pages/VijestiPage.vue') },
+      { path: 'vijesti/:id', name: 'VijestiPage', component: () => import('pages/VijestiPage.vue') }
     ]
   },
 
