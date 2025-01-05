@@ -5,7 +5,7 @@
         <q-toolbar-title class="title">
           <a href="#/" class="home-link"><img src="/src/assets/ainewslogo.png" width="7%"></a>
         </q-toolbar-title>
-        
+
         <div class="toolbar-links">
           <a href="#/forum" class="toolbar-link">Forum</a>
           <a href="#/login" class="toolbar-link">Login</a>|
@@ -34,7 +34,8 @@
   margin-left: 300px;
   margin-top: 10px;
   text-align: left;
-  flex: 1; /*Guranje elementa desno*/
+  flex: 1;
+  /*Guranje elementa desno*/
   font-size: 20px;
   font-weight: bold;
 }
@@ -44,7 +45,8 @@
 /* linkovi */
 .toolbar-links {
   display: flex;
-  gap: 10px; /* Razmak izmedu linkova */
+  gap: 10px;
+  /* Razmak izmedu linkova */
   align-items: center;
   margin-right: 300px;
 

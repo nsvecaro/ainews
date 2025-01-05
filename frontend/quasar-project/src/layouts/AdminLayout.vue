@@ -12,11 +12,7 @@
           <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" />
           <span class="username">{{ username }}</span>
 
-          <q-menu
-            v-if="showProfileMenu" 
-            anchor="bottom right" 
-            self="bottom left" 
-          > 
+          <q-menu v-if="showProfileMenu" anchor="bottom right" self="bottom left">
             <q-list>
               <q-item clickable v-close-popup>
                 <q-item-section>Logout</q-item-section>

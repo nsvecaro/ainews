@@ -59,7 +59,7 @@ exports.getAll = (req, res) => {
           });
         } else {
           res.status(500).send({
-            message: `Error with loading news: ${id}.`,
+            message: `Greška pri dohvaćanju vijesti s ID-om ${id}.`,
           });
         }
       } else {

@@ -1,5 +1,5 @@
 <template>
-  <q-page padding>
+  <q-page class="flex flex-center">
     <div v-if="loading" class="text-center">
       <q-spinner color="primary" size="2em" />
       <p>Loading the news...</p>
@@ -9,16 +9,23 @@
     </div>
     <div v-else>
       <div class="news-picture">
-        <img :src="vijest.slika_vijesti" alt="Slika vijesti" class="news-image" />
-        <h1>{{ vijest.naslov }}</h1>
+        <q-parallax :height="500" :speed="2">
+          <template v-slot:media>
+            <img :src="`http://localhost:3000${vijest.slika_vijesti}`" alt="Slika vijesti" class="news-image">  
+          <div class="parallax-title">
+            <h1 class="text-white text-center">{{ vijest.naslov }}</h1>
+          </div>
+          <div class="gradient"></div>
+          </template>
+          
+        </q-parallax>
       </div>
       <div class="news-content">
         <p class="meta">
           <strong>Author:</strong> {{ vijest.autor }} |
           <strong>Date:</strong> {{ formatDate(vijest.datum_objave) }}
         </p>
-
-        <p class="content">{{ vijest.sadrzaj }}</p>
+        <p class="content" v-html="vijest.sadrzaj"></p>
       </div>
     </div>
   </q-page>
@@ -59,5 +66,61 @@ onMounted(() => {
 </script>
 
 <style>
+.q-page {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  overflow-x: hidden; /* Sprječava horizontalni scroll */
+}
 
+.news-picture {
+  width: 100%;
+  object-fit: cover;
+}
+.news-content{
+  margin: 50px 400px 50px 400px;
+  text-align: justify;
+  font-size: medium;
+  padding: 20px;
+}
+
+.q-parallax {
+  margin: 0 !important;
+  padding: -20 !important;
+  width: 105vw;
+  max-width: 100%;
+  overflow: hidden;
+}
+.meta{
+  margin-top: 10px;
+  margin-bottom: 50px;
+  text-align: center;
+  color: rgb(126, 126, 126);
+}
+.gradient{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.595), rgba(0, 0, 0, 0));
+  z-index: 5;
+}
+
+
+.parallax-title {
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-shadow: 2px 2px 12px rgb(0, 0, 0);
+  width: 100vw;
+}
+
+.parallax-title h1 {
+  font-size: 3.0rem;
+  font-weight: bold;
+  margin: auto 400px auto 400px;
+}
 </style>
