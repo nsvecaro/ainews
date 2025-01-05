@@ -4,9 +4,6 @@
       <q-spinner color="primary" size="2em" />
       <p>Loading the news...</p>
     </div>
-    <div v-else-if="error" class="text-center text-negative">
-      <p>Error: {{ error }}</p>
-    </div>
     <div v-else>
       <div class="news-picture">
         <q-parallax :height="500" :speed="2">
@@ -70,7 +67,7 @@ onMounted(() => {
   margin: 0;
   padding: 0;
   width: 100vw;
-  overflow-x: hidden; /* Sprječava horizontalni scroll */
+  overflow-x: hidden;
 }
 
 .news-picture {

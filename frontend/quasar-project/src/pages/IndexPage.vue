@@ -6,7 +6,7 @@
         <div class="slideshow">
           <div class="new-button">New</div>
           <p> {{ latestNews.naslov }}</p>
-          <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti">
+          <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image">
         </div>
         <div class="forum-page">
           <h3>Forum Discussion</h3>
@@ -39,10 +39,13 @@
     <div class="news-list-main">
       <div class="news-list">
         <div class="news-grid">
-          <div class="news">News 1</div>
-          <div class="news">News 2</div>
-          <div class="news">News 3</div>
-          <div class="news">News 4</div>
+          <div v-for="newsItem in newsList" :key="newsItem.ID_vijesti" class="news" @click="navigateToNews(newsItem.ID_vijesti)"
+            style="cursor: pointer;">
+            <img :src="`http://localhost:3000${newsItem.slika_vijesti}`" alt="Slika vijesti">
+            <div class="news-title">
+              <p>{{ newsItem.naslov }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -54,7 +57,7 @@
         <p>All rights reserved by AINews &#169;</p>
       </div>
       <div class="socialmedia">
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
+        <a href="https://www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
         <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
         <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
       </div>
@@ -65,29 +68,35 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import axios from 'axios'; 
+import axios from 'axios';
 import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  //NewsSlideshow
+import { useRouter } from 'vue-router';
 
 const scrolled = ref(false);
 const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
+const newsList = ref([]);
+const router = useRouter();
 
+const navigateToNews = (id) => {
+  router.push(`/vijesti/${id}`);
+};
 
 
 // najnovija vijest
-const fetchLatestNews = async () => {
+const fetchNews = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/vijesti');
-    const allNews = response.data;
-    if (allNews.length > 0) {
-      latestNews.value = allNews[0]; // DESC order 
+    newsList.value = response.data; // Pohrani sve vijesti
+    if (newsList.value.length > 0) {
+      latestNews.value = newsList.value[0]; // Postavi najnoviju vijest
     }
   } catch (error) {
-    console.error('Greška pri dohvaćanju najnovije vijesti:', error);
+    console.error('Greška pri dohvaćanju vijesti:', error);
   }
 };
 
 onMounted(() => {
-  fetchLatestNews(); // Poziv za get najnovije vijesti
+  fetchNews(); // Poziv za get najnovije vijesti
 });
 
 onUnmounted(() => {
@@ -152,6 +161,13 @@ onUnmounted(() => {
   color: #000000;
 }
 
+.slideshow-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
 
 .new-button {
   /* 'NEW' u slideshow boxu */
@@ -204,7 +220,7 @@ onUnmounted(() => {
 /* MainContent koji sadrzi NewsSlideshow.vue */
 .main-content {
   width: 100%;
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(241, 241, 241);
   padding: 20px;
   height: 100vh;
   display: flex;
@@ -251,7 +267,7 @@ onUnmounted(() => {
 }
 
 .news-list-main {
-  background-color: rgb(224, 224, 224);
+  background-color: rgb(241, 241, 241);
   width: 100%;
   padding: 50px 0;
 }
@@ -264,8 +280,8 @@ onUnmounted(() => {
 
 .news-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 30px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
 }
 
 .news {
@@ -273,8 +289,33 @@ onUnmounted(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #ffffff76;
-  height: 200px;
+  height: 300px;
+  min-height: 220px;
+  padding: 10px;
+  position: relative;
+  border-top: 1px solid #8a8a8a;
+  padding-top: 40px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.news:hover {
+
+  cursor: pointer;
+}
+
+.news-title {
+  text-align: left;
+  font-size: large;
+  font-weight: bold;
+  margin-top: 185px;
+
+}
+
+.news img {
+  margin-top: -110px;
+  width: 100%;
+  position: absolute;
+  object-fit: cover;
 }
 
 
