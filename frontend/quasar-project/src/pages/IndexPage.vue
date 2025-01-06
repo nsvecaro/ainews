@@ -9,13 +9,17 @@
           <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image">
         </div>
         <div class="forum-page">
-          <h3>Forum Discussion</h3>
-          <ul>
-            <li><img src="/src/assets/openailogo.svg" width=20px> &nbsp;OpenAI</li>
-            <li><img src="/src/assets/geminilogo.png" width="20px"> &nbsp;Gemini</li>
-            <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
-            <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
-          </ul>
+          <p>Top discussions</p>
+          <div class="forum-content">
+            <ul>
+              <li><img src="/src/assets/openailogo.svg" width=20px> &nbsp;OpenAI</li>
+              <li><img src="/src/assets/geminilogo.png" width="20px"> &nbsp;Gemini</li>
+              <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
+              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
+              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
+              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -39,8 +43,8 @@
     <div class="news-list-main">
       <div class="news-list">
         <div class="news-grid">
-          <div v-for="newsItem in newsList" :key="newsItem.ID_vijesti" class="news" @click="navigateToNews(newsItem.ID_vijesti)"
-            style="cursor: pointer;">
+          <div v-for="newsItem in newsList" :key="newsItem.ID_vijesti" class="news"
+            @click="navigateToNews(newsItem.ID_vijesti)" style="cursor: pointer;">
             <img :src="`http://localhost:3000${newsItem.slika_vijesti}`" alt="Slika vijesti">
             <div class="news-title">
               <p>{{ newsItem.naslov }}</p>
@@ -142,11 +146,11 @@ onUnmounted(() => {
 
 
 .slideshow {
-  width: 35%;
+  width: 45%;
   background: #ffffff;
   border-top: 8px solid #FF8C00;
   padding: 40px;
-  margin: -50px 80px 50px 300px;
+  margin: -50px 100px 50px 300px;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -186,17 +190,27 @@ onUnmounted(() => {
   box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
 }
 
+
+
 .forum-page {
-  width: auto;
-  height: 60%;
-  background-color: #00000000;
-  border: 3px solid #FF8C00;
-  margin: -50px 300px 20px 80px;
+  width: 20%;
+  height: 90%;
+  margin: -50px 300px 20px 50px;
+  max-height: 600px;
+  
 }
 
-.forum-page h3 {
-  font-size: 40px;
-  margin: 20px 15px 20px 15px;
+.forum-content{
+  background-color: #00000000;
+  border: 3px solid #FF8C00;
+  width: 100%;
+  height: auto;
+  max-height: 450px;
+}
+
+.forum-page p {
+  font-size: 20px;
+  font-weight: 450;
 }
 
 .forum-page ul {
