@@ -1,58 +1,21 @@
 <template>
   <q-page class="login-page">
     <div class="login-box">
-      <div class="text-h5 text-center q-mb-md">Enter credentials</div>
-
+      <div class="titlesign">Sign in to AINews<p>Enter your account details below</p></div>
       <q-form @submit="onLogin">
-        <q-input 
-          filled 
-          v-model="username" 
-          label="Username" 
-          type="text" 
-          dense
-          :rules="[val => !!val || 'Username is required']" 
-          class="q-mb-md" 
-        />
-        
-        <q-input 
-          filled 
-          v-model="lozinka" 
-          label="Password" 
-          type="password" 
-          dense
-          :rules="[val => !!val || 'Password is required']" 
-          class="q-mb-md" 
-        />
+        <q-input v-model="username" label="Username" type="text" dense
+          :rules="[val => !!val || 'Username is required']" class="q-mb-md" />
+
+        <q-input v-model="lozinka" label="Password" type="password" dense
+          :rules="[val => !!val || 'Password is required']" class="q-mb-md" />
 
         <div class="text-center">
-          <q-btn 
-            label="Login" 
-            color="primary" 
-            type="submit" 
-            :disable="!username || !lozinka" 
-            class="login-btn" 
-          />
+          <q-btn label="Login" color="primary" type="submit" class="login-btn" />
         </div>
       </q-form>
+      <div class="registerlink"><a href="#/register">Don't have an account?</a></div>
     </div>
 
-    <div class="footer">
-      <div class="footerinfo">
-        <h3>AI NEWS</h3>
-        <p>All rights reserved by AINews &#169;</p>
-      </div>
-      <div class="socialmedia">
-        <a href="www.instagram.com">
-          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Instagram
-        </a>
-        <a href="www.instagram.com">
-          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />Facebook
-        </a>
-        <a href="www.instagram.com">
-          <img src="/src/assets/igIcon.png" alt="Instagram" width="20px" />X
-        </a>
-      </div>
-    </div>
   </q-page>
 </template>
 
@@ -113,12 +76,26 @@ async function onLogin(event) {
 .login-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 200vh;
-  background-color: #f5f5f5;
+  justify-content: center;
+  max-height: 100vh;
+  background-color: rgb(241, 241, 241);
   padding: 0;
-  box-sizing: border-box;
+}
+
+.q-form{
+  width: 400px;
+}
+
+.registerlink{
+  border-top: 1px solid rgba(0, 0, 0, 0.143);
+  width: 400px;
+  margin-top: 30px;
+  padding-top: 30px;
+}
+
+.registerlink a{
+  text-decoration: underline;
+  color: black;
 }
 
 .login-box {
@@ -127,36 +104,40 @@ async function onLogin(event) {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
   background-color: #db0c0c00;
   border-radius: 50px;
   margin: 0;
-  flex-grow: 1;
-  height: 70vh;
+  padding: 100px 70px 200px 70px;
+}
+.titlesign{
+  font-size: 26px;
+  font-weight: 525;
+  text-align: left;
+  align-self: left;
+  width: 400px;
+  margin-bottom: 30px;
+}
+.titlesign p{
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .login-btn {
-  border-radius: 65px;
+  border-radius: 0px;
+  width: 100%;
   padding: 10px 20px;
   font-size: 14px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  background-color: rgb(0, 98, 255);
+  background: rgb(0, 98, 255) !important;
 }
 
 .login-btn:hover {
-  background-color: rgb(0, 98, 255);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  
 }
 
-.login-btn:disabled {
-  background-color: #d1d5db;
-  color: #9ca3af;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
+/*
 .footer {
   display: flex;
   justify-content: space-between;
@@ -201,5 +182,5 @@ async function onLogin(event) {
 
 .socialmedia a img {
   margin-right: 10px;
-}
+}*/
 </style>

@@ -7,9 +7,8 @@
         </q-toolbar-title>
 
         <div class="toolbar-links">
-          <a href="#/forum" class="toolbar-link">Forum</a>
-          <a href="#/login" class="toolbar-link">Login</a>|
-          <a href="#/register" class="toolbar-link">Register</a>
+          <a href="#/forum" class="toolbar-link1">Forum</a>
+          <a href="#/login" class="toolbar-link2">Sign in</a>
         </div>
       </q-toolbar>
     </q-header>
@@ -48,18 +47,28 @@
   gap: 10px;
   /* Razmak izmedu linkova */
   align-items: center;
-  margin-right: 300px;
+  margin-right: 310px !important;
 
 }
 
-.toolbar-link {
+.toolbar-link1 {
   text-decoration: none;
   color: #ffffff;
   font-size: 16px;
 }
 
-.toolbar-link:hover {
+.toolbar-link1:hover {
   text-decoration: underline;
+}
+.toolbar-link2 {
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.toolbar-link2:hover {
+  text-decoration: underline;
+  
 }
 
 .home-link {
@@ -68,6 +77,7 @@
   font-size: 30px;
   font-weight: bold;
   align-items: center;
+
 }
 
 .home-link:hover {
