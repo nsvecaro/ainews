@@ -1,71 +1,109 @@
 <template>
   <q-page>
-    <!-- content -->
+    <div class="forum-container">
+      <h1>Forum</h1>
+      <div class="topics-section">
+        <h2>Popular Topics</h2>
+        <div class="topics">
+          <q-card v-for="topic in topics" :key="topic.id" class="topic-card">
+            <q-card-section>
+              <h3>{{ topic.name }}</h3>
+              <p>{{ topic.description }}</p>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
 
-<div class="footer">
-
-<div class="footerinfo">
-  <h3>AI NEWS</h3>
-  <p>All rights reserved by AINews &#169;</p>
-</div>
-<div class="socialmedia">
-  <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
-  <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
-  <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
-</div>
-
-</div>
+      <div class="news-section">
+        <h2>Latest News</h2>
+        <div class="news">
+          <q-card v-for="newsItem in news" :key="newsItem.id" class="news-card">
+            <q-img :src="newsItem.image" class="news-image" />
+            <q-card-section>
+              <h3>{{ newsItem.title }}</h3>
+              <p>{{ newsItem.content }}</p>
+              <span class="news-meta">By {{ newsItem.author }}</span>
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </div>
   </q-page>
 </template>
 
 <script>
 export default {
-  // name: 'PageName',
-}
+  data() {
+    return {
+      topics: [
+        { id: 1, name: "Artificial Intelligence", description: "Discuss AI advancements and innovations." },
+        { id: 2, name: "Machine Learning", description: "Explore ML techniques and applications." },
+        { id: 3, name: "AI Ethics", description: "Delve into ethical considerations in AI." },
+      ],
+      news: [
+        {
+          id: 1,
+          title: "AI Breakthrough in Medicine",
+          content: "A new AI model is revolutionizing healthcare...",
+          image: "/src/assets/news-placeholder.jpg",
+          author: "Admin",
+        },
+        {
+          id: 2,
+          title: "Advances in Neural Networks",
+          content: "Researchers have developed a cutting-edge neural network...",
+          image: "/src/assets/news-placeholder.jpg",
+          author: "Tech News",
+        },
+      ],
+    };
+  },
+};
 </script>
 
-<style>
+<style scoped>
+.forum-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
 
-.footer{
+.topics-section,
+.news-section {
+  margin-bottom: 40px;
+}
+
+h1 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.topics,
+.news {
   display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
   justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  background-color: black;
-  color: white;
-  padding: 0 20px;
-  box-sizing: border-box;
-
-}
-.footerinfo{
-  flex: 1;
-  text-align: left;
-  margin-left: 170px;
 }
 
-.footerinfo h3, .footerinfo p{
-  margin: 5px 0;
+.topic-card,
+.news-card {
+  width: calc(33% - 20px);
 }
 
-.socialmedia{
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: left;
-  margin-right: 170px;
+.news-image {
+  max-height: 150px;
+  object-fit: cover;
 }
-.socialmedia a{
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-}
-.socialmedia a:hover {
-  text-decoration: underline;
-}
-.socialmedia a img{
-  margin-right: 10px;
-} 
 
+.news-meta {
+  font-size: 12px;
+  color: gray;
+  margin-top: 10px;
+}
 </style>
