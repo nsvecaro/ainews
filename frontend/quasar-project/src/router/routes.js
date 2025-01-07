@@ -18,6 +18,7 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('pages/ForumPage.vue') },
+      { path: 'accountsettings', name: 'userAccountSettings', component: () => import('pages/AccountSettingsPage.vue') } 
     ],
     meta: { layout: 'user' }
   },
@@ -29,6 +30,7 @@ const routes = [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('pages/ForumPage.vue') },
       { path: 'createnew', component: () => import('pages/CreateNewsPage.vue') },
+      { path: 'accountsettings', name: 'adminAccountSettings', component: () => import('pages/AccountSettingsPage.vue') } 
     ],
     meta: { layout: 'admin' }
   },

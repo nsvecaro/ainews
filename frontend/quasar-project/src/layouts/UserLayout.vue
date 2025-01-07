@@ -7,21 +7,17 @@
         </q-toolbar-title>
 
         <div class="toolbar-links">
-          <a href="#/forum" class="toolbar-link">Forum</a>
-          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" />
-          <span class="username">{{ username }}</span>
+          <span class="username">{{ username }}</span> 
+          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" /> 
 
           <q-menu v-if="showProfileMenu" anchor="bottom right" self="bottom left">
             <q-list>
               <q-item clickable v-close-popup>
                 <q-item-section>Logout</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup>
-                <q-item-section>My Comments</q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup>
-                <q-item-section>Change Username</q-item-section>
-              </q-item>
+              <q-item clickable v-close-popup to="/user/accountsettings"> 
+                <q-item-section>Account Settings</q-item-section>
+              </q-item> 
             </q-list>
           </q-menu>
         </div>
@@ -49,12 +45,6 @@ export default {
   },
 };
 </script>
-
-
-
-
-
-
 
 <style scoped>
 .header {

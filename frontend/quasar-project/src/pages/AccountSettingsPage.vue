@@ -1,0 +1,66 @@
+<template>
+    <q-page>
+      <div class="footer">
+        <div class="footerinfo">
+          <h3>AI NEWS</h3>
+          <p>All rights reserved by AINews &#169;</p>
+        </div>
+        <div class="user-options">
+          <a href="#" class="user-option">My Comments</a>
+          <a href="#" class="user-option">Change Username</a>
+          <a href="#" class="user-option">Change Password</a>
+        </div>
+      </div>
+    </q-page>
+  </template>
+  
+  <script>
+  export default {
+    // name: 'PageName',
+  }
+  </script>
+  
+  <style scoped>
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 250px;
+    background-color: black;
+    color: white;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+  
+  .footerinfo {
+    flex: 1;
+    text-align: left;
+    margin-left: 170px;
+  }
+  
+  .footerinfo h3,
+  .footerinfo p {
+    margin: 5px 0;
+  }
+  
+  .user-options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: left;
+    margin-right: 170px; 
+  }
+  
+  .user-option {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    background-color: #212121; /* Optional background color for buttons */
+  }
+  
+  .user-option:hover {
+    background-color: #333333; /* Optional hover effect */
+  }
+  </style>
