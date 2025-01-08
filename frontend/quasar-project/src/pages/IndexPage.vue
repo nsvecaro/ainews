@@ -95,9 +95,6 @@ onMounted(() => {
   fetchNews(); // Poziv za get najnovije vijesti
 });
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
 </script>
 
 <style scoped>
@@ -331,8 +328,4 @@ onUnmounted(() => {
   position: absolute;
   object-fit: cover;
 }
-
-
-
-
 </style>

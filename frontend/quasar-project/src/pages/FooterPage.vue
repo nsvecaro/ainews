@@ -5,15 +5,10 @@
       <p>All rights reserved by AINews &#169;</p>
     </div>
     <div class="socialmedia">
-      <a href="https://www.instagram.com">
-        <img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram
-      </a>
-      <a href="https://www.facebook.com">
-        <img src="/src/assets/igIcon.png" alt="Facebook" width="20px">Facebook
-      </a>
-      <a href="https://www.twitter.com">
-        <img src="/src/assets/igIcon.png" alt="Twitter" width="20px">X
-      </a>
+      <p>Social Media</p>
+      <a href="https://www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="15px">Instagram</a>
+      <a href="https://www.facebook.com"><img src="/src/assets/fbIcon.png" alt="Facebook" width="15px">Facebook</a>
+      <a href="https://www.x.com"><img src="/src/assets/xIcon.png" alt="X" width="15px">X</a>
     </div>
   </div>
 </template>
@@ -48,6 +43,11 @@
   gap: 5px;
   align-items: left;
   margin-right: 170px;
+}
+.socialmedia p{
+  margin-bottom: 5px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.334);
 }
 
 .socialmedia a {

@@ -1,10 +1,11 @@
 <template>
   <q-page class="login-page">
     <div class="login-box">
-      <div class="titlesign">Sign in to AINews<p>Enter your account details below</p></div>
+      <div class="titlesign">Sign in to AINews<p>Enter your account details below</p>
+      </div>
       <q-form @submit="onLogin">
-        <q-input v-model="username" label="Username" type="text" dense
-          :rules="[val => !!val || 'Username is required']" class="q-mb-md" />
+        <q-input v-model="username" label="Username" type="text" dense :rules="[val => !!val || 'Username is required']"
+          class="q-mb-md" />
 
         <q-input v-model="lozinka" label="Password" type="password" dense
           :rules="[val => !!val || 'Password is required']" class="q-mb-md" />
@@ -16,12 +17,16 @@
       <div class="registerlink"><a href="#/register">Don't have an account?</a></div>
     </div>
 
+    <!-- FOOTER -->
+    <Footer />
+
   </q-page>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Footer from '/src/pages/FooterPage.vue'; //Footer
 
 const username = ref('');
 const lozinka = ref('');
@@ -82,18 +87,18 @@ async function onLogin(event) {
   padding: 0;
 }
 
-.q-form{
+.q-form {
   width: 400px;
 }
 
-.registerlink{
+.registerlink {
   border-top: 1px solid rgba(0, 0, 0, 0.143);
   width: 400px;
   margin-top: 30px;
   padding-top: 30px;
 }
 
-.registerlink a{
+.registerlink a {
   text-decoration: underline;
   color: black;
 }
@@ -109,7 +114,8 @@ async function onLogin(event) {
   margin: 0;
   padding: 100px 70px 200px 70px;
 }
-.titlesign{
+
+.titlesign {
   font-size: 26px;
   font-weight: 525;
   text-align: left;
@@ -117,7 +123,8 @@ async function onLogin(event) {
   width: 400px;
   margin-bottom: 30px;
 }
-.titlesign p{
+
+.titlesign p {
   margin-top: 10px;
   font-size: 14px;
   font-weight: 400;
@@ -133,9 +140,7 @@ async function onLogin(event) {
   background: rgb(0, 98, 255) !important;
 }
 
-.login-btn:hover {
-  
-}
+.login-btn:hover {}
 
 /*
 .footer {
