@@ -17,7 +17,7 @@ module.exports = app => {
     router.get("/latest", vijesti.getLatest);
 
     // Upload slike s validacijom omjera
-    router.post('/upload-image', upload.single('image'), validateAspectRatio, (req, res) => {
+    router.post('/upload-image', upload.single('image'), (req, res) => {
         if (!req.file) {
             return res.status(400).send({ message: 'Niste učitali sliku.' });
         }

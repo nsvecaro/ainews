@@ -5,8 +5,11 @@
       <div class="content">
         <div class="slideshow">
           <div class="new-button">New</div>
-          <p> {{ latestNews.naslov }}</p>
-          <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image">
+          <p @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">
+            {{ latestNews.naslov }}
+          </p>
+          <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image"
+            @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">
         </div>
         <div class="forum-page">
           <p>Top discussions</p>
@@ -45,7 +48,7 @@
         <div class="news-grid">
           <div v-for="newsItem in newsList" :key="newsItem.ID_vijesti" class="news"
             @click="navigateToNews(newsItem.ID_vijesti)" style="cursor: pointer;">
-            <img :src="`http://localhost:3000${newsItem.slika_vijesti}`" alt="Slika vijesti">
+            <img :src="`http://localhost:3000${newsItem.slika_vijesti}`" alt="Slika vijesti" class="news-image">
             <div class="news-title">
               <p>{{ newsItem.naslov }}</p>
             </div>
@@ -54,19 +57,7 @@
       </div>
     </div>
     <!-- FOOTER -->
-    <div class="footer">
-
-      <div class="footerinfo">
-        <h3>AI NEWS</h3>
-        <p>All rights reserved by AINews &#169;</p>
-      </div>
-      <div class="socialmedia">
-        <a href="https://www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
-        <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
-      </div>
-
-    </div>
+    <Footer />
   </q-page>
 </template>
 
@@ -75,6 +66,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  //NewsSlideshow
 import { useRouter } from 'vue-router';
+import Footer from '/src/pages/FooterPage.vue'; //Footer
 
 const scrolled = ref(false);
 const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
@@ -197,10 +189,10 @@ onUnmounted(() => {
   height: 90%;
   margin: -50px 300px 20px 50px;
   max-height: 600px;
-  
+
 }
 
-.forum-content{
+.forum-content {
   background-color: #00000000;
   border: 3px solid #FF8C00;
   width: 100%;
@@ -308,13 +300,21 @@ onUnmounted(() => {
   padding: 10px;
   position: relative;
   border-top: 1px solid #8a8a8a;
+  width: 100%;
   padding-top: 40px;
-  transition: transform 0.2s ease-in-out;
 }
 
 .news:hover {
-
   cursor: pointer;
+}
+
+.news-image {
+  width: 100%;
+  aspect-ratio: 4 / 2;
+  overflow: hidden;
+  border-radius: 3px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .news-title {
@@ -334,53 +334,5 @@ onUnmounted(() => {
 
 
 
-/* - - - - - */
-/* FOOTER CSS */
 
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  background-color: black;
-  color: white;
-  padding: 0 20px;
-  box-sizing: border-box;
-
-}
-
-.footerinfo {
-  flex: 1;
-  text-align: left;
-  margin-left: 170px;
-}
-
-.footerinfo h3,
-.footerinfo p {
-  margin: 5px 0;
-}
-
-.socialmedia {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: left;
-  margin-right: 170px;
-}
-
-.socialmedia a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-}
-
-.socialmedia a:hover {
-  text-decoration: underline;
-}
-
-.socialmedia a img {
-  margin-right: 10px;
-}
 </style>

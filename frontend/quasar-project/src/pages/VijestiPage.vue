@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <div class="news-picture">
-        <q-parallax :height="500" :speed="2">
+        <q-parallax :height="500" :speed='2'>
           <template v-slot:media>
             <img :src="`http://localhost:3000${vijest.slika_vijesti}`" alt="Slika vijesti" class="news-image">  
           <div class="parallax-title">
@@ -25,19 +25,8 @@
         <p class="content" v-html="vijest.sadrzaj"></p>
       </div>
     </div>
-    <div class="footer">
-
-<div class="footerinfo">
-  <h3>AI NEWS</h3>
-  <p>All rights reserved by AINews &#169;</p>
-</div>
-<div class="socialmedia">
-  <a href="https://www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Instagram</a>
-  <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">Facebook</a>
-  <a href="www.instagram.com"><img src="/src/assets/igIcon.png" alt="Instagram" width="20px">X</a>
-</div>
-
-</div>
+       <!-- FOOTER -->
+       <Footer />
   </q-page>
 </template>
 
@@ -45,6 +34,7 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import axios from 'axios'
+import Footer from '/src/pages/FooterPage.vue'; //Footer
 
 const vijest = ref({})
 const loading = ref(true)
