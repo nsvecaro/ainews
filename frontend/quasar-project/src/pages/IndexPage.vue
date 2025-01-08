@@ -284,7 +284,7 @@ onMounted(() => {
   justify-content: center;
   align-items: center;
   width: 100%;
-  background-color: rgb(0, 98, 255);
+  background-color: rgb(24, 24, 24);
   padding: 20px;
   font-size: 22px;
   color: white;
@@ -295,6 +295,7 @@ onMounted(() => {
   padding: 0px;
   margin: 0px;
   align-items: center;
+  font-size: 18px;
 
 }
 

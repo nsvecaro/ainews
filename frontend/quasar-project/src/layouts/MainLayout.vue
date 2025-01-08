@@ -1,9 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="header">
+    <q-header :class="headerClass">
       <q-toolbar>
         <q-toolbar-title class="title">
-          <a href="#/" class="home-link"><img src="/src/assets/ainewslogo.png" width="7%"></a>
+          <a href="#/" class="home-link">
+            <img :src="logoSrc" width="7%">
+          </a>
         </q-toolbar-title>
 
         <div class="toolbar-links">
@@ -19,14 +21,66 @@
   </q-layout>
 </template>
 
+<script setup>
+import { useRoute } from 'vue-router'
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+
+//scroll check
+const route = useRoute()
+const isScrolled = ref(false)
+
+//pracenje scrolla
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > window.innerHeight
+}
+
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
+
+//dynamic header
+const headerClass = computed(() => {
+  if (route.path === '/') {
+    return isScrolled.value ? 'header header-white' : 'header header-blue'
+  }
+  return 'header header-white'
+})
+
+//logo change
+const logoSrc = computed(() => {
+  if (route.path === '/') {
+    return isScrolled.value
+      ? '/src/assets/ainewslogoblack.png'
+      : '/src/assets/ainewslogo.png'
+  }
+  return '/src/assets/ainewslogoblack.png'
+})
+</script>
+
 <style scoped>
 .header {
-  background-color: rgb(0, 98, 255);
   box-shadow: none !important;
-  border-bottom: 1px solid rgb(0, 98, 255);
+  border-bottom: 1px solid transparent;
   height: 100px;
   align-items: center;
   display: flex;
+  transition: background-color 0.3s ease, border-bottom 0.3s ease;
+}
+
+
+.header-blue {
+  background-color: rgb(0, 98, 255);
+  border-bottom: 1px solid rgb(0, 98, 255);
+}
+
+
+.header-white {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 }
 
 .title {
@@ -34,53 +88,47 @@
   margin-top: 10px;
   text-align: left;
   flex: 1;
-  /*Guranje elementa desno*/
   font-size: 20px;
   font-weight: bold;
 }
 
 
-
-/* linkovi */
 .toolbar-links {
   display: flex;
   gap: 10px;
-  /* Razmak izmedu linkova */
   align-items: center;
   margin-right: 310px !important;
+}
 
+.toolbar-link1,
+.toolbar-link2 {
+  text-decoration: none;
+  font-size: 16px;
 }
 
 .toolbar-link1 {
-  text-decoration: none;
   color: #ffffff;
-  font-size: 16px;
 }
 
-.toolbar-link1:hover {
-  text-decoration: underline;
-}
 .toolbar-link2 {
-  text-decoration: none;
   color: #ffffff;
-  font-size: 16px;
 }
 
+.header-white .toolbar-link1,
+.header-white .toolbar-link2 {
+  color: #000000;
+  
+}
+
+.toolbar-link1:hover,
 .toolbar-link2:hover {
   text-decoration: underline;
-  
 }
 
 .home-link {
   text-decoration: none;
-  color: #ffffff;
   font-size: 30px;
   font-weight: bold;
   align-items: center;
-
-}
-
-.home-link:hover {
-  text-decoration: none;
 }
 </style>
