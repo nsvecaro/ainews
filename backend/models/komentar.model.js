@@ -1,71 +1,47 @@
-const sql = require("./db.js");
+const db = require("../models/db.js");
 
-// Konstruktor za Komentar
-const Komentar = function(komentar) {
+const Komentar = function (komentar) {
   this.sadrzaj = komentar.sadrzaj;
-  this.datum_objave = komentar.datum_objave;
   this.ID_korisnika = komentar.ID_korisnika;
   this.ID_vijesti = komentar.ID_vijesti;
+  this.datum_objave = komentar.datum_objave || new Date();
 };
 
 // Kreiranje komentara
-Komentar.create = (noviKomentar, result) => {
-  sql.query("INSERT INTO RWA_komentar SET ?", noviKomentar, (err, res) => {
-    if (err) {
-      console.error("Greška prilikom stvaranja komentara: ", err);
-      result(err, null);
-      return;
-    }
-    console.log("Komentar kreiran: ", { ID_komentara: res.insertId, ...noviKomentar });
-    result(null, { ID_komentara: res.insertId, ...noviKomentar });
-  });
-};
-
-// Dohvat svih komentara
-Komentar.getAll = (result) => {
-  sql.query("SELECT * FROM RWA_komentar", (err, res) => {
-    if (err) {
-      console.error("Greška prilikom dohvaćanja komentara: ", err);
-      result(err, null);
-      return;
-    }
-    console.log("Komentari: ", res);
-    result(null, res);
-  });
-};
-
-// Dohvat komentara po ID-u vijesti
-Komentar.findByVijestId = (ID_vijesti, result) => {
-  sql.query(
-    "SELECT * FROM RWA_komentar WHERE ID_vijesti = ?",
-    [ID_vijesti],
+Komentar.createKomentar = (noviKomentar, result) => {
+  db.query(
+    `INSERT INTO RWA_komentar (sadrzaj, ID_korisnika, ID_vijesti) VALUES (?, ?, ?)`,
+    [noviKomentar.sadrzaj, noviKomentar.ID_korisnika, noviKomentar.ID_vijesti],
     (err, res) => {
       if (err) {
-        console.error("Greška prilikom dohvaćanja komentara: ", err);
+        console.error("Greška prilikom unosa komentara:", err);
         result(err, null);
         return;
       }
-      console.log("Komentari za vijest ID: ", ID_vijesti, res);
-      result(null, res);
+      console.log("Kreiran komentar:", { id: res.insertId, ...noviKomentar });
+      result(null, { id: res.insertId, ...noviKomentar });
     }
   );
 };
 
-// Brisanje komentara po ID-u
-Komentar.remove = (ID_komentara, result) => {
-  sql.query("DELETE FROM RWA_komentar WHERE ID_komentara = ?", [ID_komentara], (err, res) => {
-    if (err) {
-      console.error("Greška prilikom brisanja komentara: ", err);
-      result(err, null);
-      return;
+// dohvat komentara po vijesti
+Komentar.getKomentariByVijest = (ID_vijesti, result) => {
+  db.query(
+    `SELECT k.sadrzaj, k.datum_objave, k.ID_komentara, u.username 
+     FROM RWA_komentar k 
+     JOIN RWA_korisnik u ON k.ID_korisnika = u.ID_korisnika
+     WHERE k.ID_vijesti = ? 
+     ORDER BY k.datum_objave DESC`,
+    [ID_vijesti],
+    (err, res) => {
+      if (err) {
+        console.error("Greška prilikom dohvaćanja komentara:", err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
     }
-    if (res.affectedRows === 0) {
-      result({ kind: "not_found" }, null);
-      return;
-    }
-    console.log("Komentar obrisan s ID: ", ID_komentara);
-    result(null, res);
-  });
+  );
 };
 
 module.exports = Komentar;
