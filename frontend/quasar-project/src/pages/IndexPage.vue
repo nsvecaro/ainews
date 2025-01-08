@@ -5,8 +5,11 @@
       <div class="content">
         <div class="slideshow">
           <div class="new-button">New</div>
-          <p @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">
-            {{ latestNews.naslov }}
+          <p @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">{{ latestNews.naslov }}</p>
+          <p class="theme">
+          <ul>
+            <li>{{ latestNews.tema }}</li>
+          </ul>
           </p>
           <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image"
             @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">
@@ -68,7 +71,6 @@ import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  //NewsSlideshow
 import { useRouter } from 'vue-router';
 import Footer from '/src/pages/FooterPage.vue'; //Footer
 
-const scrolled = ref(false);
 const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
 const newsList = ref([]);
 const router = useRouter();
@@ -82,12 +84,27 @@ const navigateToNews = (id) => {
 const fetchNews = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/vijesti');
-    newsList.value = response.data; // Pohrani sve vijesti
+    newsList.value = await Promise.all(
+      response.data.map(async (newsItem) => {
+        const themeName = await fetchThemeName(newsItem.ID_teme);
+        return { ...newsItem, tema: themeName };
+      })
+    );
     if (newsList.value.length > 0) {
-      latestNews.value = newsList.value[0]; // Postavi najnoviju vijest
+      latestNews.value = newsList.value[0]; 
     }
   } catch (error) {
     console.error('Greška pri dohvaćanju vijesti:', error);
+  }
+};
+
+const fetchThemeName = async (temaId) => {
+  try {
+    const response = await axios.get(`http://localhost:3000/api/teme/${temaId}`);
+    return response.data.Naslov_teme; 
+  } catch (error) {
+    console.error('Greška pri dohvaćanju teme:', error);
+    return 'Nepoznata tema';
   }
 };
 
@@ -167,6 +184,7 @@ onMounted(() => {
   display: flex;
   background-color: #000000;
   margin-top: 0px;
+  margin-bottom: 20px;
   font-size: 12px;
   flex-direction: row;
   align-items: center;
@@ -177,6 +195,31 @@ onMounted(() => {
   padding: 5px 10px;
 
   box-shadow: 5px 5px 0 0 #FF8C00, 5px 5px 0 0 #FF8C00;
+}
+
+.theme {
+  margin: 15px 0px 0px 0px;
+  font-size: 12px !important;
+  border: 2px solid #fed8aa;
+  border-radius: 0px 0px 30px 0px;
+  background-color: #ffc987;
+  max-width: 200px;
+  width: 100px;
+  text-align: left;
+  color: black !important;
+  font-weight: 600 !important;
+}
+
+.theme ul {
+  list-style-type: disc;
+  padding-left: 20px;
+
+
+}
+
+.theme ul li::marker {
+  color: white;
+
 }
 
 

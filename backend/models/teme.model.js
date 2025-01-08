@@ -20,4 +20,20 @@ Teme.getAll = (naslov_teme, result) => {
     });
 }
 
+Teme.getById = (id, result) => {
+    sql.query("SELECT * FROM RWA_tema WHERE ID_teme = ?", [id], (err, res) => {
+        if(err){
+            console.error("Greška pri dohvaćanju teme:", err);
+            result(err, null);
+            return;
+        }
+
+        if(res.length){
+            result(null, res[0]);
+            return;
+        }
+        result({ kind: "not_found" }, null);
+    });
+}
+
 module.exports = Teme;

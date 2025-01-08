@@ -12,3 +12,21 @@ exports.getAll=(req,res)=>{
         }
     });
 }
+
+exports.getById=(req,res)=>{
+    teme.getById(req.params.id,(err,data)=>{
+        if(err){
+            if(err.kind === "not_found"){
+                res.status(404).send({
+                    message: `Tema s ID-em ${req.params.id} nije pronađena.`
+                });
+            }else{
+                res.status(500).send({
+                    message: `Greška pri dohvaćanju teme s ID-em ${req.params.id}`
+                });
+            }
+        }else{
+            res.send(data);
+        }
+    });
+}

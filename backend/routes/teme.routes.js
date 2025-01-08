@@ -5,5 +5,7 @@ module.exports = app => {
 
     router.get("/", teme.getAll);
 
+    router.get("/:id", teme.getById);
+
     app.use('/api/teme', router);
 }

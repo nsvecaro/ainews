@@ -59,7 +59,7 @@ Vijesti.findByID = (id, result) => {
 
 // Dohvati najnoviju vijest
 Vijesti.getLatest = (result) => {
-    sql.query("SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, autor, kategorija, datum_objave FROM RWA_vijest ORDER BY ID_vijesti DESC LIMIT 1", (err, res) => {
+    sql.query("SELECT ID_vijesti AS id, naslov, sadrzaj, slika_vijesti, autor, tema, datum_objave FROM RWA_vijest ORDER BY ID_vijesti DESC LIMIT 1", (err, res) => {
         if (err) {
             console.error("Greška pri dohvaćanju najnovije vijesti: ", err);
             result(err, null);
