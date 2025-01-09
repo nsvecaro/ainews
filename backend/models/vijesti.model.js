@@ -74,4 +74,30 @@ Vijesti.getLatest = (result) => {
     });
 };
 
+// Dohvati top 5 vijesti po broju komentara (u frontendu zasad prikazujem 4 posto u bazi ima 4 vijesti)
+Vijesti.getTopByKomentari = (result) => {
+    const query = `
+        SELECT 
+            v.ID_vijesti AS id, 
+            v.naslov AS title, 
+            v.slika_vijesti AS image, 
+            COUNT(k.ID_komentara) AS brojKomentara
+        FROM RWA_vijest v
+        LEFT JOIN RWA_komentar k ON v.ID_vijesti = k.ID_vijesti
+        GROUP BY v.ID_vijesti
+        ORDER BY brojKomentara DESC
+        LIMIT 5; 
+    `; 
+
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.error("Greška pri dohvaćanju top vijesti: ", err);
+            result(err, null);
+            return;
+        }
+
+        result(null, res);
+    });
+};
+
 module.exports = Vijesti;

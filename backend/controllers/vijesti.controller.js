@@ -81,3 +81,16 @@ exports.getAll = (req, res) => {
       }
     });
   };
+
+  // Dohvati top 5 vijesti po broju komentara
+exports.getTopByKomentari = (req, res) => {
+  Vijesti.getTopByKomentari((err, data) => {
+      if (err) {
+          res.status(500).send({
+              message: "Greška pri dohvaćanju top vijesti.",
+          });
+      } else {
+          res.send(data); 
+      }
+  });
+};
