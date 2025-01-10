@@ -71,9 +71,33 @@ exports.loginKorisnik = (req, res) => {
     req.session.korisnikId = korisnik.ID_korisnika; // Koristi ispravno ime atributa
     req.session.korisnikIme = korisnik.username;
 
+    // Pošaljemo podatke korisniku uključujući njegovu ulogu
     res.send({
       message: "Prijava uspješna",
       korisnikIme: korisnik.username,
+      uloga: korisnik.uloga,  // Dodajemo ulogu korisnika
     });
+  });
+};
+
+
+
+// Promjena korisničkog imena
+exports.updateUsername = (req, res) => {
+  const { id } = req.params;
+  const { newUsername } = req.body;
+
+  if (!newUsername) {
+    return res.status(400).send({ message: "Novo korisničko ime je obavezno!" });
+  }
+
+  Korisnik.updateUsername(id, newUsername, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        return res.status(404).send({ message: `Korisnik s ID-om ${id} nije pronađen.` });
+      }
+      return res.status(500).send({ message: "Greška prilikom ažuriranja korisničkog imena." });
+    }
+    res.send({ message: "Korisničko ime uspješno promijenjeno!", data });
   });
 };

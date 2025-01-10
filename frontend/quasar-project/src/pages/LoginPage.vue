@@ -64,8 +64,12 @@ async function onLogin(event) {
 
         alert(`Prijava uspješna! Dobrodošao, ${data.korisnikIme}`);
 
-        // Preusmjeravanje na glavnu stranicu ili korisnički profil
-        router.push('/');
+        // Preusmjeravanje na odgovarajuću stranicu na temelju uloge
+        if (data.uloga === 'Admin') {
+          router.push('/admin');
+        } else {
+          router.push('/user');
+        }
       } else {
         alert(`Greška prilikom prijave: ${data.message}`);
       }
@@ -75,6 +79,7 @@ async function onLogin(event) {
     }
   }
 }
+
 </script>
 
 <style>

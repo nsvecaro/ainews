@@ -112,6 +112,29 @@ Korisnik.loginKorisnik = (username, lozinka, result) => {
       }
     );
   };
-  
 
+  // Promjena korisničkog imena
+Korisnik.updateUsername = (id, newUsername, result) => {
+  db.query(
+    `UPDATE RWA_korisnik SET username = ? WHERE ID_korisnika = ?`,
+    [newUsername, id],
+    (err, res) => {
+      if (err) {
+        console.error("Greška prilikom ažuriranja korisničkog imena:", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.affectedRows === 0) {
+        result({ kind: "not_found" }, null); // Korisnik nije pronađen
+        return;
+      }
+
+      console.log("Korisničko ime uspješno ažurirano.");
+      result(null, { id, username: newUsername });
+    }
+  );
+};
+
+  
 module.exports = Korisnik;

@@ -9,5 +9,7 @@ module.exports = (app) => {
   // ruta za dohvat komentara za određenu vijest
   router.get("/:ID_vijesti", komentari.getKomentariByVijest);
 
+ 
+
   app.use("/api/komentar", router);
 };
