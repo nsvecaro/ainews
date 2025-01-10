@@ -82,7 +82,7 @@ async function onLogin(event) {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-height: 100vh;
+  min-height: 100vh;
   background-color: rgb(241, 241, 241);
   padding: 0;
 }
@@ -109,6 +109,7 @@ async function onLogin(event) {
   justify-content: center;
   align-items: center;
   width: 100%;
+  height: 100vh;
   background-color: #db0c0c00;
   border-radius: 50px;
   margin: 0;
@@ -137,10 +138,8 @@ async function onLogin(event) {
   font-size: 14px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  background: rgb(0, 98, 255) !important;
+  background: rgb(0, 0, 0) !important;
 }
-
-.login-btn:hover {}
 
 /*
 .footer {

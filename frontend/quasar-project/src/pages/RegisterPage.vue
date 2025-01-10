@@ -1,72 +1,63 @@
 <template>
   <q-page class="register-page">
-    <div class="register-container">
-      <div class="register-header text-h5 text-center q-mb-md">Enter credentials</div>
-      <div class="register-box">
-        <q-form @submit="onRegister">
-          <q-input
-            filled
-            v-model="username"
-            label="Username"
-            type="text"
-            dense
-            :rules="[val => !!val || 'Korisničko ime je obavezno']"
-            class="q-mb-md"
-          />
-          
-          <q-input
-            filled
-            v-model="email"
-            label="Email"
-            type="email"
-            dense
-            :rules="[
-              val => !!val || 'Email je obavezan',
-              val => /.+@.+\..+/.test(val) || 'Unesite ispravan email'
-            ]"
-            class="q-mb-md"
-          />
-          
-          <q-input
-            filled
-            v-model="password"
-            label="Password"
-            type="password"
-            dense
-            :rules="[val => !!val || 'Lozinka je obavezna']"
-            class="q-mb-md"
-          />
-          
-          <q-input
-            filled
-            v-model="confirmPassword"
-            label="Confirm password"
-            type="password"
-            dense
-            :rules="[
-              val => !!val || 'Potvrdite lozinku',
-              val => val === password || 'Lozinke se ne podudaraju'
-            ]"
-            class="q-mb-md"
-          />
+    <div class="register-box">
+      <div class="titlesign">Create an account<p>Enter your account details below</p></div>
+      <q-form @submit="onRegister">
+        <q-input
+          v-model="username"
+          label="Username"
+          type="text"
+          dense
+          :rules="[val => !!val || 'Username is required']"
+          class="q-mb-md"
+        />
 
-          <div class="text-center">
-            <q-btn
-              label="Register"
-              color="primary"
-              type="submit"
-              :disable="!isFormValid"
-              class="register-btn"
-            />
-          </div>
-        </q-form>
-      </div>
+        <q-input
+          v-model="email"
+          label="Email"
+          type="email"
+          dense
+          :rules="[
+            val => !!val || 'Email is required',
+            val => /.+@.+\..+/.test(val) || 'Enter a valid email'
+          ]"
+          class="q-mb-md"
+        />
+
+        <q-input
+          v-model="password"
+          label="Password"
+          type="password"
+          dense
+          :rules="[val => !!val || 'Password is required']"
+          class="q-mb-md"
+        />
+
+        <q-input
+          v-model="confirmPassword"
+          label="Confirm Password"
+          type="password"
+          dense
+          :rules="[
+            val => !!val || 'Please confirm your password',
+            val => val === password || 'Passwords do not match'
+          ]"
+          class="q-mb-md"
+        />
+
+        <div class="text-center">
+          <q-btn label="Register" color="primary" type="submit" class="register-btn" />
+        </div>
+      </q-form>
+      <div class="registerlink"><a href="#/login">Already have an account? Sign in</a></div>
     </div>
+    <Footer />
   </q-page>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import Footer from '/src/pages/FooterPage.vue';
 
 const username = ref('');
 const email = ref('');
@@ -128,27 +119,26 @@ async function onRegister(event) {
 .register-page {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #f5f5f5;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.register-container {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 500px;
-  padding: 20px;
+  min-height: 100vh;
+  background-color: rgb(241, 241, 241);
+  padding: 0;
 }
 
-.register-header {
-  margin-top: 50px;
-  margin-bottom: 1px;
+.q-form {
+  width: 400px;
+}
+
+.registerlink {
+  border-top: 1px solid rgba(0, 0, 0, 0.143);
+  width: 400px;
+  margin-top: 30px;
+  padding-top: 30px;
+}
+
+.registerlink a {
+  text-decoration: underline;
+  color: black;
 }
 
 .register-box {
@@ -157,79 +147,39 @@ async function onRegister(event) {
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 400px;
-  padding: 20px;
-  background-color: #ffffff00;
+  background-color: #db0c0c00;
   border-radius: 50px;
   margin: 0;
-  flex-grow: 1;
+  padding: 100px 70px 200px 70px;
+}
+
+.titlesign {
+  font-size: 26px;
+  font-weight: 525;
+  text-align: left;
+  align-self: left;
+  width: 400px;
+  margin-bottom: 30px;
+}
+
+.titlesign p {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .register-btn {
-  border-radius: 65px;
+  border-radius: 0px;
+  width: 100%;
   padding: 10px 20px;
   font-size: 14px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
-  background-color: rgb(0, 98, 255);
+  background: rgb(0, 0, 0) !important;
 }
 
 .register-btn:hover {
-  background-color: rgb(0, 98, 255);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.register-btn:disabled {
-  background-color: #d1d5db;
-  color: #9ca3af;
-  box-shadow: none;
-  cursor: not-allowed;
-}
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  background-color: black;
-  color: white;
-  padding: 0 20px;
-  box-sizing: border-box;
-  margin-top: 40px;
-}
-
-.footerinfo {
-  flex: 1;
-  text-align: left;
-  margin-left: 170px;
-}
-
-.footerinfo h3,
-.footerinfo p {
-  margin: 5px 0;
-}
-
-.socialmedia {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: left;
-  margin-right: 170px;
-}
-
-.socialmedia a {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-  color: white;
-}
-
-.socialmedia a:hover {
-  text-decoration: underline;
-}
-
-.socialmedia a img {
-  margin-right: 10px;
+  background-color: rgb(50, 50, 50) !important;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
 }
 </style>

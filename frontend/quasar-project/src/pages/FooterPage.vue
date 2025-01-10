@@ -19,11 +19,12 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 250px;
+  min-height: 275px;
   background-color: black;
   color: white;
-  padding: 0 20px;
+  padding: 20px;
   box-sizing: border-box;
+  margin-top: auto; /* Gura footer na dno */
 }
 
 .footerinfo {
