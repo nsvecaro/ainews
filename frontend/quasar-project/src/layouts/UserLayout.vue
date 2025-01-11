@@ -7,6 +7,7 @@
         </q-toolbar-title>
 
         <div class="toolbar-links">
+          <a href="#/user/forum" class="toolbar-link">Forum</a>
           <span class="username">{{ username }}</span> 
           <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" /> 
 
