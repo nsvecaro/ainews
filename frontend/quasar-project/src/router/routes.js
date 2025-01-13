@@ -18,9 +18,10 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('pages/ForumPage.vue') },
-      { path: 'accountsettings', name: 'userAccountSettings', component: () => import('pages/AccountSettingsPage.vue') } 
-    ],
-    meta: { layout: 'user' }
+      { path: 'accountsettings', name: 'userAccountSettings',  component: () => import('pages/UserAccountSettingsPage.vue') },
+      {  path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue')  },
+      {  path: 'accountsettings/change-password',  component: () => import('pages/ChangePassword.vue')  }
+    ]
   },
 
   {
@@ -30,9 +31,10 @@ const routes = [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('pages/ForumPage.vue') },
       { path: 'createnew', component: () => import('pages/CreateNewsPage.vue') },
-      { path: 'accountsettings', name: 'adminAccountSettings', component: () => import('pages/AccountSettingsPage.vue') } 
-    ],
-    meta: { layout: 'admin' }
+      { path: 'accountsettings',  name: 'adminAccountSettings',  component: () => import('pages/AdminAccountSettingsPage.vue') },
+      { path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue') },
+      { path: 'accountsettings/change-password',  component: () => import('pages/ChangePassword.vue') }
+    ]
   },
 
   {

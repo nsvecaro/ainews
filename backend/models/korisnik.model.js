@@ -133,8 +133,33 @@ Korisnik.updateUsername = (id, newUsername, result) => {
       console.log("Korisničko ime uspješno ažurirano.");
       result(null, { id, username: newUsername });
     }
+
+    
   );
 };
+// Ažuriranje lozinke korisnika
+Korisnik.updatePassword = (id, hashedPassword, result) => {
+  db.query(
+    `UPDATE RWA_korisnik SET lozinka = ? WHERE ID_korisnika = ?`,
+    [hashedPassword, id],
+    (err, res) => {
+      if (err) {
+        console.error("Greška prilikom ažuriranja lozinke:", err);
+        result(err, null);
+        return;
+      }
+
+      if (res.affectedRows === 0) {
+        result({ kind: "not_found" }, null); // Korisnik nije pronađen
+        return;
+      }
+
+      console.log("Lozinka uspješno ažurirana.");
+      result(null, { id });
+    }
+  );
+};
+
 
   
 module.exports = Korisnik;

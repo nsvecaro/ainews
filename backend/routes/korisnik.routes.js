@@ -9,6 +9,10 @@ module.exports = (app) => {
   // Ruta za dohvat svih korisnika
   router.get("/", korisnici.getKorisnik);
 
+  // Ruta za promjenu lozinke 
+router.put("/:id/password", korisnici.updatePassword);
+
+
   // Ruta za dohvat korisnika po ID-u
   router.get("/:id", korisnici.getKorisnikById);
 

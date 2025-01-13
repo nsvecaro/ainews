@@ -51,7 +51,6 @@ exports.getKorisnikById = (req, res) => {
 // Prijava korisnika
 exports.loginKorisnik = (req, res) => {
   const { username, lozinka } = req.body;
-
   if (!username || !lozinka) {
     return res.status(400).send({ message: "Username i lozinka su obavezni!" });
   }
@@ -83,6 +82,7 @@ exports.loginKorisnik = (req, res) => {
 
 
 // Promjena korisničkog imena
+// Promjena korisničkog imena
 exports.updateUsername = (req, res) => {
   const { id } = req.params;
   const { newUsername } = req.body;
@@ -99,5 +99,41 @@ exports.updateUsername = (req, res) => {
       return res.status(500).send({ message: "Greška prilikom ažuriranja korisničkog imena." });
     }
     res.send({ message: "Korisničko ime uspješno promijenjeno!", data });
+  });
+};
+
+// Promjena lozinke korisnika
+exports.updatePassword = (req, res) => {
+  const { id } = req.params;
+  const { currentPassword, newPassword } = req.body;
+
+  if (!currentPassword || !newPassword) {
+    return res.status(400).send({ message: "Trenutna i nova lozinka su obavezne!" });
+  }
+
+  Korisnik.getKorisnikById(id, async (err, korisnik) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        return res.status(404).send({ message: `Korisnik s ID-om ${id} nije pronađen.` });
+      }
+      return res.status(500).send({ message: "Greška prilikom dohvaćanja korisnika." });
+    }
+
+    // Provjera trenutne lozinke
+    const isMatch = await bcrypt.compare(currentPassword, korisnik.lozinka);
+    if (!isMatch) {
+      return res.status(401).send({ message: "Trenutna lozinka nije ispravna." });
+    }
+
+    // Hashiranje nove lozinke
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Ažuriranje lozinke u bazi
+    Korisnik.updatePassword(id, hashedPassword, (err, data) => {
+      if (err) {
+        return res.status(500).send({ message: "Greška prilikom ažuriranja lozinke." });
+      }
+      res.send({ message: "Lozinka uspješno promijenjena!" });
+    });
   });
 };

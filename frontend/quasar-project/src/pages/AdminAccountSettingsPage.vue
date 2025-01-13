@@ -6,17 +6,20 @@
           <p>All rights reserved by AINews &#169;</p>
         </div>
         <div class="user-options">
-          <a href="#" class="user-option">My Comments</a>
-          <a href="#" class="user-option">Change Username</a>
-          <a href="#" class="user-option">Change Password</a>
+            <a href="#" class="user-option">My Comments</a>
+          <router-link to="/admin/accountsettings/change-username" class="user-option">Change Username</router-link>
+          <router-link to="/admin/accountsettings/change-password" class="user-option">Change Password</router-link>
         </div>
       </div>
+  
+      <!-- Ovdje će se prikazivati sadržaj promjene korisničkog imena ili lozinke -->
+      <router-view></router-view>
     </q-page>
   </template>
   
   <script>
   export default {
-    // name: 'PageName',
+    name: 'AccountSettingsPage',
   }
   </script>
   
@@ -49,7 +52,7 @@
     flex-direction: column;
     gap: 5px;
     align-items: left;
-    margin-right: 170px; 
+    margin-right: 170px;
   }
   
   .user-option {
@@ -57,10 +60,11 @@
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: #212121; /* Optional background color for buttons */
+    background-color: #212121;
   }
   
   .user-option:hover {
-    background-color: #333333; /* Optional hover effect */
+    background-color: #333333;
   }
   </style>
+  
