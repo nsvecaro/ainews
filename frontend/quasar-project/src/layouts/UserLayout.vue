@@ -1,9 +1,11 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header class="header">
+    <q-header :class="headerClass">
       <q-toolbar>
         <q-toolbar-title class="title">
-          <a href="#/" class="home-link"><img src="/src/assets/ainewslogo.png" width="7%"></a>
+          <a href="#/" class="home-link">
+            <img :src="logoSrc" width="8.7%" />
+          </a>
         </q-toolbar-title>
 
         <div class="toolbar-links">
@@ -31,30 +33,58 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      username: 'Current Username', // Ovo treba biti povezano sa trenutnim korisnikom
-      showProfileMenu: false,
-    };
-  },
-  methods: {
-    toggleProfileMenu() {
-      this.showProfileMenu = !this.showProfileMenu;
-    }
-  },
+<script setup>
+import { ref } from 'vue'
+
+const username = 'Current Username'; // Replace with dynamic username
+const showProfileMenu = ref(false);
+
+const toggleProfileMenu = () => {
+  showProfileMenu.value = !showProfileMenu.value;
 };
+
+// Scroll logic
+import { computed, onMounted, onUnmounted } from 'vue';
+const isScrolled = ref(false);
+
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > window.innerHeight;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
+const headerClass = computed(() => {
+  return isScrolled.value ? 'header header-white' : 'header header-blue';
+});
+
+const logoSrc = computed(() => {
+  return isScrolled.value ? '/src/assets/ainewslogoblack.png' : '/src/assets/ainewslogo.png';
+});
 </script>
 
 <style scoped>
 .header {
-  background-color: rgb(0, 98, 255);
   box-shadow: none !important;
-  border-bottom: 1px solid rgb(0, 98, 255);
+  border-bottom: 1px solid transparent;
   height: 100px;
   align-items: center;
   display: flex;
+  transition: background-color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.header-blue {
+  background-color: rgb(0, 98, 255);
+  border-bottom: 1px solid rgb(0, 98, 255);
+}
+
+.header-white {
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
 }
 
 .title {
