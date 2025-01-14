@@ -44,4 +44,24 @@ Komentar.getKomentariByVijest = (ID_vijesti, result) => {
   );
 };
 
+// dohvat komentara za određenog korisnika
+Komentar.getKomentariByUser = (ID_korisnika, result) => {
+  db.query(
+    `SELECT k.sadrzaj, k.datum_objave, k.ID_komentara, v.naslov AS vijest_naslov 
+     FROM RWA_komentar k 
+     JOIN RWA_vijest v ON k.ID_vijesti = v.ID_vijesti
+     WHERE k.ID_korisnika = ? 
+     ORDER BY k.datum_objave DESC`,
+    [ID_korisnika],
+    (err, res) => {
+      if (err) {
+        console.error("Greška prilikom dohvaćanja komentara:", err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+    }
+  );
+};
+
 module.exports = Komentar;

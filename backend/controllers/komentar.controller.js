@@ -33,3 +33,16 @@ exports.getKomentariByVijest = (req, res) => {
     res.send(data);
   });
 };
+
+// nova metoda za dohvat komentara korisnika
+exports.getKomentariByUser = (req, res) => {
+  const ID_korisnika = req.params.ID_korisnika;
+  Komentar.getKomentariByUser(ID_korisnika, (err, data) => {
+    if (err) {
+      return res.status(500).send({
+        message: "Greška prilikom dohvaćanja komentara.",
+      });
+    }
+    res.send(data);
+  });
+};

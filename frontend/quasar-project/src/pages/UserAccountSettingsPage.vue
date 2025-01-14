@@ -6,7 +6,7 @@
         <p>All rights reserved by AINews &#169;</p>
       </div>
       <div class="user-options">
-        <a href="#" class="user-option">My Comments</a>
+        <router-link to="/user/accountsettings/my-comments" class="user-option">My Comments</router-link>
         <router-link to="/user/accountsettings/change-username" class="user-option">Change Username</router-link>
         <router-link to="/user/accountsettings/change-password" class="user-option">Change Password</router-link>
       </div>

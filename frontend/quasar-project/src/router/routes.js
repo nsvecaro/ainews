@@ -23,7 +23,8 @@ const routes = [
       { path: 'forum', component: () => import('src/pages/IndexForumPage.vue') },
       { path: 'accountsettings', name: 'userAccountSettings', component: () => import('pages/UserAccountSettingsPage.vue') },
       { path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue') },
-      { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') }
+      { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') },
+      { path: 'accountsettings/my-comments', name: 'myComments', component: () => import('pages/MyCommentsPage.vue') }  
     ]
   },
 
@@ -37,7 +38,8 @@ const routes = [
       { path: 'createnew', component: () => import('pages/CreateNewsPage.vue') },
       { path: 'accountsettings', name: 'adminAccountSettings', component: () => import('pages/AdminAccountSettingsPage.vue') },
       { path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue') },
-      { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') }
+      { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') },
+      { path: 'accountsettings/my-comments', name: 'adminMyComments', component: () => import('pages/MyCommentsPage.vue') }  
     ]
   },
 
