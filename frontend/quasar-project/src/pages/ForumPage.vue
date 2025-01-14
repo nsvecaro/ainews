@@ -33,25 +33,37 @@
   </q-page>
 </template>
 
+
 <script>
+import axios from 'axios';
+
 export default {
   name: "ForumPage",
   data() {
     return {
       forumName: '',
-      forumPosts: [
-        { id: 1, userName: "techguy42", title: "The Future of Web Development in Croatia", content: "Web development in Croatia is growing fast. New frameworks and technologies are emerging...", imageUrl: "https://via.placeholder.com/400x200?text=Web+Development+Image" },
-        { id: 2, userName: "devgal93", title: "AI in Croatian IT Industry", content: "AI is making huge strides in the Croatian IT industry...", imageUrl: "https://via.placeholder.com/400x200?text=AI+Image" },
-        { id: 3, userName: "codinghero", title: "Top Frontend Libraries to Learn in 2025", content: "In 2025, there are a few frontend libraries you should definitely learn...", imageUrl: "https://via.placeholder.com/400x200?text=Frontend+Libraries+Image" },
-      ],
+      forumPosts: []
     };
   },
   mounted() {
-    // uzima naziv foruma iz URL parametra
+    // Dohvaća forumName iz URL parametra
     this.forumName = this.$route.params.forumName;
+
+    // Poziv prema backendu za dohvaćanje foruma i njegovih objava
+    axios
+      .get(`http://localhost:3000/forumi/${this.forumName}`)
+      .then((response) => {
+        // Postavlja podatke s backenda
+        this.forumPosts = response.data.posts; // Pretpostavljamo da backend vraća "posts"
+      })
+      .catch((error) => {
+        console.error("Error fetching forum data:", error);
+      });
   },
 };
 </script>
+
+
 
 <style scoped>
 .forum-page {

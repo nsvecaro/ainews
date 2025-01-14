@@ -35,6 +35,7 @@ require("./routes/vijesti.routes.js")(app);
 require("./routes/korisnik.routes.js")(app);
 require("./routes/komentar.routes.js")(app);
 require("./routes/teme.routes.js")(app);
+require("./routes/forum.routes.js")(app);
 
 
 // Port
