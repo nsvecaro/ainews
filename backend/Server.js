@@ -7,21 +7,21 @@ const app = express();
 
 // CORS postavke
 app.use(cors({
-  origin: "http://localhost:9000",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // URL frontenda
-  credentials: true,  // Omogući dijeljenje kolačića/sesija
+  origin: "http://localhost:9000", 
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true, 
 }));
 
-// Middleware
+// Middleware za sesije
 app.use(
   session({
     secret: "secret_key", 
     resave: false,
     saveUninitialized: true,
-    cookie: { 
-      secure: true,
-      sameSite: 'None'
-    } 
+    cookie: {
+      secure: false, 
+      sameSite: 'Lax',
+    },
   })
 );
 
@@ -36,7 +36,6 @@ require("./routes/korisnik.routes.js")(app);
 require("./routes/komentar.routes.js")(app);
 require("./routes/teme.routes.js")(app);
 require("./routes/forum.routes.js")(app);
-
 
 // Port
 const PORT = process.env.PORT || 3000;

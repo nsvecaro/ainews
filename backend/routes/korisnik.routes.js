@@ -9,22 +9,23 @@ module.exports = (app) => {
   // Ruta za dohvat svih korisnika
   router.get("/", korisnici.getKorisnik);
 
-  // Ruta za promjenu lozinke 
-router.put("/:id/password", korisnici.updatePassword);
-
-
   // Ruta za dohvat korisnika po ID-u
   router.get("/:id", korisnici.getKorisnikById);
 
   // Ruta za prijavu korisnika
   router.post("/login", korisnici.loginKorisnik);
 
+  // Ruta za provjeru sesije
+  router.get("/session", korisnici.checkSession);
+
+  // Ruta za odjavu korisnika
+  router.post("/logout", korisnici.logoutKorisnik);
+
   // Ruta za promjenu korisničkog imena
   router.put("/:id/username", korisnici.updateUsername);
 
+  // Ruta za promjenu lozinke
+  router.put("/:id/password", korisnici.updatePassword);
 
   app.use("/api/korisnik", router);
 };
-
-
-

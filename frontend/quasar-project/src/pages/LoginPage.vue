@@ -37,7 +37,6 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import Footer from "/src/pages/FooterPage.vue"; // Footer komponenta
 
 const username = ref("");
 const lozinka = ref("");
@@ -48,11 +47,6 @@ async function onLogin(event) {
 
   if (username.value && lozinka.value) {
     try {
-      console.log("Šaljemo zahtjev za prijavu:", {
-        username: username.value,
-        lozinka: lozinka.value,
-      });
-
       const response = await fetch("http://localhost:3000/api/korisnik/login", {
         method: "POST",
         headers: {
@@ -66,31 +60,34 @@ async function onLogin(event) {
       });
 
       const data = await response.json();
-      console.log("Odgovor backend-a:", data);
 
       if (response.ok) {
-        // Pohrana podataka u localStorage
+        //postavljanje localstorage-a
         localStorage.setItem("username", data.korisnikIme);
-        localStorage.setItem("role", data.uloga);
+        localStorage.setItem("uloga", data.uloga);
 
         alert(`Prijava uspješna! Dobrodošao, ${data.korisnikIme}`);
 
-        // Preusmjeravanje na odgovarajuću stranicu na temelju uloge
         if (data.uloga === "Admin") {
-          router.push("/admin"); // Ruta za admin korisnika
+          router.push("/admin"); 
+        } else if (data.uloga === "User") {
+          router.push("/user"); 
         } else {
-          router.push("/user"); // Ruta za običnog korisnika
+          alert("Nepoznata uloga, molimo kontaktirajte podršku.");
         }
       } else {
         alert(`Greška prilikom prijave: ${data.message}`);
       }
     } catch (error) {
-      console.error("Greška prilikom komunikacije s backend-om:", error);
-      alert("Greška prilikom prijave. Pokušajte ponovno.");
+      console.error("Greška:", error);
+      alert("Došlo je do pogreške. Pokušajte ponovno.");
     }
   }
 }
+
+
 </script>
+
 
 <style>
 .login-page {

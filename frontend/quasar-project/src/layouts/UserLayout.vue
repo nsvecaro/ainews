@@ -4,23 +4,22 @@
       <q-toolbar>
         <q-toolbar-title class="title">
           <a href="#/" class="home-link">
-            <img :src="logoSrc" width="8.7%" />
+            <img :src="logoSrc" width="7%" />
           </a>
         </q-toolbar-title>
 
         <div class="toolbar-links">
-          <a href="#/user/forum" class="toolbar-link">Forum</a>
-          <span class="username">{{ username }}</span> 
-          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" /> 
-
+          <a href="#/user/forum" class="toolbar-link1">Forum</a>
+          <span :class="usernameClass">{{ username }}</span>
+          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" />
           <q-menu v-if="showProfileMenu" anchor="bottom right" self="bottom left">
             <q-list>
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup @click="logout">
                 <q-item-section>Logout</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup to="/user/accountsettings"> 
+              <q-item clickable v-close-popup to="/user/accountsettings">
                 <q-item-section>Account Settings</q-item-section>
-              </q-item> 
+              </q-item>
             </q-list>
           </q-menu>
         </div>
@@ -34,40 +33,75 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { useRoute, useRouter } from "vue-router";
+import { computed, ref, onMounted, onUnmounted } from "vue";
 
-const username = 'Current Username'; // Replace with dynamic username
+const username = ref(localStorage.getItem("username") || "User");
 const showProfileMenu = ref(false);
+const router = useRouter();
 
-const toggleProfileMenu = () => {
-  showProfileMenu.value = !showProfileMenu.value;
-};
-
-// Scroll logic
-import { computed, onMounted, onUnmounted } from 'vue';
+// Scroll handling
 const isScrolled = ref(false);
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > window.innerHeight;
 };
 
-onMounted(() => {
-  window.addEventListener('scroll', handleScroll);
-});
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
+const route = useRoute();
+const isIndexPage = computed(() => route.path === "/user"); 
+const headerClass = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value ? "header header-white" : "header header-blue";
+  }
+  return "header header-white"; 
 });
 
-const headerClass = computed(() => {
-  return isScrolled.value ? 'header header-white' : 'header header-blue';
+const usernameClass = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value ? "username username-black" : "username username-white";
+  }
+  return "username username-black"; 
 });
 
 const logoSrc = computed(() => {
-  return isScrolled.value ? '/src/assets/ainewslogoblack.png' : '/src/assets/ainewslogo.png';
+  if (isIndexPage.value) {
+    return isScrolled.value
+      ? "/src/assets/ainewslogoblack.png"
+      : "/src/assets/ainewslogo.png";
+  }
+  return "/src/assets/ainewslogoblack.png"; 
 });
+
+
+onMounted(() => {
+  window.addEventListener("scroll", handleScroll);
+});
+onUnmounted(() => {
+  window.removeEventListener("scroll", handleScroll);
+});
+
+
+const toggleProfileMenu = () => {
+  showProfileMenu.value = !showProfileMenu.value;
+};
+
+
+const logout = async () => {
+  try {
+    await fetch("http://localhost:3000/api/korisnik/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+    localStorage.clear();
+    router.push("/"); 
+  } catch (error) {
+    console.error("Greška prilikom odjave:", error);
+  }
+};
 </script>
 
 <style scoped>
+/* Header styling */
 .header {
   box-shadow: none !important;
   border-bottom: 1px solid transparent;
@@ -100,37 +134,47 @@ const logoSrc = computed(() => {
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-right: 300px;
+  margin-right: 310px !important;
 }
 
-.toolbar-link {
+.toolbar-link1 {
   text-decoration: none;
-  color: #ffffff;
   font-size: 16px;
 }
 
-.toolbar-link:hover {
+.toolbar-link1 {
+  color: #ffffff;
+}
+
+.header-white .toolbar-link1 {
+  color: #000000;
+}
+
+.toolbar-link1:hover {
   text-decoration: underline;
 }
 
 .home-link {
   text-decoration: none;
-  color: #ffffff;
   font-size: 30px;
   font-weight: bold;
-}
-
-.home-link:hover {
-  text-decoration: none;
-}
-
-.profile-icon {
-  margin-left: 10px;
-  cursor: pointer;
+  align-items: center;
 }
 
 .username {
-  margin-left: 5px;
+  margin-right: 10px;
+  transition: color;
+}
+
+.username-white {
   color: #ffffff;
+}
+
+.username-black {
+  color: #000000;
+}
+
+.profile-icon {
+  cursor: pointer;
 }
 </style>

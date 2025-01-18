@@ -1,11 +1,11 @@
 const Korisnik = require("../models/korisnik.model.js");
+const bcrypt = require("bcrypt");
 
 // Kreiranje korisnika
 exports.createKorisnik = (req, res) => {
   if (!req.body) {
     return res.status(400).send({ message: "Podaci ne mogu biti prazni!" });
   }
-//console log za provjeru maknut jer radi
 
   const korisnik = {
     username: req.body.username,
@@ -66,22 +66,42 @@ exports.loginKorisnik = (req, res) => {
       }
     }
 
-    // Pohrani korisničke podatke u sesiju
-    req.session.korisnikId = korisnik.ID_korisnika; // Koristi ispravno ime atributa
+    req.session.korisnikId = korisnik.id;
     req.session.korisnikIme = korisnik.username;
+    req.session.uloga = korisnik.uloga;
 
-    // Pošaljemo podatke korisniku uključujući njegovu ulogu
     res.send({
       message: "Prijava uspješna",
       korisnikIme: korisnik.username,
-      uloga: korisnik.uloga,  // Dodajemo ulogu korisnika
+      uloga: korisnik.uloga,
     });
   });
 };
 
+// Provjera sesije
+exports.checkSession = (req, res) => {
+  if (req.session.korisnikId) {
+    res.send({
+      isLoggedIn: true,
+      korisnikIme: req.session.korisnikIme,
+      uloga: req.session.uloga,
+    });
+  } else {
+    res.send({ isLoggedIn: false });
+  }
+};
 
+// Odjava korisnika
+exports.logoutKorisnik = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).send({ message: "Greška prilikom odjave." });
+    }
+    res.clearCookie("connect.sid");
+    res.send({ message: "Odjava uspješna." });
+  });
+};
 
-// Promjena korisničkog imena
 // Promjena korisničkog imena
 exports.updateUsername = (req, res) => {
   const { id } = req.params;
@@ -119,16 +139,13 @@ exports.updatePassword = (req, res) => {
       return res.status(500).send({ message: "Greška prilikom dohvaćanja korisnika." });
     }
 
-    // Provjera trenutne lozinke
     const isMatch = await bcrypt.compare(currentPassword, korisnik.lozinka);
     if (!isMatch) {
       return res.status(401).send({ message: "Trenutna lozinka nije ispravna." });
     }
 
-    // Hashiranje nove lozinke
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Ažuriranje lozinke u bazi
     Korisnik.updatePassword(id, hashedPassword, (err, data) => {
       if (err) {
         return res.status(500).send({ message: "Greška prilikom ažuriranja lozinke." });

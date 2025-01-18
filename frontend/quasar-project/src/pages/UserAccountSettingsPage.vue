@@ -17,11 +17,32 @@
   </q-page>
 </template>
 
-<script>
-export default {
-  name: 'AccountSettingsPage',
+<script setup>
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+async function onLogout() {
+  try {
+    const response = await fetch("http://localhost:3000/api/korisnik/logout", {
+      method: "POST",
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      localStorage.clear();
+      alert("Odjava uspješna!");
+      router.push("/login");
+    } else {
+      alert("Greška prilikom odjave.");
+    }
+  } catch (error) {
+    console.error("Greška:", error);
+    alert("Pokušajte ponovno.");
+  }
 }
 </script>
+
 
 <style scoped>
 .footer {

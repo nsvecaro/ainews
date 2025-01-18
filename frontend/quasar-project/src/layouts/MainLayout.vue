@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-toolbar-title class="title">
           <a href="#/" class="home-link">
-            <img :src="logoSrc" width="7%">
+            <img :src="logoSrc" width="6%">
           </a>
         </q-toolbar-title>
 

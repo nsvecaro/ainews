@@ -7,12 +7,12 @@ const routes = [
       { path: 'forum', component: () => import('src/pages/IndexForumPage.vue') },
       { path: 'forum/:forumName', name: 'ForumPage', component: () => import('src/pages/ForumPage.vue') },
       { path: 'forum/:forumName/:postId', name: 'ForumObjava', component: () => import('src/pages/ForumObjavaPage.vue') },
-      { path: 'forum/create', name: 'CreateForumObjava', component: () => import('src/pages/CreateForumObjavaPage.vue') }, 
+      { path: 'forum/create', name: 'CreateForumObjava', component: () => import('src/pages/CreateForumObjavaPage.vue') },
       { path: 'login', component: () => import('pages/LoginPage.vue') },
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       { path: 'vijesti', component: () => import('pages/VijestiPage.vue') },
-      { path: 'vijesti/:id', name: 'VijestiPage', component: () => import('pages/VijestiPage.vue') }
-    ]
+      { path: 'vijesti/:id', name: 'VijestiPage', component: () => import('pages/VijestiPage.vue') },
+    ],
   },
 
   {
@@ -21,11 +21,13 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('src/pages/IndexForumPage.vue') },
+      { path: 'vijesti', component: () => import('pages/VijestiPage.vue') },
+      { path: 'vijesti/:id', name: 'UserVijestiPage', component: () => import('pages/VijestiPage.vue') },
       { path: 'accountsettings', name: 'userAccountSettings', component: () => import('pages/UserAccountSettingsPage.vue') },
       { path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue') },
       { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') },
-      { path: 'accountsettings/my-comments', name: 'myComments', component: () => import('pages/MyCommentsPage.vue') }  
-    ]
+      { path: 'accountsettings/my-comments', name: 'myComments', component: () => import('pages/MyCommentsPage.vue') },
+    ],
   },
 
   {
@@ -34,20 +36,21 @@ const routes = [
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: 'forum', component: () => import('src/pages/IndexForumPage.vue') },
-      { path: 'forum/create', name: 'AdminCreateForumObjava', component: () => import('src/pages/CreateForumObjavaPage.vue') }, 
+      { path: 'forum/create', name: 'AdminCreateForumObjava', component: () => import('src/pages/CreateForumObjavaPage.vue') },
+      { path: 'vijesti', component: () => import('pages/VijestiPage.vue') },
+      { path: 'vijesti/:id', name: 'AdminVijestiPage', component: () => import('pages/VijestiPage.vue') },
       { path: 'createnew', component: () => import('pages/CreateNewsPage.vue') },
       { path: 'accountsettings', name: 'adminAccountSettings', component: () => import('pages/AdminAccountSettingsPage.vue') },
       { path: 'accountsettings/change-username', component: () => import('pages/ChangeUsername.vue') },
       { path: 'accountsettings/change-password', component: () => import('pages/ChangePassword.vue') },
-      { path: 'accountsettings/my-comments', name: 'adminMyComments', component: () => import('pages/MyCommentsPage.vue') }  
-    ]
+      { path: 'accountsettings/my-comments', name: 'adminMyComments', component: () => import('pages/MyCommentsPage.vue') },
+    ],
   },
 
-  // Rutanje za stranice koje ne postoje (404)
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue')
-  }
+    component: () => import('pages/ErrorNotFound.vue'),
+  },
 ];
 
 export default routes;

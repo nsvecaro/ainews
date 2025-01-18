@@ -75,8 +75,16 @@ const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
 const newsList = ref([]);
 const router = useRouter();
 
+
 const navigateToNews = (id) => {
-  router.push(`/vijesti/${id}`);
+  const role = localStorage.getItem('uloga'); 
+  if (role === 'User') {
+    router.push(`/user/vijesti/${id}`);
+  } else if (role === 'Admin') {
+    router.push(`/admin/vijesti/${id}`); 
+  } else {
+    router.push(`/vijesti/${id}`); 
+  }
 };
 
 
