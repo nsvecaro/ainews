@@ -5,6 +5,9 @@ module.exports = (app) => {
 
   // Ruta za kreiranje korisnika
   router.post("/", korisnici.createKorisnik);
+  
+  // Ruta za provjeru sesije
+  router.get("/session", korisnici.checkSession);
 
   // Ruta za dohvat svih korisnika
   router.get("/", korisnici.getKorisnik);
@@ -15,8 +18,8 @@ module.exports = (app) => {
   // Ruta za prijavu korisnika
   router.post("/login", korisnici.loginKorisnik);
 
-  // Ruta za provjeru sesije
-  router.get("/session", korisnici.checkSession);
+
+  
 
   // Ruta za odjavu korisnika
   router.post("/logout", korisnici.logoutKorisnik);

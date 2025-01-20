@@ -2,13 +2,17 @@ const Komentar = require("../models/komentar.model.js");
 
 // kreiranje komentara
 exports.createKomentar = (req, res) => {
-  if (!req.body.sadrzaj || !req.body.ID_vijesti || !req.body.ID_korisnika) {
+  if (!req.session || !req.session.korisnikId) {
+    return res.status(401).send({ message: "Korisnik nije prijavljen." });
+  }
+
+  if (!req.body.sadrzaj || !req.body.ID_vijesti) {
     return res.status(400).send({ message: "Svi podaci su obavezni!" });
   }
 
   const komentar = new Komentar({
     sadrzaj: req.body.sadrzaj,
-    ID_korisnika: req.body.ID_korisnika,
+    ID_korisnika: req.session.korisnikId,
     ID_vijesti: req.body.ID_vijesti,
   });
 
@@ -18,7 +22,7 @@ exports.createKomentar = (req, res) => {
         message: "Greška prilikom kreiranja komentara.",
       });
     }
-    res.send(data);
+    res.send({ ...data, username: req.session.korisnikIme }); // Dodaj korisničko ime iz sesije
   });
 };
 

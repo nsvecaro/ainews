@@ -27,7 +27,7 @@ app.use(
       secure: false,
       httpOnly: true,
       sameSite: "Lax",
-      maxAge: 24 * 60 * 60 * 1000, //1 dan
+      maxAge: 2 * 60 * 60 * 1000, // 2 sata
     },
   })
 );

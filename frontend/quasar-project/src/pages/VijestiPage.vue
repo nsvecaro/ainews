@@ -36,13 +36,8 @@
           </div>
         </div>
         <form @submit.prevent="posaljiKomentar" id="formaKomentar">
-          <textarea
-            v-model="noviKomentar.sadrzaj"
-            placeholder="Enter your comment..."
-            required
-            rows="4"
-            class="textarea"
-          ></textarea>
+          <textarea v-model="noviKomentar.sadrzaj" placeholder="Enter your comment..." required rows="4"
+            class="textarea"></textarea>
           <button type="submit" class="submit-button">Send</button>
         </form>
       </div>
@@ -56,15 +51,15 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
-import Footer from '/src/pages/FooterPage.vue'; 
+import Footer from '/src/pages/FooterPage.vue';
 
 const vijest = ref({});
 const loading = ref(true);
 const error = ref(null);
 
-const komentari = ref([]); 
-const noviKomentar = ref({ sadrzaj: '', ID_korisnika: 1, ID_vijesti: null }); 
-const loadingKomentari = ref(true); 
+const komentari = ref([]);
+const noviKomentar = ref({ sadrzaj: '', ID_korisnika: 1, ID_vijesti: null });
+const loadingKomentari = ref(true);
 
 const route = useRoute();
 const id = route.params.id;
@@ -98,16 +93,19 @@ const posaljiKomentar = async () => {
   if (!noviKomentar.value.sadrzaj.trim()) return;
 
   try {
-    localStorage.setItem('scrollPosition', window.scrollY);
-    const response = await axios.post('http://localhost:3000/api/komentar', {
-      ...noviKomentar.value,
-      ID_vijesti: id, 
-    });
+    const response = await axios.post(
+      "http://localhost:3000/api/komentar",
+      {
+        sadrzaj: noviKomentar.value.sadrzaj,
+        ID_vijesti: id,
+      },
+      {
+        withCredentials: true, // Osigurava slanje kolačića
+      }
+    );
 
-    komentari.value.unshift(response.data); // dodaj novi comment na vrh
-    noviKomentar.value.sadrzaj = ''; 
-   
-    window.location.reload();
+    komentari.value.unshift(response.data);
+    noviKomentar.value.sadrzaj = '';
   } catch (error) {
     console.error('Greška prilikom slanja komentara:', error);
   }
@@ -124,7 +122,7 @@ onMounted(async () => {
   if (scrollPosition) {
     nextTick(() => {
       window.scrollTo(0, parseInt(scrollPosition, 10));
-      localStorage.removeItem('scrollPosition'); 
+      localStorage.removeItem('scrollPosition');
     });
   }
 });
@@ -155,12 +153,13 @@ const formatDate = (dateString) => {
   width: 100%;
   object-fit: cover;
 }
+
 .news-content {
-  margin: 50px auto; 
+  margin: 50px auto;
   text-align: justify;
   font-size: medium;
   padding: 20px;
-  max-width: 800px; 
+  max-width: 800px;
 }
 
 .q-parallax {
@@ -170,12 +169,14 @@ const formatDate = (dateString) => {
   max-width: 100%;
   overflow: hidden;
 }
+
 .meta {
   margin-top: 10px;
   margin-bottom: 50px;
   text-align: center;
   color: rgb(126, 126, 126);
 }
+
 .gradient {
   position: absolute;
   bottom: 0;
@@ -204,11 +205,11 @@ const formatDate = (dateString) => {
 }
 
 .comments-section {
-  margin: 30px auto; 
+  margin: 30px auto;
   padding: 20px;
   background-color: #f9f9f9;
   border-radius: 8px;
-  max-width: 800px; 
+  max-width: 800px;
 }
 
 .komentar {
