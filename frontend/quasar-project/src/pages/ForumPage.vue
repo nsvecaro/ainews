@@ -46,15 +46,15 @@ export default {
     };
   },
   mounted() {
-    // Dohvaća forumName iz URL parametra
+    // Dohvaća forumName iz URLa
     this.forumName = this.$route.params.forumName;
 
-    // Poziv prema backendu za dohvaćanje foruma i njegovih objava
+    
     axios
       .get(`http://localhost:3000/forumi/${this.forumName}`)
       .then((response) => {
-        // Postavlja podatke s backenda
-        this.forumPosts = response.data.posts; // Pretpostavljamo da backend vraća "posts"
+        
+        this.forumPosts = response.data.posts; 
       })
       .catch((error) => {
         console.error("Error fetching forum data:", error);

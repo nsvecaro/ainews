@@ -12,6 +12,12 @@ module.exports = (app) => {
     // Dohvati forum prema ID-u
     router.get("/:id", forum.findByID);
 
+    // Dohvati top diskusije
+    router.get("/top/discussions", forum.getTopDiscussions);
+
+    // Dohvati najnovije diskusije
+    router.get("/newest/discussions", forum.getNewestDiscussions);
+
     // Ažuriraj forum
     router.put("/:id", forum.update);
 

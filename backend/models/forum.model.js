@@ -11,7 +11,6 @@ const Forum = function(forum) {
 Forum.create = (newForum, result) => {
     const query = "INSERT INTO RWA_forum (Naziv, Opis, Ikona) VALUES (?, ?, ?)";
     const values = [newForum.naziv, newForum.opis, newForum.ikona];
-
     sql.query(query, values, (err, res) => {
         if (err) {
             console.error("Greška pri kreiranju foruma: ", err);
@@ -20,10 +19,7 @@ Forum.create = (newForum, result) => {
         }
         console.log("Uspješno kreiran forum: ", { id: res.insertId, ...newForum });
         result(null, { id: res.insertId, ...newForum });
-       
     });
-    
-
 };
 
 // Dohvati sve forume
@@ -52,6 +48,46 @@ Forum.findByID = (id, result) => {
             return;
         }
         result({ kind: "not_found" }, null);
+    });
+};
+
+// Dohvati top 5 foruma s najviše objava
+Forum.getTopDiscussions = (result) => {
+    const query = `
+        SELECT f.ID_foruma, f.Naziv, f.Opis, COUNT(o.ID_objave) AS broj_objava
+        FROM RWA_forum f
+        LEFT JOIN RWA_forum_objava o ON f.ID_foruma = o.ID_foruma
+        GROUP BY f.ID_foruma
+        ORDER BY broj_objava DESC
+        LIMIT 5;
+    `;
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.error("Greška pri dohvaćanju top diskusija: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+// Dohvati forume s najnovijim objavama
+Forum.getNewestDiscussions = (result) => {
+    const query = `
+        SELECT f.ID_foruma, f.Naziv, f.Opis, MAX(o.Datum_objave) AS najnovija_objava
+        FROM RWA_forum f
+        LEFT JOIN RWA_forum_objava o ON f.ID_foruma = o.ID_foruma
+        GROUP BY f.ID_foruma
+        ORDER BY najnovija_objava DESC
+        LIMIT 5;
+    `;
+    sql.query(query, (err, res) => {
+        if (err) {
+            console.error("Greška pri dohvaćanju najnovijih diskusija: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
     });
 };
 

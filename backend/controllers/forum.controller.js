@@ -50,6 +50,28 @@ exports.findByID = (req, res) => {
     });
 };
 
+// Dohvati top 5 diskusija
+exports.getTopDiscussions = (req, res) => {
+    Forum.getTopDiscussions((err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Greška pri dohvaćanju top diskusija.",
+            });
+        else res.send(data);
+    });
+};
+
+// Dohvati najnovije diskusije
+exports.getNewestDiscussions = (req, res) => {
+    Forum.getNewestDiscussions((err, data) => {
+        if (err)
+            res.status(500).send({
+                message: err.message || "Greška pri dohvaćanju najnovijih diskusija.",
+            });
+        else res.send(data);
+    });
+};
+
 // Ažuriranje foruma
 exports.update = (req, res) => {
     if (!req.body.naziv) {

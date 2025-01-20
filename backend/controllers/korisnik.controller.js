@@ -51,6 +51,7 @@ exports.getKorisnikById = (req, res) => {
 // Prijava korisnika
 exports.loginKorisnik = (req, res) => {
   const { username, lozinka } = req.body;
+
   if (!username || !lozinka) {
     return res.status(400).send({ message: "Username i lozinka su obavezni!" });
   }
@@ -66,9 +67,12 @@ exports.loginKorisnik = (req, res) => {
       }
     }
 
+    // Pohrana podataka u sesiju
     req.session.korisnikId = korisnik.id;
     req.session.korisnikIme = korisnik.username;
     req.session.uloga = korisnik.uloga;
+
+    console.log("Sesija nakon prijave:", req.session);
 
     res.send({
       message: "Prijava uspješna",
@@ -80,14 +84,19 @@ exports.loginKorisnik = (req, res) => {
 
 // Provjera sesije
 exports.checkSession = (req, res) => {
-  if (req.session.korisnikId) {
+  console.log("=== /session endpoint ===");
+  console.log("Dolazni kolačići:", req.headers.cookie);
+  console.log("Sesija:", req.session);
+  console.log("Session ID:", req.sessionID);
+
+  if (req.session && req.session.korisnikId) {
     res.send({
       isLoggedIn: true,
       korisnikIme: req.session.korisnikIme,
       uloga: req.session.uloga,
     });
   } else {
-    res.send({ isLoggedIn: false });
+    res.status(404).send({ message: "Korisnik nije pronađen ili sesija nije dostupna." });
   }
 };
 
