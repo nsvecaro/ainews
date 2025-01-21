@@ -19,6 +19,8 @@ module.exports = (app) => {
     // Dohvati vijest po ID-u (dinamicna ruta mora dolazit zadnja!!)
     router.get("/:id", vijesti.findByID);
 
+    router.get("/tema/:id", vijesti.findByTema);
+
     // Upload slike
     router.post('/upload-image', upload.single('image'), (req, res) => {
         if (!req.file) {

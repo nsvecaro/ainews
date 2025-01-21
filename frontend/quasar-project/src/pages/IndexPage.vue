@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center">
-    <!-- Plavi dio stranice-->
+    <!-- Plavi dio stranice -->
     <div class="front-page">
       <div class="content">
         <div class="slideshow">
@@ -20,30 +20,31 @@
               <li><img src="/src/assets/geminilogo.png" width="20px"> &nbsp;Gemini</li>
               <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
               <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
-              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
-              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Main content-->
+    <!-- Main content -->
     <div class="main-content">
-
       <div class="newsbox">
         <NewsSlideshow />
       </div>
     </div>
+
+    <!-- Navigacijska traka za teme -->
     <div class="theme-bar">
       <ul class="theme-bar-links">
-        <li><a href="www.openai.com">OpenAi</a></li>
-        <li><a href="www.google.com">Google</a></li>
-        <li><a href="www.blackbox.com">Blackbox</a></li>
-        <li><a href="www.ibm.com">IBM</a></li>
+        <li v-for="tema in teme" :key="tema.ID_teme">
+          <router-link :to="`/theme/${tema.ID_teme}`">
+            {{ tema.Naslov_teme }}
+          </router-link>
+        </li>
       </ul>
-
     </div>
+
+    <!-- Lista vijesti -->
     <div class="news-list-main">
       <div class="news-list">
         <div class="news-grid">
@@ -57,36 +58,37 @@
         </div>
       </div>
     </div>
+
     <!-- FOOTER -->
     <Footer />
   </q-page>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import NewsSlideshow from '/src/pages/NewsSlideshow.vue';  //NewsSlideshow
+import NewsSlideshow from '/src/pages/NewsSlideshow.vue'; // Komponenta za slideshow vijesti
 import { useRouter } from 'vue-router';
-import Footer from '/src/pages/FooterPage.vue'; //Footer
+import Footer from '/src/pages/FooterPage.vue'; // Footer komponenta
 
-const latestNews = ref({ naslov: '', slika_vijesti: '' }); // latestNews
-const newsList = ref([]);
+const latestNews = ref({ naslov: '', slika_vijesti: '' }); // Pohrana najnovije vijesti
+const newsList = ref([]); // Pohrana liste vijesti
+const teme = ref([]); // Pohrana tema
 const router = useRouter();
 
-
+// Navigacija na pojedinu vijest prema ID-u
 const navigateToNews = (id) => {
-  const role = localStorage.getItem('uloga'); 
+  const role = localStorage.getItem('uloga');
   if (role === 'User') {
     router.push(`/user/vijesti/${id}`);
   } else if (role === 'Admin') {
-    router.push(`/admin/vijesti/${id}`); 
+    router.push(`/admin/vijesti/${id}`);
   } else {
-    router.push(`/vijesti/${id}`); 
+    router.push(`/vijesti/${id}`);
   }
 };
 
-
-// najnovija vijest
+// Dohvat svih vijesti
 const fetchNews = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/vijesti');
@@ -97,27 +99,39 @@ const fetchNews = async () => {
       })
     );
     if (newsList.value.length > 0) {
-      latestNews.value = newsList.value[0]; 
+      latestNews.value = newsList.value[0];
     }
   } catch (error) {
     console.error('Greška pri dohvaćanju vijesti:', error);
   }
 };
 
+// Dohvat naslova teme prema ID-u teme
 const fetchThemeName = async (temaId) => {
   try {
     const response = await axios.get(`http://localhost:3000/api/teme/${temaId}`);
-    return response.data.Naslov_teme; 
+    return response.data.Naslov_teme;
   } catch (error) {
     console.error('Greška pri dohvaćanju teme:', error);
     return 'Nepoznata tema';
   }
 };
 
-onMounted(() => {
-  fetchNews(); // Poziv za get najnovije vijesti
-});
+// Dohvat svih tema
+const fetchTeme = async () => {
+  try {
+    const response = await axios.get('http://localhost:3000/api/teme');
+    teme.value = response.data;
+  } catch (error) {
+    console.error('Greška pri dohvaćanju tema:', error);
+  }
+};
 
+// Kada se komponenta učita, dohvaćaju se podaci
+onMounted(() => {
+  fetchNews(); // Dohvaća vijesti
+  fetchTeme(); // Dohvaća teme
+});
 </script>
 
 <style scoped>
@@ -290,10 +304,10 @@ onMounted(() => {
 
 .theme-bar-links {
   list-style: none;
-  padding: 0px;
-  margin: 0px;
+  padding: 5px;
+  margin: 0px 300px 0px 300px;
   align-items: center;
-  font-size: 18px;
+  font-size: 16px;
 
 }
 
@@ -305,6 +319,7 @@ onMounted(() => {
 .theme-bar-links a {
   text-decoration: none;
   color: white;
+  padding: 4px;
 }
 
 .theme-bar-links a:hover {

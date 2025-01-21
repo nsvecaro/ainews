@@ -100,4 +100,23 @@ Vijesti.getTopByKomentari = (result) => {
     });
 };
 
+// Dohvati vijesti po temi
+Vijesti.findByTema = (temaId, result) => {
+    const query = "SELECT * FROM RWA_vijest WHERE ID_teme = ? ORDER BY datum_objave DESC";
+    sql.query(query, [temaId], (err, res) => {
+      if (err) {
+        console.error("Greška pri dohvaćanju vijesti za temu:", err);
+        result(err, null);
+        return;
+      }
+  
+      if (res.length) {
+        result(null, res);
+        return;
+      }
+  
+      result({ kind: "not_found" }, null);
+    });
+  };
+
 module.exports = Vijesti;

@@ -12,6 +12,8 @@ const routes = [
       { path: 'register', component: () => import('pages/RegisterPage.vue') },
       { path: 'vijesti', component: () => import('pages/VijestiPage.vue') },
       { path: 'vijesti/:id', name: 'VijestiPage', component: () => import('pages/VijestiPage.vue') },
+      { path: 'theme', name: 'ThemePage', component: () => import('pages/ThemePage.vue') },
+      { path: 'theme/:id', name: 'ThemePage', component: () => import('pages/ThemePage.vue') },
     ],
   },
 

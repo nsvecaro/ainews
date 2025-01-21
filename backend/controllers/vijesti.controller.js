@@ -94,3 +94,24 @@ exports.getTopByKomentari = (req, res) => {
       }
   });
 };
+
+//dohvat vijesti po temi
+exports.findByTema = (req, res) => {
+  const temaId = req.params.id;
+
+  Vijesti.findByTema(temaId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Nema vijesti za temu s ID-em ${temaId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: `Greška pri dohvaćanju vijesti za temu s ID-em ${temaId}.`,
+        });
+      }
+    } else {
+      res.send(data);
+    }
+  });
+};

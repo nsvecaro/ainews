@@ -202,8 +202,9 @@ const formatDate = (dateString) => {
 .parallax-title h1 {
   font-size: 3.0rem;
   font-weight: bold;
-  margin: auto;
+  margin: auto 300px auto 300px;
   text-align: center;
+
 }
 
 .comments-section {
