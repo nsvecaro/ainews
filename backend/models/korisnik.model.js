@@ -1,4 +1,4 @@
-const db = require("../models/db.js"); 
+const db = require("../models/db.js");
 const bcrypt = require("bcrypt");
 
 const Korisnik = function (korisnik) {
@@ -12,8 +12,8 @@ const Korisnik = function (korisnik) {
 Korisnik.createKorisnik = async (noviKorisnik, result) => {
   try {
     if (!noviKorisnik.lozinka) {
-        return result({ message: "Lozinka je obavezna!" }, null);
-      }
+      return result({ message: "Lozinka je obavezna!" }, null);
+    }
     // Hashiranje lozinke
     const hashedPassword = await bcrypt.hash(noviKorisnik.lozinka, 10);
 
@@ -65,78 +65,77 @@ Korisnik.getKorisnikById = (id, result) => {
       return;
     }
 
-    
+
     result({ kind: "not_found" }, null);
   });
 };
 
 Korisnik.loginKorisnik = (username, lozinka, result) => {
-    console.log(`Tražimo korisnika s usernameom: ${username}`); // Debug
-  
-    db.query(
-      `SELECT * FROM RWA_korisnik WHERE username = ?`,
-      [username],
-      (err, res) => {
+  console.log(`Tražimo korisnika s usernameom: ${username}`); // Debug
+
+  db.query(
+    `SELECT * FROM RWA_korisnik WHERE username = ?`,
+    [username],
+    (err, res) => {
+      if (err) {
+        console.error("Greška pri dohvaćanju korisnika:", err);
+        return result(err, null);
+      }
+
+      if (res.length === 0) {
+        console.log("Korisnik nije pronađen.");
+        return result({ kind: "not_found" }, null);
+      }
+
+      const korisnik = res[0];
+      console.log("Pronađen korisnik:", korisnik); // Debug
+
+      bcrypt.compare(lozinka, korisnik.lozinka, (err, isMatch) => {
         if (err) {
-          console.error("Greška pri dohvaćanju korisnika:", err);
+          console.error("Greška pri provjeri lozinke:", err);
           return result(err, null);
         }
-  
-        if (res.length === 0) {
-          console.log("Korisnik nije pronađen.");
-          return result({ kind: "not_found" }, null);
-        }
-  
-        const korisnik = res[0]; 
-        console.log("Pronađen korisnik:", korisnik); // Debug
-  
-        bcrypt.compare(lozinka, korisnik.lozinka, (err, isMatch) => {
-          if (err) {
-            console.error("Greška pri provjeri lozinke:", err);
-            return result(err, null);
-          }
-  
-          if (isMatch) {
-            console.log("Lozinka je ispravna!"); // Debug
-            result(null, {
-              id: korisnik.ID_korisnika,
-              username: korisnik.username,
-              email: korisnik.email,
-              uloga: korisnik.uloga,
-            });
-          } else {
-            console.log("Lozinka nije ispravna."); //konzola za provjeru
-            result({ kind: "invalid_password" }, null);
-          }
-        });
-      }
-    );
-  };
 
-  // Promjena korisničkog imena
+        if (isMatch) {
+          console.log("Lozinka je ispravna!"); // Debug
+          result(null, {
+            id: korisnik.ID_korisnika,
+            username: korisnik.username,
+            email: korisnik.email,
+            uloga: korisnik.uloga,
+          });
+        } else {
+          console.log("Lozinka nije ispravna."); //konzola za provjeru
+          result({ kind: "invalid_password" }, null);
+        }
+      });
+    }
+  );
+};
+
+// Promjena korisničkog imena
 Korisnik.updateUsername = (id, newUsername, result) => {
   db.query(
     `UPDATE RWA_korisnik SET username = ? WHERE ID_korisnika = ?`,
     [newUsername, id],
     (err, res) => {
       if (err) {
-        console.error("Greška prilikom ažuriranja korisničkog imena:", err);
+        console.error("Error updating username:", err);
         result(err, null);
         return;
       }
 
       if (res.affectedRows === 0) {
-        result({ kind: "not_found" }, null); // Korisnik nije pronađen
+        result({ kind: "not_found" }, null); 
         return;
       }
 
-      console.log("Korisničko ime uspješno ažurirano.");
+      console.log("Username successfully updated.");
       result(null, { id, username: newUsername });
     }
-
-    
   );
 };
+
 // Ažuriranje lozinke korisnika
 Korisnik.updatePassword = (id, hashedPassword, result) => {
   db.query(
@@ -161,5 +160,5 @@ Korisnik.updatePassword = (id, hashedPassword, result) => {
 };
 
 
-  
+
 module.exports = Korisnik;

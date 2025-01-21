@@ -74,10 +74,12 @@ exports.loginKorisnik = (req, res) => {
 
     console.log("Sesija nakon prijave:", req.session);
 
+    // Vraćamo podatke uključujući korisnikov ID
     res.send({
       message: "Prijava uspješna",
       korisnikIme: korisnik.username,
       uloga: korisnik.uloga,
+      userId: korisnik.id, // Ovo treba biti uključeno
     });
   });
 };
@@ -113,21 +115,55 @@ exports.logoutKorisnik = (req, res) => {
 
 // Promjena korisničkog imena
 exports.updateUsername = (req, res) => {
-  const { id } = req.params;
-  const { newUsername } = req.body;
+  const { id } = req.params; 
+  const { newUsername, password } = req.body; 
 
+  // Validacija
   if (!newUsername) {
-    return res.status(400).send({ message: "Novo korisničko ime je obavezno!" });
+    return res.status(400).send({ message: "New username is required!" });
+  }
+  if (!password) {
+    return res.status(400).send({ message: "Password is required!" });
   }
 
-  Korisnik.updateUsername(id, newUsername, (err, data) => {
+  
+  Korisnik.getKorisnikById(id, async (err, user) => {
     if (err) {
       if (err.kind === "not_found") {
-        return res.status(404).send({ message: `Korisnik s ID-om ${id} nije pronađen.` });
+        return res.status(404).send({ message: `User with ID ${id} not found.` });
       }
-      return res.status(500).send({ message: "Greška prilikom ažuriranja korisničkog imena." });
+      return res.status(500).send({ message: "Error fetching user." });
     }
-    res.send({ message: "Korisničko ime uspješno promijenjeno!", data });
+
+    
+    const isMatch = await bcrypt.compare(password, user.lozinka);
+    if (!isMatch) {
+      return res.status(401).send({ message: "Incorrect password!" });
+    }
+
+   
+    if (user.username === newUsername) {
+      return res.status(400).send({ message: "New username must be different from the current username." });
+    }
+
+    
+    Korisnik.updateUsername(id, newUsername, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          return res.status(404).send({ message: `User with ID ${id} not found.` });
+        }
+        return res.status(500).send({ message: "Error updating username." });
+      }
+
+     
+      req.session.destroy((logoutErr) => {
+        if (logoutErr) {
+          return res.status(500).send({ message: "Username updated, but logout failed." });
+        }
+        res.clearCookie("connect.sid");
+        res.send({ message: "Username successfully changed! Please log in again.", data });
+      });
+    });
   });
 };
 
@@ -137,29 +173,30 @@ exports.updatePassword = (req, res) => {
   const { currentPassword, newPassword } = req.body;
 
   if (!currentPassword || !newPassword) {
-    return res.status(400).send({ message: "Trenutna i nova lozinka su obavezne!" });
+    return res.status(400).send({ message: "Both current and new passwords are required!" });
   }
 
-  Korisnik.getKorisnikById(id, async (err, korisnik) => {
+  Korisnik.getKorisnikById(id, async (err, user) => {
     if (err) {
       if (err.kind === "not_found") {
-        return res.status(404).send({ message: `Korisnik s ID-om ${id} nije pronađen.` });
+        return res.status(404).send({ message: `User with ID ${id} not found.` });
       }
-      return res.status(500).send({ message: "Greška prilikom dohvaćanja korisnika." });
+      return res.status(500).send({ message: "Error fetching user data." });
     }
 
-    const isMatch = await bcrypt.compare(currentPassword, korisnik.lozinka);
+    const isMatch = await bcrypt.compare(currentPassword, user.lozinka);
     if (!isMatch) {
-      return res.status(401).send({ message: "Trenutna lozinka nije ispravna." });
+      return res.status(401).send({ message: "Incorrect current password!" });
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
     Korisnik.updatePassword(id, hashedPassword, (err, data) => {
       if (err) {
-        return res.status(500).send({ message: "Greška prilikom ažuriranja lozinke." });
+        return res.status(500).send({ message: "Error updating password." });
       }
-      res.send({ message: "Lozinka uspješno promijenjena!" });
+
+      res.send({ message: "Password successfully changed!" });
     });
   });
 };

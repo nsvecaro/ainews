@@ -1,19 +1,41 @@
 <template>
-  <q-page>
-    <div class="footer">
-      <div class="footerinfo">
-        <h3>AI NEWS</h3>
-        <p>All rights reserved by AINews &#169;</p>
+  <q-page class="settings-page">
+    <div class="settings-box">
+      <div class="titlesign">
+        Account Settings
+        <p>Manage your account details below</p>
       </div>
-      <div class="user-options">
-        <router-link to="/user/accountsettings/my-comments" class="user-option">My Comments</router-link>
-        <router-link to="/user/accountsettings/change-username" class="user-option">Change Username</router-link>
-        <router-link to="/user/accountsettings/change-password" class="user-option">Change Password</router-link>
+      <div class="settings-options">
+        <q-btn
+          label="My Comments"
+          color="primary"
+          flat
+          class="settings-btn"
+          @click="navigateTo('/user/accountsettings/my-comments')"
+        />
+        <q-btn
+          label="Change Username"
+          color="primary"
+          flat
+          class="settings-btn"
+          @click="navigateTo('/user/accountsettings/change-username')"
+        />
+        <q-btn
+          label="Change Password"
+          color="primary"
+          flat
+          class="settings-btn"
+          @click="navigateTo('/user/accountsettings/change-password')"
+        />
+        <q-btn
+          label="Logout"
+          color="negative"
+          flat
+          class="settings-btn"
+          @click="onLogout"
+        />
       </div>
     </div>
-
-    <!-- Ovdje će se prikazivati sadržaj promjene korisničkog imena ili lozinke -->
-    <router-view></router-view>
   </q-page>
 </template>
 
@@ -21,6 +43,11 @@
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+
+
+function navigateTo(route) {
+  router.push(route);
+}
 
 async function onLogout() {
   try {
@@ -31,60 +58,78 @@ async function onLogout() {
 
     if (response.ok) {
       localStorage.clear();
-      alert("Odjava uspješna!");
+      alert("Successfully logged out!");
       router.push("/login");
     } else {
-      alert("Greška prilikom odjave.");
+      alert("Error logging out.");
     }
   } catch (error) {
-    console.error("Greška:", error);
-    alert("Pokušajte ponovno.");
+    console.error("Error:", error);
+    alert("Please try again.");
   }
 }
 </script>
 
-
 <style scoped>
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 250px;
-  background-color: black;
-  color: white;
-  padding: 0 20px;
-  box-sizing: border-box;
-}
-
-.footerinfo {
-  flex: 1;
-  text-align: left;
-  margin-left: 170px;
-}
-
-.footerinfo h3,
-.footerinfo p {
-  margin: 5px 0;
-}
-
-.user-options {
+.settings-page {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  align-items: left;
-  margin-right: 170px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: rgb(241, 241, 241);
+  padding: 0;
 }
 
-.user-option {
-  text-decoration: none;
-  color: white;
-  padding: 10px 15px;
-  border-radius: 5px;
-  background-color: #212121;
+.settings-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.user-option:hover {
-  background-color: #333333;
+.titlesign {
+  font-size: 26px;
+  font-weight: 525;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.titlesign p {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 400;
+  color: gray;
+}
+
+.settings-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.settings-btn {
+  width: 100%;
+  font-size: 16px;
+  text-transform: none;
+  background-color: rgb(241, 241, 241);
+  transition: all 0.3s ease;
+}
+
+.settings-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.settings-btn.q-btn--flat:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 </style>

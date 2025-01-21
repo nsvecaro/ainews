@@ -56,22 +56,24 @@ async function onLogin(event) {
           username: username.value,
           lozinka: lozinka.value,
         }),
-        credentials: "include",
+        credentials: "include", // Ovo omogućava slanje kolačića
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        //postavljanje localstorage-a
+        // Pohrana podataka u localStorage
         localStorage.setItem("username", data.korisnikIme);
         localStorage.setItem("uloga", data.uloga);
+        localStorage.setItem("userId", data.userId); // Dodano - pohrana userId-a
 
-        alert(`Prijava uspješna! Dobrodošao, ${data.korisnikIme}`);
+        alert(`Welcome, ${data.korisnikIme}`);
 
+        // Redirekcija prema ulozi
         if (data.uloga === "Admin") {
-          router.push("/admin"); 
+          router.push("/admin");
         } else if (data.uloga === "User") {
-          router.push("/user"); 
+          router.push("/user");
         } else {
           alert("Nepoznata uloga, molimo kontaktirajte podršku.");
         }

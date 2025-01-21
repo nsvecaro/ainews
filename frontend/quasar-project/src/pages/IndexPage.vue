@@ -67,16 +67,16 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import NewsSlideshow from '/src/pages/NewsSlideshow.vue'; // Komponenta za slideshow vijesti
+import NewsSlideshow from '/src/pages/NewsSlideshow.vue'; // slideshow vijesti
 import { useRouter } from 'vue-router';
-import Footer from '/src/pages/FooterPage.vue'; // Footer komponenta
+import Footer from '/src/pages/FooterPage.vue'; // Footer 
 
-const latestNews = ref({ naslov: '', slika_vijesti: '' }); // Pohrana najnovije vijesti
-const newsList = ref([]); // Pohrana liste vijesti
-const teme = ref([]); // Pohrana tema
+const latestNews = ref({ naslov: '', slika_vijesti: '' });
+const newsList = ref([]); 
+const teme = ref([]); 
 const router = useRouter();
 
-// Navigacija na pojedinu vijest prema ID-u
+
 const navigateToNews = (id) => {
   const role = localStorage.getItem('uloga');
   if (role === 'User') {
@@ -127,10 +127,10 @@ const fetchTeme = async () => {
   }
 };
 
-// Kada se komponenta učita, dohvaćaju se podaci
+
 onMounted(() => {
-  fetchNews(); // Dohvaća vijesti
-  fetchTeme(); // Dohvaća teme
+  fetchNews(); 
+  fetchTeme(); 
 });
 </script>
 
@@ -319,7 +319,7 @@ onMounted(() => {
 .theme-bar-links a {
   text-decoration: none;
   color: white;
-  padding: 4px;
+  padding: 2px;
 }
 
 .theme-bar-links a:hover {

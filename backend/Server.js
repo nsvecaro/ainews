@@ -43,10 +43,13 @@ app.use(
 
 // Debug middleware za provjeru sesije
 app.use((req, res, next) => {
-  console.log("=== Middleware za sesije ===");
-  console.log("Dolazni kolačići:", req.headers.cookie); 
-  console.log("Sesija iz middlewarea:", req.session); 
-  console.log("Session ID:", req.sessionID); 
+  // only if ruta relevantna
+  if (req.path.startsWith("/api")) {
+    console.log("=== Middleware za sesije ===");
+    console.log("Dolazni kolačići:", req.headers.cookie || "Nema kolačića");
+    console.log("Sesija iz middlewarea:", req.session || "Nema sesije");
+    console.log("Session ID:", req.sessionID);
+  }
   next();
 });
 

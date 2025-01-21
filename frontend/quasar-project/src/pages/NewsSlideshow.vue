@@ -23,24 +23,25 @@ const newsList = ref([]);
 const currentSlide = ref(0);
 const router = useRouter();
 
-// Funkcija za dohvatit top 4 vijesti po broju komentara (kad dodamo jos vijesti promjenit treba u top 5)
+
 const fetchTopNews = async () => {
   try {
     const response = await axios.get('http://localhost:3000/api/vijesti/top-komentari');
-    newsList.value = response.data.sort((a, b) => b.commentCount - a.commentCount).slice(0, 4); // uzimanje samo top 4 vijesti
+    newsList.value = response.data.sort((a, b) => b.commentCount - a.commentCount).slice(0, 7);
   } catch (error) {
-    console.error('Greška prilikom dohvaćanja top vijesti:', error);
+    console.error('Error fetching top news:', error);
   }
 };
 
-// Pozicija slideshowa
+
 const slideTransform = computed(() => {
-  return `translateX(-${currentSlide.value * 100}%)`; 
+  return `translateX(-${currentSlide.value * (100 / 2.5)}%)`; 
 });
 
 
 function nextSlide() {
-  if (currentSlide.value < newsList.value.length - 1) { // posto ima samo 4 vijesti u bazi zasad
+  
+  if (currentSlide.value < newsList.value.length - 2.5) {
     currentSlide.value++;
   }
 }
@@ -52,12 +53,12 @@ function prevSlide() {
   }
 }
 
-// Navigate to news page
+
 function goToNewsPage(id) {
   router.push({ name: 'VijestiPage', params: { id } });
 }
 
-// Dohvati top vijesti nakon montaze komponente
+
 onMounted(() => {
   fetchTopNews();
 });
@@ -65,12 +66,17 @@ onMounted(() => {
 
 <style scoped>
 .newsbox {
-  background: #ffffff;
+  background: white;
   border-top: 8px solid #FF8C00;
-  padding: 40px;
+  padding: 30px;
   height: 550px;
-  width: 900px; 
+  width: calc(100% - 600px);
   margin: 50px auto;
+}
+
+.newsbox h3 {
+  font-weight: 400;
+  margin-bottom: 20px;
 }
 
 .carousel-container {
@@ -81,44 +87,53 @@ onMounted(() => {
   width: 100%;
   overflow: hidden;
   padding: 20px 0;
+  
 }
 
 .carousel {
   display: flex;
   transition: transform 0.5s ease-in-out;
-  width: 100%;
+  width: calc(100% * 6 / 2.5);
 }
 
 .carousel-item {
-  min-width: 100%; 
-  flex-shrink: 0;
+  flex: 0 0 calc(100% / 2.5);
+  
   box-sizing: border-box;
   padding: 10px;
   text-align: center;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .news-image {
   width: 100%;
-  height: auto;
-  max-height: 250px; 
-  object-fit: cover; 
+  
+  height: 200px;
+  
+  object-fit: cover;
+  
+  object-position: center;
+  
   border-radius: 5px;
 }
 
 .news-title {
   font-size: 1rem;
   margin-top: 10px;
+  text-align: left;
 }
 
 .nav-button {
   background-color: #ff8c00;
   color: white;
   border: none;
+  border-radius: 5px;
   padding: 10px;
   font-size: 1.5rem;
   cursor: pointer;
   z-index: 1;
+  transition: background-color 0.5s ease;
+  
 }
 
 .nav-button:hover {
@@ -127,15 +142,15 @@ onMounted(() => {
 
 .left {
   position: absolute;
-  left: 10px;
+  left: 15px;
   top: 50%;
-  transform: translateY(-60%);
+  transform: translateY(-50%);
 }
 
 .right {
   position: absolute;
-  right: 10px;
+  right: 5px;
   top: 50%;
-  transform: translateY(-60%);
+  transform: translateY(-50%);
 }
 </style>
