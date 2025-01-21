@@ -6,7 +6,7 @@
     </div>
     <div v-else>
       <div class="news-picture">
-        <q-parallax :height="500" :speed="2">
+        <q-parallax :height="500" :speed="1">
           <template v-slot:media>
             <img :src="`http://localhost:3000${vijest.slika_vijesti}`" alt="Slika vijesti" class="news-image" />
             <div class="parallax-title">
@@ -152,7 +152,9 @@ const formatDate = (dateString) => {
 .news-picture {
   width: 100%;
   object-fit: cover;
+  
 }
+
 
 .news-content {
   margin: 50px auto;
@@ -207,9 +209,9 @@ const formatDate = (dateString) => {
 .comments-section {
   margin: 30px auto;
   padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
+  background-color: #f9f9f900;
   max-width: 800px;
+  border-top: 2px solid rgba(0, 0, 0, 0.575);
 }
 
 .komentar {
@@ -230,15 +232,16 @@ const formatDate = (dateString) => {
 }
 
 .submit-button {
-  background-color: #007BFF;
+  background-color: #000000;
   color: #fff;
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 20px;
 }
 
 .submit-button:hover {
-  background-color: #0056b3;
+  background-color: #393939;
 }
 </style>

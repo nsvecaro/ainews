@@ -7,9 +7,7 @@
           <div class="new-button">New</div>
           <p @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">{{ latestNews.naslov }}</p>
           <p class="theme">
-          <ul>
-            <li>{{ latestNews.tema }}</li>
-          </ul>
+            <img src="/src/assets/tagicon.png" width="15px"> {{ latestNews.tema }}
           </p>
           <img :src="`http://localhost:3000${latestNews.slika_vijesti}`" alt="Slika vijesti" class="slideshow-image"
             @click="navigateToNews(latestNews.ID_vijesti)" style="cursor: pointer;">
@@ -206,29 +204,21 @@ onMounted(() => {
 }
 
 .theme {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  gap: 5px;
   margin: 15px 0px 0px 0px;
   font-size: 12px !important;
-  border: 2px solid #fed8aa;
-  border-radius: 0px 0px 30px 0px;
-  background-color: #ffc987;
-  max-width: 200px;
-  width: 100px;
+  max-width: fit-content;
+  padding: 3px;
+  border-radius: 3px;
   text-align: left;
   color: black !important;
   font-weight: 600 !important;
+  border: 1px solid rgba(0, 0, 0, 0.366);
 }
 
-.theme ul {
-  list-style-type: disc;
-  padding-left: 20px;
-
-
-}
-
-.theme ul li::marker {
-  color: white;
-
-}
 
 
 
