@@ -34,7 +34,7 @@ const routes = [
 
   {
     path: '/admin',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/AdminLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') }, // Glavna stranica za admina
       { path: 'forum', component: () => import('src/pages/IndexForumPage.vue') }, // IndexForumPage za admina
