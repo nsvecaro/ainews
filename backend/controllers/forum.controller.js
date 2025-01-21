@@ -24,14 +24,20 @@ exports.create = (req, res) => {
 
 // Dohvat svih foruma
 exports.getAll = (req, res) => {
+    console.log('Dohvaćanje svih foruma...');
     Forum.getAll((err, data) => {
-        if (err)
+        if (err) {
+            console.error("Greška pri dohvaćanju foruma: ", err);
             res.status(500).send({
                 message: err.message || "Greška pri dohvaćanju foruma.",
             });
-        else res.send(data);
+        } else {
+            console.log('Podaci foruma:', data);
+            res.send(data); // Vratite forume u odgovoru
+        }
     });
 };
+
 
 // Dohvat foruma prema ID-u
 exports.findByID = (req, res) => {

@@ -22,17 +22,27 @@ Forum.create = (newForum, result) => {
     });
 };
 
-// Dohvati sve forume
 Forum.getAll = (result) => {
-    sql.query("SELECT * FROM RWA_forum ORDER BY Datum_kreiranja DESC", (err, res) => {
+    const query = "SELECT * FROM RWA_forum ORDER BY Datum_kreiranja DESC";
+    console.log("Upit: ", query); // Provjeri upit u konzoli
+
+    sql.query(query, (err, res) => {
         if (err) {
             console.error("Greška pri dohvaćanju foruma: ", err);
-            result(err, null);
+            result(err, null); // Posaljite grešku prema rezultatima
             return;
         }
-        result(null, res);
+
+        if (res.length === 0) {
+            console.log("Nema foruma u bazi.");
+        } else {
+            console.log("Podaci foruma: ", res); // Logiraj podatke koji su vraćeni
+        }
+
+        result(null, res); // Ako je sve u redu, vratite rezultate
     });
 };
+
 
 // Dohvati forum po ID-u
 Forum.findByID = (id, result) => {

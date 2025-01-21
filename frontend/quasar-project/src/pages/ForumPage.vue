@@ -1,68 +1,66 @@
 <template>
   <q-page class="flex flex-center">
     <div class="forum-page">
-      
       <div class="forum-header">
         <h1>{{ forumName }}</h1>
-        <p>Welcome to the {{ forumName }} community! Discuss all things related to IT in Croatia.</p>
+        <p>{{ forumOpis }}</p>
       </div>
 
-      
       <div class="posts-list">
-        <div
-          v-for="post in forumPosts"
-          :key="post.id"
-          class="post-item"
-        >
-          
+        <div v-for="post in forumPosts" :key="post.ID_objave" class="post-item">
           <div class="post-header">
-            <span class="user-name">{{ post.userName }}</span>
-            <span class="post-title">{{ post.title }}</span>
+            <span class="user-name">{{ post.autor }}</span>
+            <span class="post-title" @click="goToPost(post.ID_objave)">{{ post.naslov }}</span>
           </div>
-
-          
-          <div class="image-box" v-if="post.imageUrl">
-            <img :src="post.imageUrl" alt="Image" />
-          </div>
-
-          
-          <p class="post-content">{{ post.content }}</p>
+          <p class="post-content">{{ post.sadrzaj }}</p>
         </div>
       </div>
     </div>
   </q-page>
 </template>
 
-
 <script>
 import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 export default {
   name: "ForumPage",
   data() {
     return {
       forumName: '',
+      forumOpis: '',
       forumPosts: []
     };
   },
-  mounted() {
-    // Dohvaća forumName iz URLa
-    this.forumName = this.$route.params.forumName;
-
-    
-    axios
-      .get(`http://localhost:3000/forumi/${this.forumName}`)
-      .then((response) => {
-        
-        this.forumPosts = response.data.posts; 
-      })
-      .catch((error) => {
-        console.error("Error fetching forum data:", error);
-      });
+  methods: {
+    goToPost(postId) {
+      this.$router.push(`/forum/${this.$route.params.forumId}/${postId}`);
+    }
   },
+  mounted() {
+    const forumId = this.$route.params.forumId;
+
+    // Dohvati podatke foruma (ime, opis)
+    axios.get(`http://localhost:3000/api/forumi/${forumId}`)
+      .then(response => {
+        this.forumName = response.data.Naziv;
+        this.forumOpis = response.data.Opis;
+      })
+      .catch(error => {
+        console.error("Greška pri dohvaćanju foruma:", error);
+      });
+
+    // Dohvati objave u ovom forumu
+    axios.get(`http://localhost:3000/api/forumObjava/${forumId}`)
+      .then(response => {
+        this.forumPosts = response.data;
+      })
+      .catch(error => {
+        console.error("Greška pri dohvaćanju objava:", error);
+      });
+  }
 };
 </script>
-
 
 
 <style scoped>
@@ -125,17 +123,6 @@ export default {
   font-weight: bold;
   color: #333;
   margin-bottom: 10px;
-}
-
-.image-box {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.image-box img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
 }
 
 .post-content {

@@ -1,39 +1,33 @@
 <template>
   <q-page padding>
-    <!-- forum post - The Future of Web Development in Croatia -->
     <div class="post-detail">
-      <!-- zaglavlje posta-->
       <div class="post-header">
-        <h2>{{ post.title }}</h2>
+        <h2>{{ post.naslov }}</h2>
         <div class="post-meta">
-          <span class="user-name">{{ post.userName }}</span>
-          <span class="post-date">{{ post.date }}</span>
+          <span class="user-name">{{ post.autor }}</span>
+          <span class="post-date">{{ post.datum_objave }}</span>
         </div>
       </div>
 
-      <!-- slika u postu -->
-      <div class="image-box" v-if="post.imageUrl">
-        <img :src="post.imageUrl" alt="Post Image" />
+      <div class="image-box" v-if="post.slika">
+        <img :src="post.slika" alt="Post Image" />
       </div>
 
-      <!-- sadrzaj -->
       <div class="post-content">
-        <p>{{ post.content }}</p>
+        <p>{{ post.sadrzaj }}</p>
       </div>
 
-      <!-- komentari -->
       <div class="comments-section">
         <h3>Comments</h3>
-        <div v-for="comment in post.comments" :key="comment.id" class="comment">
+        <div v-for="comment in post.komentari" :key="comment.id" class="comment">
           <div class="comment-header">
-            <span class="comment-user">{{ comment.userName }}</span>
-            <span class="comment-date">{{ comment.date }}</span>
+            <span class="comment-user">{{ comment.username }}</span>
+            <span class="comment-date">{{ comment.datum_objave }}</span>
           </div>
-          <p class="comment-content">{{ comment.content }}</p>
+          <p class="comment-content">{{ comment.sadrzaj }}</p>
         </div>
       </div>
 
-      <!-- forma za comments -->
       <div class="comment-form">
         <q-input filled label="Write a comment..." v-model="newComment" />
         <q-btn label="Post Comment" color="primary" @click="postComment" />
@@ -43,34 +37,37 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRoute } from 'vue-router';
 
-// dumy kod
-const post = ref({
-  id: 1,
-  userName: "techguy42",
-  title: "The Future of Web Development in Croatia",
-  content: "Web development in Croatia is growing fast. New frameworks and technologies are emerging. There's a lot of potential for local developers, with international companies looking at Croatia as a viable tech hub.",
-  imageUrl: "https://via.placeholder.com/600x300?text=Web+Development+Image",
-  date: "2025-01-13",
-  comments: [
-    { id: 1, userName: "devgal93", content: "This is an exciting time for web development in Croatia! Looking forward to more growth.", date: "2025-01-14" },
-    { id: 2, userName: "codinghero", content: "I completely agree! Web development is growing rapidly, and the potential is huge.", date: "2025-01-15" },
-  ]
-});
-
+const route = useRoute();
+const post = ref({});
 const newComment = ref("");
+
+onMounted(() => {
+  const postId = route.params.postId;
+  axios
+    .get(`http://localhost:3000/api/forumObjava/objava/${postId}`)
+    .then(response => {
+      post.value = response.data;
+    })
+    .catch(error => {
+      console.error("Greška pri dohvaćanju objave:", error);
+    });
+});
 
 const postComment = () => {
   if (newComment.value.trim()) {
+    // Pretpostavimo da šaljemo novi komentar na server
     const comment = {
-      id: post.value.comments.length + 1,
-      userName: "newUser",  
+      id: post.value.komentari.length + 1,
+      username: "newUser",  
       content: newComment.value,
       date: new Date().toLocaleDateString()
     };
-    post.value.comments.push(comment);
-    newComment.value = "";  
+    post.value.komentari.push(comment);
+    newComment.value = "";
   }
 };
 </script>
