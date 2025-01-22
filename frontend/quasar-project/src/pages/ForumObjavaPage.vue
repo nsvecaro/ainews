@@ -19,10 +19,10 @@
 
       <div class="comments-section">
         <h3>Comments</h3>
-        <div v-for="comment in post.komentari" :key="comment.id" class="comment">
+        <div v-for="comment in comments" :key="comment.ID_f_komentar" class="comment">
           <div class="comment-header">
-            <span class="comment-user">{{ comment.username }}</span>
-            <span class="comment-date">{{ comment.datum_objave }}</span>
+            <span class="comment-user">{{ comment.autor }}</span>
+            <span class="comment-date">{{ formatDate(comment.datum_objave) }}</span>
           </div>
           <p class="comment-content">{{ comment.sadrzaj }}</p>
         </div>
@@ -43,38 +43,91 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const post = ref({});
+const comments = ref([]);
 const newComment = ref("");
+let previousScrollPosition = 0; 
+
 
 onMounted(() => {
   const postId = route.params.postId;
+
+  
   axios
     .get(`http://localhost:3000/api/forumObjava/objava/${postId}`)
     .then(response => {
       post.value = response.data;
     })
     .catch(error => {
-      console.error("Greška pri dohvaćanju objave:", error);
+      console.error("Error fetching post:", error);
+    });
+
+  
+  axios
+    .get(`http://localhost:3000/api/forumKomentar/${route.params.postId}`)
+    .then(response => {
+      comments.value = response.data;
+    })
+    .catch(error => {
+      console.error("Error fetching comments:", error);
     });
 });
 
+
+
 const postComment = () => {
   if (newComment.value.trim()) {
-    // Pretpostavimo da šaljemo novi komentar na server
+    
+    previousScrollPosition = window.scrollY;
+
     const comment = {
-      id: post.value.komentari.length + 1,
-      username: "newUser",  
-      content: newComment.value,
-      date: new Date().toLocaleDateString()
+      sadrzaj: newComment.value,
+      ID_objave: post.value.ID_objave,  
     };
-    post.value.komentari.push(comment);
-    newComment.value = "";
+
+    console.log("Poslani podaci za komentar:", comment); 
+
+    
+    axios.post("http://localhost:3000/api/forumKomentar", comment, { withCredentials: true })
+      .then(response => {
+        console.log("Komentar uspješno poslan:", response.data);  
+        newComment.value = ""; 
+
+        
+        axios.get(`http://localhost:3000/api/forumKomentar/${route.params.postId}`)
+          .then(response => {
+            comments.value = response.data;  
+            
+            window.scrollTo(0, previousScrollPosition);
+          })
+          .catch(error => {
+            console.error("Greška pri dohvaćanju komentara:", error);
+          });
+      })
+      .catch(error => {
+        console.error("Greška pri slanju komentara:", error);  
+      });
+  } else {
+    console.log("Komentar ne može biti prazan!"); 
   }
 };
-</script>
 
+
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  
+  if (isNaN(date.getTime())) {
+    console.error("Invalid date:", dateString);
+    return "Invalid Date";
+  }
+  
+  return date.toLocaleDateString('en-UK', { year: 'numeric', month: 'long', day: 'numeric' });
+};
+
+</script>
 <style scoped>
 .post-detail {
-  max-width: 800px;
+  width: 60%; 
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;

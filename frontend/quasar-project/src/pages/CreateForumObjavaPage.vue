@@ -1,46 +1,30 @@
 <template>
   <q-page padding>
-    
     <div class="Box">
       <h3>Create a new forum post</h3>
       <q-form @submit.prevent="onSubmit" class="q-pa-md">
 
         
-        Title
-        <q-input v-model="post.title" standout label="" class="q-mb-md custom-input" color="white" bg-color="none" />
+        <q-input v-model="post.title" standout label="Title" class="q-mb-md custom-input" color="white" bg-color="none" />
 
-        
-        Author
-        <q-input v-model="post.author" standout label="" class="q-mb-md custom-input" color="white" bg-color="none" />
+       
 
-        <!-- sadrzaj  -->
+        <!-- Sadržaj objave -->
         <div class="editor-wrapper q-mb-md">
           Post content
-          <q-editor label="Content" v-model="post.content" :toolbar="[ ['bold', 'italic', 'underline'] ]" 
-                    class="custom-editor" color="white" bg-color="none" />
+          <q-editor label="Content" v-model="post.content" :toolbar="[ ['bold', 'italic', 'underline'], ['unordered', 'ordered'], ['undo', 'redo'], ['quote', 'code'], ['link'], ['fontSize', 'removeFormat'] ]" class="custom-editor" color="white" bg-color="none" />
         </div>
 
-        
+        <!-- Slika i kategorija div -->
         <div class="file-select-wrapper q-mb-md">
-          
-          <q-file v-model="post.image" standout label="Click to upload an image" accept="image/*"
-            class="custom-input custom-file-width" color="white" bg-color="none">
+          <q-file v-model="post.image" standout label="Click to upload an image" accept="image/*" class="custom-input custom-file-width" color="white" bg-color="none">
             <template v-slot:prepend>
               <q-icon name="attach_file" color="black" />
             </template>
           </q-file>
-
-          <!-- kategorija -->
-          <q-select v-model="post.category" standout :options="categories" label="Select category"
-            class="custom-input custom-select-width" color="white" bg-color="none" />
         </div>
 
-        <!-- Pregled slike -->
-        <div v-if="previewImage" class="q-mb-md text-center">
-          <img :src="previewImage" alt="Preview" class="preview-image" />
-        </div>
-
-        <!-- spremi post -->
+        <!-- Gumb za spremanje -->
         <div class="q-mt-lg text-center">
           <q-btn type="submit" color="white" text-color="black" label="SAVE" />
         </div>
@@ -51,28 +35,31 @@
 
 <script setup>
 import { reactive, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+
+// uvjek mora biti kod sesija!!!
+axios.defaults.withCredentials = true;
+
+
+const route = useRoute();
+const router = useRouter();
+const forumId = route.params.forumId;  
+
+
+const user = JSON.parse(localStorage.getItem('user')); i
 
 const post = reactive({
   title: '',
-  author: '',
+  author: user ? user.username : '',  
   content: '',
-  category: '',
-  image: null, // nova varijabla za pohranu slike
+  image: null,
 });
-
 
 const previewImage = ref(null);
 
-// Dummy kategorije
-const categories = [
-  { label: 'General Discussion', value: 'general' },
-  { label: 'Tech Talk', value: 'tech' },
-  { label: 'Gaming', value: 'gaming' },
-  { label: 'Off Topic', value: 'off-topic' },
-];
-
 // Funkcija za upload slike
-const onImageUpload = (files) => {
+const onImageUpload = (files) => {  
   if (files && files.length) {
     const file = files[0];
     const reader = new FileReader();
@@ -83,22 +70,41 @@ const onImageUpload = (files) => {
   }
 };
 
-// Funkcija za simulaciju slanja podataka, posto bez bekenda radim
-const onSubmit = () => {
-  console.log('Submitted post:', post);
-  alert('Post successfully created! (simulated)');
 
-  // resetiranje forme
-  post.title = '';
-  post.author = '';
-  post.content = '';
-  post.category = '';
-  post.image = null;
-  previewImage.value = null;
+const onSubmit = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('image', post.image);
+
+    
+    const postResponse = await axios.post('http://localhost:3000/api/forumObjava', {
+      naslov: post.title,
+      autor: post.author,  
+      sadrzaj: post.content,
+      slika: post.image,  
+      ID_foruma: forumId,  
+    });
+
+    alert('Forum post created successfully!');
+    console.log(postResponse.data);
+
+   
+    router.push(`/user/forum/${forumId}`);
+    
+    
+    post.title = '';
+    post.author = '';
+    post.content = '';
+    post.image = null;
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    alert(`Error: ${error.message}`);
+  }
 };
 </script>
 
-<style>
+<style scoped>
 .Box {
   margin: 20px 300px 0 300px;
 }
@@ -135,12 +141,6 @@ const onSubmit = () => {
 }
 
 .custom-file-width {
-  max-width: 500px;
-  flex: 1;
-  min-width: 200px;
-}
-
-.custom-select-width {
   max-width: 500px;
   flex: 1;
   min-width: 200px;

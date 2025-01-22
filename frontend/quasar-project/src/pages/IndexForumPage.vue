@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <div class="front-page">
       <div class="content">
-        <!-- All Forums -->
+        
         <div class="forum-section">
           <h2>All Forums</h2>
           <ul class="forums-list">
@@ -28,21 +28,22 @@ export default {
   name: "IndexForumPage",
   data() {
     return {
-      forums: [],  // Pokrenut ćemo varijablu za forume
+      forums: [],  
     };
   },
   methods: {
-    // Funkcija za prebacivanje na forum stranicu prema ID-u foruma
-    goToForum(forumId) {
-      this.$router.push(`/forum/${forumId}`);
-    },
+  goToForum(forumId) {
+    
+    this.$router.push(`/user/forum/${forumId}`);
   },
+},
+
   mounted() {
-    // Dohvatimo forume prilikom montaže stranice
+    
     axios
       .get("http://localhost:3000/api/forumi")
       .then((response) => {
-        this.forums = response.data;  // Spremamo forume u data
+        this.forums = response.data; 
       })
       .catch((error) => {
         console.error("Greška pri dohvaćanju foruma:", error);
@@ -52,7 +53,7 @@ export default {
 </script>
 
 <style scoped>
-/* Stilovi za prikaz foruma */
+
 .forum-section {
   margin-bottom: 20px;
 }
