@@ -11,8 +11,8 @@
         <div class="toolbar-links">
           <a href="#/admin/forum" class="toolbar-link1">Forum</a>
           <a href="#/admin/createnew" class="toolbar-link1">Create New</a>
-          <span class="username">{{ username }}</span>
-          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" />
+          <span :class="usernameClass">{{ username }}</span>
+          <q-btn :class="profileIconClass" flat icon="person" @click="toggleProfileMenu" />
           <q-menu v-if="showProfileMenu" anchor="bottom right" self="bottom left">
             <q-list>
               <q-item clickable v-close-popup @click="logout">
@@ -37,10 +37,9 @@
 import { useRoute, useRouter } from "vue-router";
 import { computed, ref, onMounted, onUnmounted } from "vue";
 
-const username = ref(localStorage.getItem("username") || "User"); 
+const username = ref(localStorage.getItem("username") || "User");
 const showProfileMenu = ref(false);
 const router = useRouter();
-
 
 const isScrolled = ref(false);
 
@@ -55,16 +54,22 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
-
-const route = useRoute();
 const headerClass = computed(() => {
   return isScrolled.value ? "header header-white" : "header header-blue";
+});
+
+const usernameClass = computed(() => {
+  return isScrolled.value ? "username username-black" : "username username-white";
 });
 
 const logoSrc = computed(() => {
   return isScrolled.value
     ? "/src/assets/ainewslogoblack.png"
     : "/src/assets/ainewslogo.png";
+});
+
+const profileIconClass = computed(() => {
+  return isScrolled.value ? "profile-icon profile-icon-black" : "profile-icon profile-icon-white";
 });
 
 const toggleProfileMenu = () => {
@@ -78,7 +83,7 @@ const logout = async () => {
       credentials: "include",
     });
     localStorage.clear();
-    router.push("/"); 
+    router.push("/");
   } catch (error) {
     console.error("Greška prilikom odjave:", error);
   }
@@ -121,28 +126,17 @@ const logout = async () => {
   margin-right: 310px !important;
 }
 
-.toolbar-link1,
-.toolbar-link2 {
+.toolbar-link1 {
   text-decoration: none;
   font-size: 16px;
-}
-
-.toolbar-link1 {
   color: #ffffff;
 }
 
-.toolbar-link2 {
-  color: #ffffff;
-}
-
-.header-white .toolbar-link1,
-.header-white .toolbar-link2 {
+.header-white .toolbar-link1 {
   color: #000000;
-  
 }
 
-.toolbar-link1:hover,
-.toolbar-link2:hover {
+.toolbar-link1:hover {
   text-decoration: underline;
 }
 
@@ -151,5 +145,31 @@ const logout = async () => {
   font-size: 30px;
   font-weight: bold;
   align-items: center;
+}
+
+.username {
+  margin-right: 10px;
+  transition: color;
+}
+
+.username-white {
+  color: #ffffff;
+}
+
+.username-black {
+  color: #000000;
+}
+
+.profile-icon {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.profile-icon-white {
+  color: #ffffff;
+}
+
+.profile-icon-black {
+  color: #000000;
 }
 </style>

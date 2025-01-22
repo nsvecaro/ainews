@@ -39,8 +39,12 @@ exports.getKomentariByVijest = (req, res) => {
 };
 
 // nova metoda za dohvat komentara korisnika
+// nova metoda za dohvat komentara korisnika
 exports.getKomentariByUser = (req, res) => {
-  const ID_korisnika = req.params.ID_korisnika;
+  const ID_korisnika = req.session.korisnikId; // Dohvati ID iz sesije, ne iz URL-a
+  if (!ID_korisnika) {
+    return res.status(401).send({ message: "Morate biti prijavljeni za ovu akciju." });
+  }
   Komentar.getKomentariByUser(ID_korisnika, (err, data) => {
     if (err) {
       return res.status(500).send({
@@ -50,3 +54,4 @@ exports.getKomentariByUser = (req, res) => {
     res.send(data);
   });
 };
+

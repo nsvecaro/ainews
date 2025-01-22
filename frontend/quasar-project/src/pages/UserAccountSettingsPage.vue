@@ -7,13 +7,6 @@
       </div>
       <div class="settings-options">
         <q-btn
-          label="My Comments"
-          color="primary"
-          flat
-          class="settings-btn"
-          @click="navigateTo('/user/accountsettings/my-comments')"
-        />
-        <q-btn
           label="Change Username"
           color="primary"
           flat

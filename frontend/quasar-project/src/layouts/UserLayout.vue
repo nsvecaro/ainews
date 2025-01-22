@@ -11,7 +11,7 @@
         <div class="toolbar-links">
           <a href="#/user/forum" class="toolbar-link1">Forum</a>
           <span :class="usernameClass">{{ username }}</span>
-          <q-btn flat icon="person" class="profile-icon" @click="toggleProfileMenu" />
+          <q-btn :class="profileIconClass" flat icon="person" @click="toggleProfileMenu" />
           <q-menu v-if="showProfileMenu" anchor="bottom right" self="bottom left">
             <q-list>
               <q-item clickable v-close-popup @click="logout">
@@ -40,38 +40,11 @@ const username = ref(localStorage.getItem("username") || "User");
 const showProfileMenu = ref(false);
 const router = useRouter();
 
-// Scroll handling
 const isScrolled = ref(false);
 
 const handleScroll = () => {
   isScrolled.value = window.scrollY > window.innerHeight;
 };
-
-const route = useRoute();
-const isIndexPage = computed(() => route.path === "/user"); 
-const headerClass = computed(() => {
-  if (isIndexPage.value) {
-    return isScrolled.value ? "header header-white" : "header header-blue";
-  }
-  return "header header-white"; 
-});
-
-const usernameClass = computed(() => {
-  if (isIndexPage.value) {
-    return isScrolled.value ? "username username-black" : "username username-white";
-  }
-  return "username username-black"; 
-});
-
-const logoSrc = computed(() => {
-  if (isIndexPage.value) {
-    return isScrolled.value
-      ? "/src/assets/ainewslogoblack.png"
-      : "/src/assets/ainewslogo.png";
-  }
-  return "/src/assets/ainewslogoblack.png"; 
-});
-
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
@@ -80,11 +53,42 @@ onUnmounted(() => {
   window.removeEventListener("scroll", handleScroll);
 });
 
+const route = useRoute();
+const isIndexPage = computed(() => route.path === "/user");
+
+const headerClass = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value ? "header header-white" : "header header-blue";
+  }
+  return "header header-white";
+});
+
+const usernameClass = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value ? "username username-black" : "username username-white";
+  }
+  return "username username-black";
+});
+
+const logoSrc = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value
+      ? "/src/assets/ainewslogoblack.png"
+      : "/src/assets/ainewslogo.png";
+  }
+  return "/src/assets/ainewslogoblack.png";
+});
+
+const profileIconClass = computed(() => {
+  if (isIndexPage.value) {
+    return isScrolled.value ? "profile-icon profile-icon-black" : "profile-icon profile-icon-white";
+  }
+  return "profile-icon profile-icon-black";
+});
 
 const toggleProfileMenu = () => {
   showProfileMenu.value = !showProfileMenu.value;
 };
-
 
 const logout = async () => {
   try {
@@ -93,7 +97,7 @@ const logout = async () => {
       credentials: "include",
     });
     localStorage.clear();
-    router.push("/"); 
+    router.push("/");
   } catch (error) {
     console.error("Greška prilikom odjave:", error);
   }
@@ -101,7 +105,6 @@ const logout = async () => {
 </script>
 
 <style scoped>
-/* Header styling */
 .header {
   box-shadow: none !important;
   border-bottom: 1px solid transparent;
@@ -140,9 +143,6 @@ const logout = async () => {
 .toolbar-link1 {
   text-decoration: none;
   font-size: 16px;
-}
-
-.toolbar-link1 {
   color: #ffffff;
 }
 
@@ -176,5 +176,14 @@ const logout = async () => {
 
 .profile-icon {
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.profile-icon-white {
+  color: #ffffff;
+}
+
+.profile-icon-black {
+  color: #000000;
 }
 </style>
