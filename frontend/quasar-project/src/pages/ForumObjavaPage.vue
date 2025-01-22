@@ -125,6 +125,8 @@ const formatDate = (dateString) => {
 };
 
 </script>
+
+
 <style scoped>
 .post-detail {
   width: 60%; 

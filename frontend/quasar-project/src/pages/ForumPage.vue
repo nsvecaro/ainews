@@ -1,7 +1,6 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page padding>
     <div class="forum-page">
-      
       <div class="forum-header">
         <div class="forum-title">
           <h1>{{ forumName }}</h1>
@@ -11,26 +10,21 @@
         </div>
       </div>
 
-      
       <div class="divider"></div>
 
-      
       <div class="create-post-btn">
         <q-btn label="Create Post" color="primary" @click="goToCreatePost" />
       </div>
 
-      
       <div class="posts-list">
         <div v-for="post in forumPosts" :key="post.ID_objave" class="post-item">
           <div class="post-content">
-            
             <div class="left-side">
               <span class="user-name">{{ post.autor }}</span>
               <span class="post-title" @click="goToPost(post.ID_objave)">{{ post.naslov }}</span>
               <p class="post-text">{{ truncateText(post.sadrzaj, 5) }}</p>
             </div>
 
-            
             <div class="right-side">
               <img v-if="post.slika" :src="post.slika" alt="Post Image" class="post-image" />
             </div>
@@ -59,10 +53,10 @@ export default {
     },
 
     goToCreatePost() {
+      
       this.$router.push(`/user/forum/${this.$route.params.forumId}/create`);
     },
 
-    
     truncateText(text, wordCount) {
       const words = text.split(' ');
       if (words.length > wordCount) {
@@ -74,7 +68,7 @@ export default {
   mounted() {
     const forumId = this.$route.params.forumId;
 
-    
+    // Dohvat foruma i objava
     axios.get(`http://localhost:3000/api/forumi/${forumId}`)
       .then(response => {
         this.forumName = response.data.Naziv;
@@ -84,7 +78,6 @@ export default {
         console.error("Error fetching forum data:", error);
       });
 
-    
     axios.get(`http://localhost:3000/api/forumObjava/${forumId}`)
       .then(response => {
         this.forumPosts = response.data;
@@ -95,6 +88,7 @@ export default {
   }
 };
 </script>
+
 
 <style scoped>
 .forum-page {
