@@ -16,10 +16,10 @@
           <p>Top discussions</p>
           <div class="forum-content">
             <ul>
-              <li><img src="/src/assets/openailogo.svg" width=20px> &nbsp;OpenAI</li>
-              <li><img src="/src/assets/geminilogo.png" width="20px"> &nbsp;Gemini</li>
-              <li><img src="/src/assets/alphagologo.png" width=20px> &nbsp;AlphaGO</li>
-              <li><img src="/src/assets/ibmlogo.png" width=20px> &nbsp;Watson (IBM)</li>
+              <li><img src="/src/assets/openailogo.svg" width=20px><router-link :to="`/user/forum/1`">&nbsp;OpenAI</router-link></li>
+              <li><img src="/src/assets/geminilogo.png" width="20px"><router-link :to="`/user/forum/2`">&nbsp;Gemini</router-link></li>
+              <li><img src="/src/assets/alphagologo.png" width=20px><router-link :to="`/user/forum/3`">&nbsp;AlphaGO</router-link></li>
+              <li><img src="/src/assets/ibmlogo.png" width=20px><router-link :to="`/user/forum/6`">&nbsp;Watson (IBM)</router-link></li>
             </ul>
           </div>
         </div>
@@ -250,6 +250,29 @@ onMounted(() => {
   width: 100%;
   height: auto;
   max-height: 450px;
+}
+
+.forum-content a {
+  text-decoration: none;
+  color: white;
+  position: relative;
+  padding-bottom: 2px;
+  
+}
+
+.forum-content a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease-in-out;
+}
+
+.forum-content a:hover::after {
+  width: 100%;
 }
 
 .forum-page p {
